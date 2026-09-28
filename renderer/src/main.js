@@ -18,7 +18,7 @@ const ease = t => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const small = matchMedia('(max-width: 760px)').matches || matchMedia('(pointer: coarse)').matches;
 const lowPower = small || (navigator.hardwareConcurrency || 8) <= 4;
 const FONT = '"Archivo", "Helvetica Neue", Arial, sans-serif';
-const fmtUsers = n => n >= 1e9 ? (n / 1e9).toFixed(2).replace(/0$/, '') + 'B' : Math.round(n / 1e6) + 'M';
+const fmtUsers = n => n >= 1e9 ? (n / 1e9).toFixed(2).replace(/\.?0+$/, '') + 'B' : Math.round(n / 1e6) + 'M';
 const fmt = n => (n == null ? 'not checked' : Number(n).toLocaleString('en-US'));
 const nz = v => (v == null ? 0 : v);
 
@@ -320,7 +320,6 @@ const bld = {};
 const glassMat = new THREE.MeshStandardMaterial({ color: '#5d82a6', roughness: 0.1, metalness: 0.8, envMapIntensity: 1.0 });
 const heroGlass = new THREE.MeshStandardMaterial({ color: '#d9a441', roughness: 0.16, metalness: 0.72, envMapIntensity: 1.05, emissive: new THREE.Color('#3a2400'), emissiveIntensity: 0.35 });
 const doorCol = s => new THREE.Color(s == null ? '#9aa3ae' : s >= 80 ? '#36b37e' : s >= 50 ? '#e8a92e' : '#e25c4b');
-function flowW(d) { return d == null ? 0.4 : Math.min(11, Math.max(0.4, d / 16)); }
 
 // ---------- yachts (marina scene) ----------
 const hullMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.26, metalness: 0.05, envMapIntensity: 1.1 });
@@ -420,12 +419,6 @@ function buildYacht(b) {
   const shirts = ['#f7f3ea', '#e9eef5', '#f3e3c3', '#dcebe6'].map(c => new THREE.Color(c));
   for (let i = 0; i < 44; i++) { m4.compose(new V3(px - 1.1 + rn() * 2.2, 0.95, BASIN.z0 + 1 + rn() * (pLen - 3)), new THREE.Quaternion(), new V3(1, 1, 1)); crowd.setMatrixAt(i, m4); crowd.setColorAt(i, shirts[i % 4]); }
   crowd.count = Math.min(44, Math.max(1, Math.round(nz(b.reviews) / 8))); crowd.castShadow = true; scene.add(crowd);
-  // sites linking in: the wake behind the stern
-  const wakeTex = tex(64, 256, (x, Wd, Ht) => { x.clearRect(0, 0, Wd, Ht); for (let y = 0; y < Ht; y += 32) { const gr = x.createLinearGradient(0, 0, Wd, 0); gr.addColorStop(0, 'rgba(255,255,255,0)'); gr.addColorStop(0.5, 'rgba(255,255,255,0.95)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = gr; x.fillRect(0, y, Wd, 18); } });
-  wakeTex.t.wrapT = THREE.RepeatWrapping; wakeTex.t.repeat.set(1, 5);
-  const wLen = Math.max(8, BASIN.z1 - zs - 1);
-  const flow = new THREE.Mesh(new THREE.PlaneGeometry(1, wLen).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ map: wakeTex.t, color: new THREE.Color(b.color).lerp(new THREE.Color('#ffffff'), 0.55), transparent: true, opacity: 0.9, depthWrite: false, toneMapped: false }));
-  flow.position.set(b.x, -0.18, zs + wLen / 2); flow.scale.x = flowW(b.domains); scene.add(flow);
   // video screen on a kiosk on the promenade
   const screen = tex(256, 144);
   const kx = b.x + W / 2 + 4, kz = BASIN.z0 - 5;
@@ -442,7 +435,7 @@ function buildYacht(b) {
   const bbF = new THREE.Mesh(new THREE.PlaneGeometry(9, 3.9), new THREE.MeshBasicMaterial({ map: bbTex.t, toneMapped: false, color: new THREE.Color(0.95, 0.95, 0.95) })); bbF.position.set(0, 7.6, -0.04); bb.add(bbF);
   if (b.ads) drawBB(b.ads); else bb.visible = false;
   if (hero) {
-    const mon = new THREE.Group(); mon.position.set(b.x - 3, 0, BASIN.z0 - 11); scene.add(mon);
+    const mon = new THREE.Group(); mon.position.set(b.x + 4, 0, BASIN.z0 - 11); scene.add(mon);
     const mb = new THREE.Mesh(new THREE.BoxGeometry(16.6, 0.6, 3), stone); mb.position.y = 0.3; mb.castShadow = true; mon.add(mb);
     const slab = new THREE.Mesh(new THREE.BoxGeometry(16, 4.4, 1.2), white); slab.position.y = 2.8; slab.castShadow = true; mon.add(slab);
     const face = new THREE.Mesh(new THREE.PlaneGeometry(15.4, 3.85), new THREE.MeshBasicMaterial({ map: signTex.t, toneMapped: false })); face.position.set(0, 2.8, 0.61); mon.add(face);
@@ -452,10 +445,9 @@ function buildYacht(b) {
   const hlMat = hero ? null : ym;
   proxy(W + 2, worldTop + 2, L, b.x, worldTop / 2, zc, () => brandInfo(b), { brand: b.id, mat: hlMat });
   hit(bbF, () => adInfo(b));
-  hit(flow, () => linkInfo(b));
   hit(scM, () => videoInfo(b));
   if (hero) bld.heroTop = worldTop;
-  bld[b.id] = { g, setGlow, screen, crowd, flow, bb, bbF, drawBB, door, topY: worldTop, baseY, kiosk: new V3(kx, 3.2, kz), pier: new V3(px, 0, zs + pLen / 2), stern: zs };
+  bld[b.id] = { g, setGlow, screen, crowd, bb, bbF, drawBB, door, topY: worldTop, baseY, kiosk: new V3(kx, 3.2, kz), pier: new V3(px, 0, zs + pLen / 2), stern: zs, path: [new V3(px, 0, -55), new V3(px, 0, gz - 1)] };
 }
 
 for (const b of BRANDS) {
@@ -528,10 +520,6 @@ for (const b of BRANDS) {
   const shirts = ['#f7f3ea', '#e9eef5', '#f3e3c3', '#dcebe6'].map(c => new THREE.Color(c));
   for (let i = 0; i < 44; i++) { m4.compose(new V3(b.x - pw / 2 + 1 + rn() * (pw - 2), 0.85, b.z + pw / 2 + 1.2 + rn() * (hero ? 7 : 5)), q.identity(), new V3(1, 1, 1)); crowd.setMatrixAt(i, m4); crowd.setColorAt(i, shirts[i % 4]); }
   crowd.count = Math.min(44, Math.max(1, Math.round(nz(b.reviews) / 8))); crowd.castShadow = true; scene.add(crowd);
-  const flowTex = tex(64, 256, (x, W, H) => { x.fillStyle = 'rgba(255,255,255,0.35)'; x.fillRect(0, 0, W, H); for (let y = 0; y < H; y += 32) { x.fillStyle = '#fff'; x.fillRect(0, y, W, 16); } });
-  flowTex.t.wrapT = THREE.RepeatWrapping; flowTex.t.repeat.set(1, 7);
-  const flow = new THREE.Mesh(new THREE.PlaneGeometry(1, 70).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ map: flowTex.t, color: new THREE.Color(b.color).multiplyScalar(1.15), transparent: true, opacity: 0.85, depthWrite: false, toneMapped: false }));
-  flow.position.set(b.x, 0.3, 57); flow.scale.x = flowW(b.domains); scene.add(flow);
   const bb = new THREE.Group(); bb.position.set(b.x + (b.client ? 11 : 8), 0, 44); scene.add(bb);
   const bbTex = tex(512, 224);
   const drawBB = (ads) => bbTex.draw((x, W, H) => { x.fillStyle = '#fbf8f2'; x.fillRect(0, 0, W, H); x.fillStyle = b.color; x.fillRect(0, 0, 12, H); x.fillStyle = '#5d6878'; x.font = `700 26px ${FONT}`; x.fillText('SEARCH ADS', 40, 56); x.fillStyle = '#1d2430'; x.font = `800 90px ${FONT}`; x.fillText(String(ads.n), 40, 150); x.font = `600 26px ${FONT}`; x.fillStyle = '#5d6878'; x.fillText('tracked searches', 40, 194); });
@@ -541,9 +529,48 @@ for (const b of BRANDS) {
   if (b.ads) drawBB(b.ads); else bb.visible = false;
   proxy(pw, topY + 8, pw, b.x, (topY + 8) / 2, b.z, () => brandInfo(b), { brand: b.id, mat: hero ? null : gm });
   hit(bbF, () => adInfo(b));
-  hit(flow, () => linkInfo(b));
   hit(scM, () => videoInfo(b));
-  bld[b.id] = { g, setGlow, screen, crowd, flow, bb, bbF, drawBB, door, topY };
+  bld[b.id] = { g, setGlow, screen, crowd, bb, bbF, drawBB, door, topY, path: [new V3(b.x, 0, 98), new V3(b.x, 0, b.z + pw / 2 + (hero ? 14 : 8))] };
+}
+
+// ---------- customers walking in: each business's stream is sized by its presence score ----------
+const figGeo = mergeGeometries([new THREE.CapsuleGeometry(0.3, 0.7, 4, 8).translate(0, 0.65, 0), new THREE.SphereGeometry(0.27, 12, 8).translate(0, 1.55, 0)]).scale(1.45, 1.45, 1.45);
+const MAXW = 70;
+const walkers = (score) => Math.round(5 + (nz(score) / 100) * 55);
+const streams = BRANDS.map(b => {
+  const [a0, a1] = bld[b.id].path;
+  const len = a0.distanceTo(a1);
+  const mesh = new THREE.InstancedMesh(figGeo, new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.7 }), MAXW);
+  const base = new THREE.Color(b.client ? '#f6c453' : b.color).lerp(new THREE.Color('#ffffff'), b.client ? 0.15 : 0.45);
+  const alt = new THREE.Color('#fbfaf6');
+  for (let i = 0; i < MAXW; i++) mesh.setColorAt(i, i % 3 === 2 ? alt : base);
+  mesh.castShadow = true; mesh.frustumCulled = false; scene.add(mesh);
+  const mid = a0.clone().add(a1).multiplyScalar(0.5);
+  const dir = a1.clone().sub(a0).normalize();
+  const box = proxy(6, 3, len, mid.x, 1.5, mid.z, () => streamInfo(b));
+  box.rotation.y = Math.atan2(dir.x, dir.z);
+  return { b, a0, a1, len, dir, mesh, n: walkers(b.overall) };
+});
+const tmp2 = new V3();
+const _m = new THREE.Matrix4(), _q = new THREE.Quaternion(), _p = new V3(), _s = new V3(1, 1, 1);
+function drawStreams(t, p) {
+  for (const S of streams) {
+    const target = S.b.client ? walkers(nz(CLIENT.overall) + (nz(PM.overall) - nz(CLIENT.overall)) * ease(clamp01(p))) : S.n;
+    S.mesh.count = target;
+    const speed = S.b.client ? 2.4 + p * 1.6 : 2.4;
+    _q.setFromAxisAngle(new V3(0, 1, 0), Math.atan2(S.dir.x, S.dir.z));
+    for (let i = 0; i < target; i++) {
+      const f = ((i * 0.6180339) % 1 + (t * speed) / S.len) % 1;
+      const lane = ((i * 7) % 5 - 2) * (MARINA ? 0.5 : 0.9);
+      _p.copy(S.a0).lerp(S.a1, f);
+      _p.x += S.dir.z * lane; _p.z -= S.dir.x * lane;
+      _p.y = Math.abs(Math.sin(t * 9 + i * 1.7)) * 0.12 + (MARINA ? 0.25 : 0.25);
+      const fade = Math.min(1, f * 12, (1 - f) * 12);
+      _s.setScalar(Math.max(0.001, fade));
+      _m.compose(_p, _q, _s); S.mesh.setMatrixAt(i, _m);
+    }
+    S.mesh.instanceMatrix.needsUpdate = true;
+  }
 }
 
 // ---------- keyword district ----------
@@ -652,6 +679,27 @@ function drawAI(p) {
   });
 }
 
+// ---------- platform icons: simple generic symbols (not the platforms' logos) ----------
+function drawIcon(x, id, w) {
+  x.save(); x.translate(w / 2, w / 2); const u = w / 100;
+  x.fillStyle = '#ffffff'; x.strokeStyle = '#ffffff'; x.lineWidth = 7 * u; x.lineCap = 'round'; x.lineJoin = 'round';
+  const circle = (cx, cy, r, fill) => { x.beginPath(); x.arc(cx * u, cy * u, r * u, 0, Math.PI * 2); fill ? x.fill() : x.stroke(); };
+  const rrect = (X, Y, W, H, r, fill) => { rr(x, X * u, Y * u, W * u, H * u, r * u); fill ? x.fill() : x.stroke(); };
+  if (id === 'google') { circle(-6, -6, 17, false); x.beginPath(); x.moveTo(7 * u, 7 * u); x.lineTo(22 * u, 22 * u); x.stroke(); }
+  else if (id === 'youtube') { x.beginPath(); x.moveTo(-12 * u, -18 * u); x.lineTo(20 * u, 0); x.lineTo(-12 * u, 18 * u); x.closePath(); x.fill(); }
+  else if (id === 'instagram') { rrect(-24, -17, 48, 36, 8, false); circle(0, 2, 10, false); rrect(-10, -24, 20, 8, 3, true); }
+  else if (id === 'tiktok') { circle(-9, 15, 9, true); x.beginPath(); x.moveTo(0, 15 * u); x.lineTo(0, -22 * u); x.lineTo(17 * u, -14 * u); x.stroke(); }
+  else if (id === 'facebook') { circle(-11, -9, 8, true); circle(11, -9, 8, true); x.beginPath(); x.arc(-11 * u, 17 * u, 13 * u, Math.PI, 0); x.fill(); x.beginPath(); x.arc(11 * u, 17 * u, 13 * u, Math.PI, 0); x.fill(); }
+  else if (id === 'chatgpt') { rrect(-24, -20, 48, 32, 10, false); x.beginPath(); x.moveTo(-10 * u, 12 * u); x.lineTo(-16 * u, 24 * u); x.lineTo(2 * u, 12 * u); x.stroke(); circle(-10, -4, 3.5, true); circle(0, -4, 3.5, true); circle(10, -4, 3.5, true); }
+  else if (id === 'pinterest') { circle(0, -8, 14, true); x.beginPath(); x.moveTo(0, 4 * u); x.lineTo(0, 26 * u); x.stroke(); }
+  else if (id === 'linkedin') { rrect(-24, -10, 48, 32, 5, false); rrect(-9, -20, 18, 11, 3, false); x.beginPath(); x.moveTo(-24 * u, 3 * u); x.lineTo(24 * u, 3 * u); x.stroke(); }
+  else { circle(0, 0, 18, false); }
+  x.restore();
+}
+function iconTex(p) {
+  return tex(128, 128, (x, w) => { x.fillStyle = p.color; x.beginPath(); x.arc(w / 2, w / 2, w / 2 - 3, 0, Math.PI * 2); x.fill(); x.strokeStyle = 'rgba(255,255,255,.9)'; x.lineWidth = 5; x.stroke(); drawIcon(x, p.id, w); });
+}
+
 // ---------- audience plaza: platforms around the business, on the ground ----------
 const GR = 40, NODE_Y = 9;
 const graph = { nodes: [] };
@@ -673,21 +721,12 @@ const hubPos = new V3(GC.x, 11, GC.z);
     const foot = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 3, 0.5, 32), stone); foot.position.set(base.x, 0.45, base.z); foot.receiveShadow = true; scene.add(foot);
     const mat = new THREE.MeshStandardMaterial({ color: p.color, roughness: 0.28, metalness: 0.2 });
     const node = new THREE.Mesh(new THREE.SphereGeometry(rad, 40, 24), mat); node.position.copy(pos); node.castShadow = true; scene.add(node);
-    hit(node, () => platformInfo(p), { mat });
+    hit(node, () => platformInfo(p), { mat }); node.userData.platform = p;
+    const icon = new THREE.Sprite(new THREE.SpriteMaterial({ map: iconTex(p).t, toneMapped: false })); icon.scale.setScalar(Math.max(2.6, rad * 0.95)); scene.add(icon);
+    icon.userData.platform = p; hit(icon, () => platformInfo(p), { mat });
     const dots = p.comps.filter(c => byId[c]).map((c, k) => { const d = new THREE.Mesh(new THREE.SphereGeometry(0.85, 16, 10), glowMat(byId[c].color, 1.3)); scene.add(d); return { d, c, k }; });
-    const out = new V3(Math.cos(a), 0, Math.sin(a));
-    const perp = new V3(-out.z, 0, out.x);
-    const content = p.content.slice(0, 3);
-    const pills = content.map((txt, k) => {
-      const kind = p.kind === 'search' || (p.kind === 'mixed' && txt === txt.toLowerCase()) ? 'search' : 'content';
-      const at = base.clone().addScaledVector(out, 15 + k * 5.5).addScaledVector(perp, (k - (content.length - 1) / 2) * 3).setY(1.2);
-      const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([base.clone().setY(0.7).addScaledVector(out, 3), at.clone().setY(0.7)]), new THREE.LineBasicMaterial({ color: p.color, transparent: true, opacity: 0.55 }));
-      scene.add(line);
-      const dot = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.7, 0.3, 16), glowMat(p.color, 1.1)); dot.position.copy(at).setY(0.6); scene.add(dot);
-      return { txt, kind, at, info: () => contentInfo(p, txt, kind) };
-    });
     const edgeGroup = new THREE.Group(); scene.add(edgeGroup);
-    graph.nodes.push({ p, pos, base, rad, node, dots, pills, edgeGroup, a, delay: 0.3 + i * 0.08, state: null });
+    graph.nodes.push({ p, pos, base, rad, node, icon, dots, edgeGroup, a, delay: 0.3 + i * 0.08, state: null });
   });
 }
 function drawEdge(n, status) {
@@ -744,12 +783,7 @@ for (const b of BRANDS) brandLabels[b.id] = label('', new V3(b.x, bld[b.id].topY
 const maxV = Math.max(1, ...kw.map(k => nz(k.volume)));
 kw.forEach(k => { k.label = label(`<b>${esc(k.term)}</b><span>${k.volume == null ? 'not measured' : k.volume.toLocaleString() + '/mo'}</span>`, new V3(k.x, 0.8 + k.h + (k.video ? 5.4 : 2.4), k.z), ['kw'], 'lbl-kw', 10 + nz(k.volume) / maxV); });
 graph.nodes.forEach(n => {
-  label(`<b>${esc(n.p.name)}</b><span>${n.p.users ? fmtUsers(n.p.users) + ' ' + esc(n.p.usersLabel || 'monthly users') : esc(n.p.usersLabel || '')}</span>`, n.pos.clone().add(new V3(0, n.rad + 4.2, 0)), ['graph'], 'lbl-node', 30);
-  n.pills.forEach((pl, k) => {
-    const l = label(`<span>${esc(pl.txt)}</span>`, pl.at, ['graph'], `lbl-pill ${pl.kind}`, 5 - k);
-    l.el.style.setProperty('--c', n.p.color);
-    l.el.addEventListener('click', () => openDrawer(pl.info));
-  });
+  label(`<b>${esc(n.p.name)}</b><span>${n.p.users ? fmtUsers(n.p.users) + ' ' + esc(n.p.usersLabel || 'monthly users') : esc(n.p.usersLabel || '')}</span>`, n.pos.clone().add(new V3(0, n.rad + 0.6, 0)), ['graph'], 'lbl-node', 30);
 });
 {
   const n = MAP.n, span = 40, gap = 0.6, S = (span - (n - 1) * gap) / n;
@@ -762,15 +796,14 @@ if (MARINA) {
   const C = bld.client, A = COMPS[0] && bld[COMPS[0].id];
   label('12 portholes = months with a YouTube upload', new V3(CLIENT.x + CLIENT.W / 2 + 1, C.baseY + CLIENT.L * 0.085 * 0.46 + 1.4, CLIENT.z + CLIENT.L * 0.12), ['store'], 'lbl-note');
   label('Gangway light = website speed', C.door.position.clone().add(new V3(0.8, 1.6, 0)), ['store', 'reviews'], 'lbl-note');
-  if (A) label('Wake width = sites linking in', new V3(COMPS[0].x + 3, 0.2, A.stern + 10), ['comp'], 'lbl-note');
+  label('People walking in = buyers finding each business', bld.client.path[0].clone().lerp(bld.client.path[1], 0.35).add(new V3(2, 2, 0)), ['comp', 'all'], 'lbl-note', 5);
   label('People on the pier = reviews', new V3(C.pier.x + 2, 1.8, BASIN.z0 + 8), ['reviews'], 'lbl-note');
 } else {
   label('Top 12 floors = months with a YouTube upload', new V3(CLIENT.x + 13, 58, CLIENT.z), ['store'], 'lbl-note');
   label('Door color = website speed', new V3(CLIENT.x + 7, 3.6, CLIENT.z + 11.2), ['store'], 'lbl-note');
-  label('Line width = sites linking in', new V3(-32, 0.5, 80), ['comp'], 'lbl-note');
+  label('People walking in = buyers finding each business', new V3(CLIENT.x + 2, 2.2, 74), ['comp'], 'lbl-note', 5);
   label('People = reviews', new V3(CLIENT.x + 4, 2.4, CLIENT.z + 15), ['reviews'], 'lbl-note');
 }
-label('Gold path = the business is active there · colored dots = competitors', new V3(GC.x, 0.5, GC.z - GR - 24), ['graph'], 'lbl-note center');
 label('WHERE THE AUDIENCE IS', new V3(GC.x, 34, GC.z), ['all'], 'lbl-zone', 1);
 label('THE SEARCHES', new V3(-99, 50, -16), ['all'], 'lbl-zone', 1);
 label('THE MAP', new V3(MAPC.x, 14, MAPC.z), ['all'], 'lbl-zone', 1);
@@ -818,6 +851,13 @@ function aiInfo() {
     note: 'Each question was asked with web search on, and repeated because answers vary between runs. A mention counts only if the name or website appears in the answer.' };
 }
 function adInfo(b) { const ads = b.ads || { n: 0 }; return { title: `${b.name}: search ads`, chip: 'Paid ads', color: b.color, big: ads.n, bigLabel: 'Tracked searches where their ad showed', rows: [['Tracked searches', KEYWORDS.length]], note: 'Counted from the ads Google showed on the tracked searches.' }; }
+function streamInfo(b) {
+  const P = b.client && plan && CLIENT.proposed;
+  const sc = P ? P.overall : b.overall;
+  return { title: `${b.name}: buyers finding them`, chip: P ? 'Projected after 90 days' : 'Presence', color: b.color, big: sc ?? '–', bigLabel: 'Presence score (sets how many people walk in)',
+    rows: [['Walkers shown', walkers(sc)], ['Google reviews', fmt(P ? P.reviews : b.reviews)], ['Sites linking in', fmt(P ? P.domains : b.domains)]],
+    note: 'An illustration: the busier the stream, the more easily buyers find the business across Google, video, AI assistants and social.' };
+}
 function linkInfo(b) { const d = b.client && plan && CLIENT.proposed ? CLIENT.proposed.domains : b.domains; return { title: `${b.name}: sites linking in`, chip: 'Backlinks', color: b.color, big: fmt(d), bigLabel: 'Referring domains', rows: [['Competitor median', fmt(compMed('domains'))]], note: 'Links from other sites help Google trust a business.' }; }
 function videoInfo(b) { return { title: `${b.name}: video`, chip: 'YouTube', color: b.color, big: b.months.filter(Boolean).length, bigLabel: 'Months with an upload, last 12', rows: b.screen ? [['Most-viewed in searches', b.screen.label], ['Views', b.screen.views]] : [['Video in YouTube searches', 'None found']], note: 'From the YouTube channel and YouTube searches for the tracked terms.' }; }
 
@@ -844,7 +884,7 @@ let downAt = null, hoverObj = null;
 canvas.addEventListener('pointerdown', e => { downAt = [e.clientX, e.clientY]; });
 canvas.addEventListener('pointerup', e => {
   if (!downAt || Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 6) return;
-  const h = pick(e); if (h) openDrawer(h.object.userData.info); else closeDrawer();
+  const h = pick(e); if (h?.object.userData.platform) { closeDrawer(); openPlatform(h.object.userData.platform); } else if (h) { closePlatform(); openDrawer(h.object.userData.info); } else closeDrawer();
 });
 canvas.addEventListener('pointerleave', () => setHover(null));
 canvas.addEventListener('pointermove', e => {
@@ -873,6 +913,48 @@ function pick(e) {
   return hits[0] || null;
 }
 
+
+// ---------- platform window ----------
+const PSTATUS = { active: 'Active', weak: 'Weak', none: 'Not present', unknown: 'Not checked' };
+function openPlatform(p) {
+  const st = plan ? p.planStatus : p.status;
+  const isSearch = t => p.kind === 'search' || (p.kind === 'mixed' && t === t.toLowerCase());
+  const searches = p.content.filter(isSearch), formats = p.content.filter(t => !isSearch(t));
+  const chips = (arr, cls) => arr.map(t => `<span class="pchip ${cls}" style="--c:${p.color}">${esc(t)}</span>`).join('');
+  $('#pwin').innerHTML = `
+    <button class="pclose" aria-label="Close">×</button>
+    <div class="phead"><i style="background:${p.color}"></i><div><h2>${esc(p.name)}</h2><div class="pusers">${p.users ? fmtUsers(p.users) + ' ' + esc(p.usersLabel || 'monthly users') : esc(p.usersLabel || '')}</div></div></div>
+    <div class="prow"><span>${esc(DATA.client.name)}${plan ? ' (after 90 days)' : ''}</span><b class="st-${st}">${PSTATUS[st]}</b></div>
+    <div class="prow"><span>Competitors active</span><b>${p.comps.length ? p.comps.map(c => esc(nameOf(c))).join(', ') : 'None found'}</b></div>
+    <div class="prow"><span>Fit for this business</span><b>${esc(p.fit)}</b></div>
+    ${searches.length ? `<h3>What buyers search or ask</h3><div class="pchips">${chips(searches, 'search')}</div>` : ''}
+    ${formats.length ? `<h3>Content that works here</h3><div class="pchips">${chips(formats, '')}</div>` : ''}
+    <h3>In the 90-day plan</h3><p class="pfix">${esc(p.fix)}</p>
+    <p class="pnote">${esc(p.note)}</p>`;
+  $('#pwin .pclose').onclick = closePlatform;
+  document.body.classList.add('pwin-open');
+}
+function closePlatform() { document.body.classList.remove('pwin-open'); }
+$('#pback').onclick = closePlatform;
+
+// ---------- what the 90-day plan changes ----------
+function planSummary() {
+  const cnt = (g, id) => g.flat().filter(x => x === id).length;
+  const rows = [
+    ['Presence score', CLIENT.overall, PM.overall],
+    ['Buyers walking in', walkers(CLIENT.overall), walkers(PM.overall)],
+    ['Google reviews', CLIENT.reviews, PM.reviews],
+    ['Top 3 on the map', `${cnt(MAP.grid, 'client')} of ${MAP.n * MAP.n}`, `${cnt(MAP.planGrid, 'client')} of ${MAP.n * MAP.n}`],
+    ['Searches ranked first', KEYWORDS.filter(k => k.owner === 'client').length, KEYWORDS.filter(k => k.planOwner === 'client').length],
+    ['Named in AI answers', `${DATA.ai.clientNamed} of ${DATA.ai.total}`, DATA.ai.projectedNamed != null ? `${DATA.ai.projectedNamed} of ${DATA.ai.total}` : null],
+    [MARINA ? 'Lit portholes (video months)' : 'Glowing floors (video months)', CLIENT.months.filter(Boolean).length, PM.months.filter(Boolean).length],
+  ].filter(r => r[1] != null && r[2] != null && String(r[1]) !== String(r[2]));
+  $('#planToast').innerHTML = `<button class="pclose" aria-label="Close">×</button><div class="tk">What changes in 90 days (projected)</div>` +
+    rows.map(([k, a, b]) => `<div class="trow"><span>${esc(k)}</span><b><s>${esc(a)}</s> → ${esc(b)}</b></div>`).join('');
+  $('#planToast .pclose').onclick = () => document.body.classList.remove('toast-on');
+}
+let toastTimer = null;
+
 // ---------- the 90-day plan ----------
 let plan = false, planP = 0, planTarget = 0;
 const PM = CLIENT.proposed || { scores: CLIENT.scores, months: CLIENT.months, reviews: CLIENT.reviews, domains: CLIENT.domains, speed: CLIENT.speed, ads: null, overall: CLIENT.overall };
@@ -881,7 +963,6 @@ function applyPlan(p) {
   const B = bld.client;
   const months = CLIENT.months.map((a, f) => (a === PM.months[f] ? a : (local(0.05 + f * 0.04) > 0.5 ? PM.months[f] : a)));
   B.setGlow(months);
-  B.flow.scale.x = flowW(CLIENT.domains == null ? null : CLIENT.domains + (nz(PM.domains) - CLIENT.domains) * local(0.2));
   B.crowd.count = Math.round(Math.max(1, Math.min(44, (nz(CLIENT.reviews) + (nz(PM.reviews) - nz(CLIENT.reviews)) * local(0.15)) / 8)));
   B.door.material.color.copy(doorCol(CLIENT.speed == null ? null : CLIENT.speed + (nz(PM.speed) - CLIENT.speed) * local(0.1))).multiplyScalar(1.1);
   for (const t of tiles) paintTile(t, t.cur === t.pro ? t.cur : (local(t.delay) > 0.5 ? t.pro : t.cur));
@@ -890,6 +971,7 @@ function applyPlan(p) {
 }
 applyPlan(0);
 drawAI(0);
+planSummary();
 
 // ---------- scorecard ----------
 const card = $('#cats');
@@ -964,7 +1046,11 @@ function setPlan(on) {
   plan = on; planTarget = on ? 1 : 0;
   $('#plan').setAttribute('aria-pressed', on);
   $('#planLbl').textContent = on ? DATA.labels.planOn : DATA.labels.planOff;
-  if (on && !was) { spawnWave(0); spawnWave(0.5); spawnWave(1.0); }
+  if (on && !was) {
+    spawnWave(0); spawnWave(0.5); spawnWave(1.0);
+    document.body.classList.add('toast-on'); clearTimeout(toastTimer); toastTimer = setTimeout(() => document.body.classList.remove('toast-on'), 9000);
+  }
+  if (!on) document.body.classList.remove('toast-on');
   renderStop();
   if (drawerOpen) setTimeout(() => drawerOpen && openDrawer(drawerOpen), 1800);
 }
@@ -973,7 +1059,7 @@ function setPlan(on) {
   STOPS.forEach((s, i) => { const b = document.createElement('button'); b.className = 'dot'; b.innerHTML = `<span>${String(i + 1).padStart(2, '0')}</span>${esc(s.label)}`; b.onclick = () => go(i); nav.appendChild(b); });
   $('#prev').onclick = () => go(cur - 1); $('#next').onclick = () => go(cur + 1);
   $('#plan').onclick = () => setPlan(!plan);
-  addEventListener('keydown', e => { if (e.key === 'ArrowRight') go(cur + 1); if (e.key === 'ArrowLeft') go(cur - 1); if (e.key.toLowerCase() === 'p') setPlan(!plan); if (e.key === 'Escape') closeDrawer(); });
+  addEventListener('keydown', e => { if (e.key === 'ArrowRight') go(cur + 1); if (e.key === 'ArrowLeft') go(cur - 1); if (e.key.toLowerCase() === 'p') setPlan(!plan); if (e.key === 'Escape') { closeDrawer(); closePlatform(); } });
   controls.addEventListener('start', () => { fly = null; flyQueue = []; controls.autoRotate = false; });
 }
 
@@ -1057,7 +1143,8 @@ function frame() {
   }
   const aiState = planP > 0.8 ? 1 : 0; if (aiState !== lastAI) { drawAI(aiState); lastAI = aiState; }
   if (t - lastScreen > 1 / 20) { lastScreen = t; for (const b of BRANDS) drawScreen(b, t, planP); }
-  for (const b of BRANDS) bld[b.id].flow.material.map.offset.y = -t * 0.35;
+  drawStreams(t, planP);
+  for (const n of graph.nodes) n.icon.position.copy(n.pos).addScaledVector(tmp2.copy(camera.position).sub(n.pos).normalize(), n.rad + 0.3);
   if (MARINA) for (const b of BRANDS) { const B = bld[b.id]; B.g.position.y = B.baseY + Math.sin(t * 0.9 + b.x) * 0.1; B.g.rotation.z = Math.sin(t * 0.7 + b.x * 0.3) * 0.006; B.g.rotation.x = Math.sin(t * 0.5 + b.x) * 0.003; }
   for (const k of kw) if (k.ring && k.ring.visible) { const s = 3.4 + (Math.sin(t * 3 + k.x) * 0.5 + 0.5) * 1.3; k.ring.scale.setScalar(s); k.ring.material.opacity = 0.55 + Math.sin(t * 3 + k.x) * 0.35; }
   for (const n of graph.nodes) n.dots.forEach(({ d, k }) => { const a = t * 0.6 + k * 2.1 + n.a; d.position.copy(n.pos).add(new V3(Math.cos(a) * (n.rad + 1.8), Math.sin(a * 0.7) * 0.8, Math.sin(a) * (n.rad + 1.8))); });
