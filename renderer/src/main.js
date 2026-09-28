@@ -1108,7 +1108,7 @@ const STOPS = DATA.stops.filter(s => CAM[s.key]).map(s => ({ ...s, ...CAM[s.key]
 let cur = 0, fly = null, flyQueue = [], activeZones = STOPS[0].zones;
 function renderStop() {
   const s = STOPS[cur], p = plan;
-  $('#stopNum').textContent = `${String(cur + 1).padStart(2, '0')} / ${String(STOPS.length).padStart(2, '0')}`;
+  $('#stopNum').textContent = `${String(cur + 1)} / ${String(STOPS.length)}`;
   $('#stopName').textContent = s.label;
   $('#title').textContent = p ? s.tp : s.t;
   const body = p ? s.bp : s.b;
@@ -1155,7 +1155,7 @@ function setPlan(on) {
 }
 {
   const nav = $('#dots');
-  STOPS.forEach((s, i) => { const b = document.createElement('button'); b.className = 'dot'; b.innerHTML = `<span>${String(i + 1).padStart(2, '0')}</span>${esc(s.label)}`; b.onclick = () => go(i); nav.appendChild(b); });
+  STOPS.forEach((s, i) => { const b = document.createElement('button'); b.className = 'dot'; b.innerHTML = `<span>${String(i + 1)}</span>${esc(s.label)}`; b.onclick = () => go(i); nav.appendChild(b); });
   $('#prev').onclick = () => go(cur - 1); $('#next').onclick = () => go(cur + 1);
   $('#plan').onclick = () => setPlan(!plan);
   addEventListener('keydown', e => { if (e.key === 'ArrowRight') go(cur + 1); if (e.key === 'ArrowLeft') go(cur - 1); if (e.key.toLowerCase() === 'p') setPlan(!plan); if (e.key === 'Escape') { closeDrawer(); closePlatform(); } });
