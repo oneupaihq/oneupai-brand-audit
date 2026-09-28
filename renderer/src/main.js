@@ -542,7 +542,14 @@ const walkers = (score) => Math.round(5 + (nz(score) / 100) * 55);
 const VOL_TOTAL = KEYWORDS.reduce((a, k) => a + nz(k.volume), 0);
 const volWon = (id, after) => KEYWORDS.reduce((a, k) => a + ((after ? k.planOwner : k.owner) === id ? nz(k.volume) : 0), 0);
 const BY_SEARCH = VOL_TOTAL > 0;
-const crowd = (b, after) => BY_SEARCH ? Math.round(3 + 57 * volWon(b.id, after) / VOL_TOTAL) : walkers(after && b.client ? PM.overall : b.overall);
+// Without volumes, each stream is the business's share of presence among the businesses shown. The crowd
+// total stays fixed, so the share the client gains with the plan is taken from the competitors' streams.
+const scoreOf = (b, after) => nz(after && b.client ? PM.overall : b.overall);
+const scoreSum = (after) => BRANDS.reduce((a, b) => a + scoreOf(b, after), 0) || 1;
+let shareT = null;
+const crowdTotal = () => shareT ??= Math.min(52 * scoreSum(false) / Math.max(1, ...BRANDS.map(b => scoreOf(b, false))), (MAXW - 4) * scoreSum(true) / Math.max(1, scoreOf(CLIENT, true)));
+const sharePct = (b, after) => Math.round(100 * scoreOf(b, after) / scoreSum(after));
+const crowd = (b, after) => BY_SEARCH ? Math.round(3 + 57 * volWon(b.id, after) / VOL_TOTAL) : Math.max(3, Math.round(crowdTotal() * scoreOf(b, after) / scoreSum(after)));
 const streams = BRANDS.map(b => {
   const [a0, a1] = bld[b.id].path;
   const len = a0.distanceTo(a1);
@@ -568,6 +575,13 @@ function polyAt(pts, lens, total, f, out) {
   return out.copy(pts[pts.length - 1]);
 }
 const CS = () => streams.find(S => S.b.client);
+// chevrons that flow along the crossing paths, pointing toward the client
+const trailTex = (() => {
+  const c = document.createElement('canvas'); c.width = 64; c.height = 16; const x = c.getContext('2d');
+  x.fillStyle = 'rgba(255,255,255,0.25)'; x.fillRect(0, 0, 64, 16);
+  x.fillStyle = '#fff'; x.beginPath(); x.moveTo(14, 0); x.lineTo(34, 0); x.lineTo(50, 8); x.lineTo(34, 16); x.lineTo(14, 16); x.lineTo(30, 8); x.fill();
+  const t = new THREE.CanvasTexture(c); t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.ClampToEdgeWrapping; t.colorSpace = THREE.SRGBColorSpace; return t;
+})();
 for (const S of streams) {
   if (S.b.client) continue;
   const C = CS();
@@ -575,13 +589,22 @@ for (const S of streams) {
   const lens = pts.slice(1).map((q, k) => q.distanceTo(pts[k]));
   S.divert = { pts, lens, total: lens.reduce((a, b) => a + b, 0) };
   S.baseColor = new THREE.Color(S.b.color).lerp(new THREE.Color('#ffffff'), 0.45);
+  const path = new THREE.CurvePath();
+  const lift = pts.map(q => q.clone().setY(0.3));
+  for (let k = 0; k < lift.length - 1; k++) path.add(new THREE.LineCurve3(lift[k], lift[k + 1]));
+  const map = trailTex.clone(); map.needsUpdate = true; map.repeat.set(Math.max(1, Math.round(S.divert.total / 4.5)), 1);
+  S.trail = new THREE.Mesh(new THREE.TubeGeometry(path, 160, MARINA ? 0.8 : 1.1, 8, false), new THREE.MeshBasicMaterial({ map, color: new THREE.Color('#f6c453').multiplyScalar(1.6), transparent: true, opacity: 0, depthWrite: false, toneMapped: false }));
+  S.trail.renderOrder = 2; S.trail.visible = false; scene.add(S.trail);
 }
 function drawStreams(t, p) {
   const e = ease(clamp01(p));
   const comps = streams.filter(S => !S.b.client);
   // each competitor's loss crosses over to the client; any extra gain comes from searches nobody held
   let fullCross = 0;
-  for (const S of comps) { S.n = crowd(S.b, false); const loss = Math.max(0, S.n - crowd(S.b, true)); fullCross += loss; S.d = Math.round(loss * e); }
+  for (const S of comps) {
+    S.n = crowd(S.b, false); const loss = Math.max(0, S.n - crowd(S.b, true)); fullCross += loss; S.d = Math.round(loss * e);
+    if (S.trail) { const o = loss > 0 ? clamp01((p - 0.05) / 0.35) : 0; S.trail.visible = o > 0.01; S.trail.material.opacity = o; S.trail.material.map.offset.x = -t * 0.9; }
+  }
   const C = streams.find(S => S.b.client);
   const cBefore = crowd(C.b, false), cAfter = crowd(C.b, true);
   const cOwn = Math.max(1, Math.round(cBefore + Math.max(0, cAfter - cBefore - fullCross) * e));
@@ -607,7 +630,7 @@ function drawStreams(t, p) {
       _p.x += dz * lane; _p.z -= dx * lane;
       _p.y = Math.abs(Math.sin(t * 9 + i * 1.7)) * 0.12 + 0.25;
       const fade = Math.min(1, f * 12, (1 - f) * 12);
-      _s.setScalar(Math.max(0.001, fade));
+      _s.setScalar(Math.max(0.001, fade * (i < own ? 1 : 1.3)));
       _q.setFromAxisAngle(new V3(0, 1, 0), Math.atan2(dx, dz));
       _m.compose(_p, _q, _s); S.mesh.setMatrixAt(i, _m);
     }
@@ -842,12 +865,12 @@ if (MARINA) {
   const C = bld.client, A = COMPS[0] && bld[COMPS[0].id];
   label('12 portholes = months with a YouTube upload', new V3(CLIENT.x + CLIENT.W / 2 + 1, C.baseY + CLIENT.L * 0.085 * 0.46 + 1.4, CLIENT.z + CLIENT.L * 0.12), ['store'], 'lbl-note');
   label('Gangway light = website speed', C.door.position.clone().add(new V3(0.8, 1.6, 0)), ['store', 'reviews'], 'lbl-note');
-  label('People walking in = buyers from the searches each business ranks first on', bld.client.path[0].clone().lerp(bld.client.path[1], 0.35).add(new V3(2, 2, 0)), ['comp', 'all'], 'lbl-note', 5);
+  label(BY_SEARCH ? 'People walking in = buyers from the searches each business ranks first on' : 'People walking in = share of presence; gold paths = people switching with the plan', bld.client.path[0].clone().lerp(bld.client.path[1], 0.35).add(new V3(2, 2, 0)), ['comp', 'all'], 'lbl-note', 5);
   label('People on the pier = reviews', new V3(C.pier.x + 2, 1.8, BASIN.z0 + 8), ['reviews'], 'lbl-note');
 } else {
   label('Top 12 floors = months with a YouTube upload', new V3(CLIENT.x + 13, 58, CLIENT.z), ['store'], 'lbl-note');
   label('Door color = website speed', new V3(CLIENT.x + 7, 3.6, CLIENT.z + 11.2), ['store'], 'lbl-note');
-  label('People walking in = buyers from the searches each business ranks first on', new V3(CLIENT.x + 2, 2.2, 74), ['comp'], 'lbl-note', 5);
+  label(BY_SEARCH ? 'People walking in = buyers from the searches each business ranks first on' : 'People walking in = share of presence; gold paths = people switching with the plan', new V3(CLIENT.x + 2, 2.2, 74), ['comp'], 'lbl-note', 5);
   label('People = reviews', new V3(CLIENT.x + 4, 2.4, CLIENT.z + 15), ['reviews'], 'lbl-note');
 }
 label('WHERE THE AUDIENCE IS', new V3(GC.x, 34, GC.z), ['all'], 'lbl-zone', 1);
@@ -904,10 +927,11 @@ function streamInfo(b) {
   const won = KEYWORDS.filter(k => (after ? k.planOwner : k.owner) === b.id);
   const S = streams.find(x => x.b.id === b.id);
   return { title: `${b.name}: buyers walking in`, chip: after && b.client ? 'Projected after 90 days' : after ? 'After the client\'s 90-day plan' : 'Today', color: b.color,
-    big: BY_SEARCH ? vol.toLocaleString() : (b.overall ?? '–'), bigLabel: BY_SEARCH ? 'Monthly searches where they rank first' : 'Presence score',
+    big: BY_SEARCH ? vol.toLocaleString() : sharePct(b, after) + '%', bigLabel: BY_SEARCH ? 'Monthly searches where they rank first' : 'Share of people walking in',
     rows: [['Searches ranked first', `${won.length} of ${KEYWORDS.length}`], ...won.slice(0, 5).map(k => ['', `${k.term} (${fmt(k.volume)}/mo)`]),
-      ...(after && !b.client && S?.d ? [['Buyers switching to ' + DATA.client.name, S.d]] : [])],
-    note: BY_SEARCH ? 'Each stream is the buyers searching the tracked terms that business ranks first on. The 90-day plan targets the searches with open video results and no clear leader.' : 'An illustration: the busier the stream, the more easily buyers find the business.' };
+      ...(BY_SEARCH ? [] : [['Presence score', after && b.client ? PM.overall : (b.overall ?? '–')]]),
+      ...(after && !b.client && S?.d ? [['Switching to ' + DATA.client.name, S.d]] : [])],
+    note: BY_SEARCH ? 'Each stream is the buyers searching the tracked terms that business ranks first on. The 90-day plan targets the searches with open video results and no clear leader.' : 'An illustration: each stream is that business\'s share of presence among the businesses shown, based on the areas checked. With the plan on, the share the client gains is taken from the competitors.' };
 }
 function linkInfo(b) { const d = b.client && plan && CLIENT.proposed ? CLIENT.proposed.domains : b.domains; return { title: `${b.name}: sites linking in`, chip: 'Backlinks', color: b.color, big: fmt(d), bigLabel: 'Referring domains', rows: [['Competitor median', fmt(compMed('domains'))]], note: 'Links from other sites help Google trust a business.' }; }
 function videoInfo(b) { return { title: `${b.name}: video`, chip: 'YouTube', color: b.color, big: b.monthsChecked === false ? '–' : b.months.filter(Boolean).length, bigLabel: 'Months with an upload, last 12', rows: b.videoNote ? [['Finding', b.videoNote]] : b.screen ? [['Most-viewed in searches', b.screen.label], ['Views', b.screen.views]] : [['Video in YouTube searches', 'None found']], note: 'From the YouTube channel and YouTube searches for the tracked terms.' }; }
@@ -997,7 +1021,7 @@ function planSummary() {
   const cnt = (g, id) => g.flat().filter(x => x === id).length;
   const rows = [
     [DATA.labels?.scoreRow || 'Presence score', CLIENT.overall, PM.overall],
-    ...(BY_SEARCH ? [['Monthly searches ranked first', volWon('client', false).toLocaleString(), volWon('client', true).toLocaleString()]] : []),
+    ...(BY_SEARCH ? [['Monthly searches ranked first', volWon('client', false).toLocaleString(), volWon('client', true).toLocaleString()]] : [['Share of people walking in', sharePct(CLIENT, false) + '%', sharePct(CLIENT, true) + '%']]),
     ['Google reviews', CLIENT.reviews, PM.reviews],
     ['Top 3 on the map', `${cnt(MAP.grid, 'client')} of ${MAP.n * MAP.n}`, `${cnt(MAP.planGrid, 'client')} of ${MAP.n * MAP.n}`],
     ...(BY_SEARCH ? [['Searches ranked first', KEYWORDS.filter(k => k.owner === 'client').length, KEYWORDS.filter(k => k.planOwner === 'client').length]] : []),
@@ -1006,7 +1030,7 @@ function planSummary() {
   ].filter(r => r[1] != null && r[2] != null && String(r[1]) !== String(r[2]));
   $('#planToast').innerHTML = `<button class="pclose" aria-label="Close">×</button><div class="tk">What changes in 90 days (projected)</div>` +
     rows.map(([k, a, b]) => `<div class="trow"><span>${esc(k)}</span><b><s>${esc(a)}</s> → ${esc(b)}</b></div>`).join('') +
-    (BY_SEARCH ? `<div class="tnote">Watch the streams: buyers from the searches the plan wins leave ${esc(passed())} and head to ${esc(DATA.client.name)}, turning gold.</div>` : `<div class="tnote">The stream to ${esc(DATA.client.name)} grows as the plan's pages and videos go live. Search volumes are measured in the full audit.</div>`);
+    (COMPS.some(b => crowd(b, true) < crowd(b, false)) ? `<div class="tnote">Watch the gold paths: people leave ${esc(passed())} and walk over to ${esc(DATA.client.name)}, turning gold.</div>` : `<div class="tnote">The stream to ${esc(DATA.client.name)} grows as the plan's pages and videos go live.</div>`);
   $('#planToast .pclose').onclick = () => document.body.classList.remove('toast-on');
 }
 let toastTimer = null;
@@ -1014,6 +1038,12 @@ let toastTimer = null;
 // ---------- the 90-day plan ----------
 let plan = false, planP = 0, planTarget = 0;
 const PM = CLIENT.proposed || { scores: CLIENT.scores, months: CLIENT.months, reviews: CLIENT.reviews, domains: CLIENT.domains, speed: CLIENT.speed, ads: null, overall: CLIENT.overall };
+// the number of people who switch over, shown at the client's door while the plan is on
+{
+  const switched = COMPS.reduce((a, b) => a + Math.max(0, crowd(b, false) - crowd(b, true)), 0);
+  const C = streams.find(S => S.b.client);
+  if (switched > 0 && C) { const l = label(`<span><b>+${switched}</b> switching from competitors</span>`, C.a1.clone().setY(MARINA ? 5 : 8), ['all', 'street', 'comp', 'store'], 'lbl-gain', 160); l.planOnly = true; }
+}
 function applyPlan(p) {
   const local = d => clamp01((p * 1.6 - d) / 0.35);
   const B = bld.client;
@@ -1109,6 +1139,14 @@ function setPlan(on) {
   $('#planLbl').textContent = on ? DATA.labels.planOn : DATA.labels.planOff;
   if (on && !was) {
     spawnWave(0); spawnWave(0.5); spawnWave(1.0);
+    if (['overview', 'plan'].includes(STOPS[cur]?.key)) {
+      const pts = streams.flatMap(S => [S.a0, S.a1]), c = new V3();
+      const cross = streams.filter(S => S.divert).flatMap(S => [S.divert.pts[1], S.divert.pts[2]]);
+      (cross.length ? cross : pts).forEach(q => c.add(q)); c.multiplyScalar(1 / (cross.length || pts.length));
+      const span = Math.max(...pts.map(q => Math.hypot(q.x - c.x, q.z - c.z)));
+      const d = Math.max(60, span * (camera.aspect < 0.9 ? 3.2 : 2.7));
+      flyQueue = []; fly = flyTo([c.x + d * 0.1, d * 0.9, c.z + d * 0.75], [c.x, 0, c.z + d * 0.04], 2.4); controls.autoRotate = false;
+    }
     document.body.classList.add('toast-on'); clearTimeout(toastTimer); toastTimer = setTimeout(() => document.body.classList.remove('toast-on'), 9000);
   }
   if (!on) document.body.classList.remove('toast-on');
@@ -1138,7 +1176,7 @@ function placeLabels() {
   const placed = [];
   const shown = [];
   for (const l of labels) {
-    const show = l.zones.some(z => activeZones.includes(z));
+    const show = l.zones.some(z => activeZones.includes(z)) && (!l.planOnly || planP > 0.6);
     tmp.copy(l.pos).project(camera);
     const on = show && tmp.z < 1 && Math.abs(tmp.x) < 1.1 && Math.abs(tmp.y) < 1.1;
     l.el.classList.toggle('on', on);
