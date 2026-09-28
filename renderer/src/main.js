@@ -1070,6 +1070,11 @@ if (MARINA) {
   Object.assign(CAM.comp, { pos: [30, 96, 170], tgt: [8, 0, 18] });
 }
 const STOPS = DATA.stops.filter(s => CAM[s.key]).map(s => ({ ...s, ...CAM[s.key] }));
+{
+  const more = $('#more'), card = document.querySelector('.stop');
+  if (more && card) more.onclick = (e) => { e.stopPropagation(); const open = card.classList.toggle('open'); more.textContent = open ? 'Less' : 'More'; more.setAttribute('aria-expanded', String(open)); };
+  if (matchMedia('(pointer: coarse)').matches) { const h = document.querySelector('.hint'); if (h) h.textContent = 'Tap anything for details · drag to orbit · pinch to zoom'; }
+}
 let cur = 0, fly = null, flyQueue = [], activeZones = STOPS[0].zones;
 function renderStop() {
   const s = STOPS[cur], p = plan;
