@@ -553,25 +553,65 @@ const streams = BRANDS.map(b => {
 });
 const tmp2 = new V3();
 const _m = new THREE.Matrix4(), _q = new THREE.Quaternion(), _p = new V3(), _s = new V3(1, 1, 1);
+// With the plan on, the client's projected gain in buyers comes out of the competitors' streams:
+// those walkers leave their own path partway, cross over, and arrive at the client's door in gold.
+const _cA = new THREE.Color(), _gold = new THREE.Color('#f6c453');
+function polyAt(pts, lens, total, f, out) {
+  let d = f * total;
+  for (let k = 0; k < lens.length; k++) { if (d <= lens[k] || k === lens.length - 1) return out.copy(pts[k]).lerp(pts[k + 1], Math.min(1, d / lens[k])); d -= lens[k]; }
+  return out.copy(pts[pts.length - 1]);
+}
+const CS = () => streams.find(S => S.b.client);
+for (const S of streams) {
+  if (S.b.client) continue;
+  const C = CS();
+  const pts = [S.a0.clone(), S.a0.clone().lerp(S.a1, 0.32), C.a0.clone().lerp(C.a1, 0.5), C.a1.clone()];
+  const lens = pts.slice(1).map((q, k) => q.distanceTo(pts[k]));
+  S.divert = { pts, lens, total: lens.reduce((a, b) => a + b, 0) };
+  S.baseColor = new THREE.Color(S.b.color).lerp(new THREE.Color('#ffffff'), 0.45);
+}
 function drawStreams(t, p) {
+  const C = CS();
+  const baseN = walkers(CLIENT.overall);
+  const gain = Math.max(0, walkers(nz(CLIENT.overall) + (nz(PM.overall) - nz(CLIENT.overall)) * ease(clamp01(p))) - baseN);
+  const comps = streams.filter(S => !S.b.client), pool = comps.reduce((a, S) => a + S.n, 0) || 1;
+  let assigned = 0;
+  for (const S of comps) { S.d = Math.min(Math.round(S.n * 0.6), Math.round((gain * S.n) / pool)); assigned += S.d; }
   for (const S of streams) {
-    const target = S.b.client ? walkers(nz(CLIENT.overall) + (nz(PM.overall) - nz(CLIENT.overall)) * ease(clamp01(p))) : S.n;
-    S.mesh.count = target;
-    const speed = S.b.client ? 2.4 + p * 1.6 : 2.4;
+    const own = S.b.client ? baseN + Math.max(0, gain - assigned) : S.n - S.d;
+    const total = S.b.client ? own : S.n;
+    S.mesh.count = total;
+    const speed = S.b.client ? 2.4 + p * 1.2 : 2.4;
     _q.setFromAxisAngle(new V3(0, 1, 0), Math.atan2(S.dir.x, S.dir.z));
-    for (let i = 0; i < target; i++) {
-      const f = ((i * 0.6180339) % 1 + (t * speed) / S.len) % 1;
+    for (let i = 0; i < total; i++) {
       const lane = ((i * 7) % 5 - 2) * (MARINA ? 0.5 : 0.9);
-      _p.copy(S.a0).lerp(S.a1, f);
-      _p.x += S.dir.z * lane; _p.z -= S.dir.x * lane;
-      _p.y = Math.abs(Math.sin(t * 9 + i * 1.7)) * 0.12 + (MARINA ? 0.25 : 0.25);
+      let f, dx, dz;
+      if (i < own) {
+        f = ((i * 0.6180339) % 1 + (t * speed) / S.len) % 1;
+        _p.copy(S.a0).lerp(S.a1, f); dx = S.dir.x; dz = S.dir.z;
+      } else {
+        // walker switching to the client
+        const D = S.divert, k = i - own;
+        f = ((k * 0.6180339 + 0.37) % 1 + (t * 2.6) / D.total) % 1;
+        polyAt(D.pts, D.lens, D.total, f, _p);
+        polyAt(D.pts, D.lens, D.total, Math.min(1, f + 0.01), tmp2); dx = tmp2.x - _p.x; dz = tmp2.z - _p.z;
+        const L = Math.hypot(dx, dz) || 1; dx /= L; dz /= L;
+        _cA.copy(S.baseColor).lerp(_gold, clamp01((f - 0.3) / 0.4)); S.mesh.setColorAt(i, _cA);
+      }
+      _p.x += dz * lane; _p.z -= dx * lane;
+      _p.y = Math.abs(Math.sin(t * 9 + i * 1.7)) * 0.12 + 0.25;
       const fade = Math.min(1, f * 12, (1 - f) * 12);
       _s.setScalar(Math.max(0.001, fade));
+      _q.setFromAxisAngle(new V3(0, 1, 0), Math.atan2(dx, dz));
       _m.compose(_p, _q, _s); S.mesh.setMatrixAt(i, _m);
     }
+    // walkers back on their own path get their normal color again
+    if (!S.b.client) { for (let i = 0; i < own; i++) if (S.recolored?.[i]) { S.mesh.setColorAt(i, i % 3 === 2 ? _white : S.baseColor); S.recolored[i] = 0; } S.recolored ||= []; for (let i = own; i < total; i++) S.recolored[i] = 1; }
     S.mesh.instanceMatrix.needsUpdate = true;
+    if (S.mesh.instanceColor) S.mesh.instanceColor.needsUpdate = true;
   }
 }
+const _white = new THREE.Color('#fbfaf6');
 
 // ---------- keyword district ----------
 const kw = [];
@@ -855,7 +895,7 @@ function streamInfo(b) {
   const P = b.client && plan && CLIENT.proposed;
   const sc = P ? P.overall : b.overall;
   return { title: `${b.name}: buyers finding them`, chip: P ? 'Projected after 90 days' : 'Presence', color: b.color, big: sc ?? '–', bigLabel: 'Presence score (sets how many people walk in)',
-    rows: [['Walkers shown', walkers(sc)], ['Google reviews', fmt(P ? P.reviews : b.reviews)], ['Sites linking in', fmt(P ? P.domains : b.domains)]],
+    rows: [['Walkers shown', b.client ? walkers(sc) : walkers(sc) - (plan ? (streams.find(S => S.b.id === b.id)?.d || 0) : 0)], ...(plan && !b.client ? [['Switching to ' + DATA.client.name, streams.find(S => S.b.id === b.id)?.d || 0]] : []), ['Google reviews', fmt(P ? P.reviews : b.reviews)], ['Sites linking in', fmt(P ? P.domains : b.domains)]],
     note: 'An illustration: the busier the stream, the more easily buyers find the business across Google, video, AI assistants and social.' };
 }
 function linkInfo(b) { const d = b.client && plan && CLIENT.proposed ? CLIENT.proposed.domains : b.domains; return { title: `${b.name}: sites linking in`, chip: 'Backlinks', color: b.color, big: fmt(d), bigLabel: 'Referring domains', rows: [['Competitor median', fmt(compMed('domains'))]], note: 'Links from other sites help Google trust a business.' }; }
@@ -950,7 +990,8 @@ function planSummary() {
     [MARINA ? 'Lit portholes (video months)' : 'Glowing floors (video months)', CLIENT.months.filter(Boolean).length, PM.months.filter(Boolean).length],
   ].filter(r => r[1] != null && r[2] != null && String(r[1]) !== String(r[2]));
   $('#planToast').innerHTML = `<button class="pclose" aria-label="Close">×</button><div class="tk">What changes in 90 days (projected)</div>` +
-    rows.map(([k, a, b]) => `<div class="trow"><span>${esc(k)}</span><b><s>${esc(a)}</s> → ${esc(b)}</b></div>`).join('');
+    rows.map(([k, a, b]) => `<div class="trow"><span>${esc(k)}</span><b><s>${esc(a)}</s> → ${esc(b)}</b></div>`).join('') +
+    `<div class="tnote">Watch the competitors' streams: ${walkers(PM.overall) - walkers(CLIENT.overall)} of their buyers turn gold and head to ${esc(DATA.client.name)}.</div>`;
   $('#planToast .pclose').onclick = () => document.body.classList.remove('toast-on');
 }
 let toastTimer = null;
