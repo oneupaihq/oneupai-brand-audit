@@ -27,9 +27,9 @@ const MARINA = DATA.scene === 'marina';
 const CATS = DATA.categories.map(c => c.label);
 const LAYOUT = { client: { x: 0, z: -14, w: 14 }, a: { x: -32, z: -8, w: 11 }, b: { x: 32, z: -8, w: 11 }, c: { x: 56, z: 6, w: 10 } };
 // marina: yachts moored side by side, bows lined up toward the promenade; the business's yacht is always the longest
-const BOW_Z = 24;
+const QUAY_Z = -30; // north quay: yachts moor bow-in here, sterns toward the harbour mouth
 const yachtLen = b => (b.client ? 64 : 28 + Math.round(nz(b.overall) / 100 * 22));
-if (MARINA) for (const [id, l] of Object.entries(LAYOUT)) { const b = DATA.brands.find(x => x.id === id); if (!b) continue; const L = yachtLen(b); Object.assign(l, { x: { client: 0, a: -30, b: 28, c: 52 }[id], L, W: L * 0.235, z: BOW_Z - L / 2 }); }
+if (MARINA) for (const [id, l] of Object.entries(LAYOUT)) { const b = DATA.brands.find(x => x.id === id); if (!b) continue; const L = yachtLen(b); Object.assign(l, { x: { client: 0, a: -30, b: 28, c: 52 }[id], L, W: L * 0.235, z: QUAY_Z + 2.5 + L / 2 }); }
 const BRANDS = DATA.brands.map(b => ({ ...b, ...LAYOUT[b.id], floors: b.client ? 34 : 14 + Math.round(nz(b.overall) / 100 * 14) }));
 const byId = Object.fromEntries(BRANDS.map(b => [b.id, b]));
 const CLIENT = byId.client;
@@ -128,10 +128,11 @@ let seed = 11; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483
 
 // ---------- layout of the grounds ----------
 const GC = new V3(0, 0, -124); // audience plaza center
-const BASIN = { x0: -58, x1: 68, z0: -54, z1: 32 };
+const BASIN = { x0: -58, x1: 68, z0: QUAY_Z, z1: 56 };
+const CHAN = { x0: -10, x1: 34 }; // harbour mouth: a channel from the basin straight out to the lagoon
 const blocked = [
-  ...(MARINA ? [[BASIN.x0 - 4, BASIN.x1 + 4, BASIN.z0 - 4, 52]] : [[-72, 92, -32, 24], [-46, 72, 22, 96]]), [-130, -68, -42, 10], [80, 134, -42, 14], [68, 94, 18, 48],
-  [-200, 200, -66, -56], ...(MARINA ? [[-64, -56, 50, 124], [66, 74, 50, 124]] : [[-64, -56, -62, 124], [66, 74, -62, 124]]),
+  ...(MARINA ? [[BASIN.x0 - 4, BASIN.x1 + 4, -57, BASIN.z1 + 4], [CHAN.x0 - 5, CHAN.x1 + 5, BASIN.z1, 200]] : [[-72, 92, -32, 24], [-46, 72, 22, 96]]), [-130, -68, -42, 10], [80, 134, -42, 14], [68, 94, 18, 48],
+  [-200, 200, -66, -56], ...(MARINA ? [[-64, -56, 58, 124], [66, 74, 58, 124]] : [[-64, -56, -62, 124], [66, 74, -62, 124]]),
 ];
 const isFree = (x, z, pad = 3) => !blocked.some(([x0, x1, z0, z1]) => x > x0 - pad && x < x1 + pad && z > z0 - pad && z < z1 + pad) && Math.hypot(x - GC.x, z - GC.z) > 70 && inIsle(x, z, 0.93);
 
@@ -144,10 +145,19 @@ const inIsle = (x, z, k = 1) => ((x - ISLE.x) / (ISLE.rx * k)) ** 2 + ((z - ISLE
   const lagoonTex = tex(512, 512, (x, w, h) => { const g2 = x.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2); g2.addColorStop(0, '#a6ece2'); g2.addColorStop(0.16, '#8fe3dc'); g2.addColorStop(0.24, '#4fcbd3'); g2.addColorStop(0.42, '#27aac6'); g2.addColorStop(1, '#1a86ae'); x.fillStyle = g2; x.fillRect(0, 0, w, h); });
   const water = new THREE.Mesh(new THREE.PlaneGeometry(3000, 3000).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ map: lagoonTex.t, roughness: 0.1, metalness: 0.2, envMapIntensity: 1.3 }));
   water.position.set(ISLE.x, -0.3, ISLE.z); water.receiveShadow = true; scene.add(water);
-  // marina: a harbour basin cut into the island in front of the boulevard
-  const basinHole = () => { const h = new THREE.Path(), r = 8, x0 = BASIN.x0, x1 = BASIN.x1, y0 = -(BASIN.z1 - ISLE.z), y1 = -(BASIN.z0 - ISLE.z); h.moveTo(x0 + r, y0); h.lineTo(x1 - r, y0); h.quadraticCurveTo(x1, y0, x1, y0 + r); h.lineTo(x1, y1 - r); h.quadraticCurveTo(x1, y1, x1 - r, y1); h.lineTo(x0 + r, y1); h.quadraticCurveTo(x0, y1, x0, y1 - r); h.lineTo(x0, y0 + r); h.quadraticCurveTo(x0, y0, x0 + r, y0); return h; };
-  const sandShape = ellipse(ISLE.rx + 16, ISLE.rz + 16), grassShape = ellipse(ISLE.rx, ISLE.rz);
-  if (MARINA) { sandShape.holes.push(basinHole()); grassShape.holes.push(basinHole()); }
+  // marina: the island outline gets a notch: a basin in front of the boulevard, opening through a channel to the lagoon
+  const notched = (rx, rz) => {
+    const sh = new THREE.Shape(), P = (x, z) => [x - ISLE.x, -(z - ISLE.z)];
+    const zEdge = x => ISLE.z + rz * Math.sqrt(Math.max(0, 1 - ((x - ISLE.x) / rx) ** 2));
+    const ta = Math.acos((CHAN.x1 - ISLE.x) / rx), tb = Math.acos((CHAN.x0 - ISLE.x) / rx);
+    const pts = [];
+    for (let k = 0; k <= 160; k++) { const t = tb + (ta + Math.PI * 2 - tb) * (k / 160); pts.push(P(ISLE.x + rx * Math.cos(t), ISLE.z + rz * Math.sin(t))); }
+    pts.push(P(CHAN.x1, zEdge(CHAN.x1)), P(CHAN.x1, BASIN.z1), P(BASIN.x1, BASIN.z1), P(BASIN.x1, BASIN.z0), P(BASIN.x0, BASIN.z0), P(BASIN.x0, BASIN.z1), P(CHAN.x0, BASIN.z1), P(CHAN.x0, zEdge(CHAN.x0)));
+    sh.moveTo(...pts[0]); for (const q of pts.slice(1)) sh.lineTo(...q); sh.closePath();
+    return sh;
+  };
+  const sandShape = MARINA ? notched(ISLE.rx + 16, ISLE.rz + 16) : ellipse(ISLE.rx + 16, ISLE.rz + 16);
+  const grassShape = MARINA ? notched(ISLE.rx, ISLE.rz) : ellipse(ISLE.rx, ISLE.rz);
   flat(sandShape, -0.1, new THREE.MeshStandardMaterial({ color: '#f3e6c8', roughness: 1 }));
   flat(grassShape, 0, new THREE.MeshStandardMaterial({ color: '#dde8cc', roughness: 0.95 }));
   if (MARINA) {
@@ -155,22 +165,48 @@ const inIsle = (x, z, k = 1) => ((x - ISLE.x) / (ISLE.rx * k)) ** 2 + ((z - ISLE
     const bTex = tex(64, 256, (x, w, h) => { const g2 = x.createLinearGradient(0, 0, 0, h); g2.addColorStop(0, '#1f93b4'); g2.addColorStop(0.6, '#2aaec3'); g2.addColorStop(1, '#44c2cc'); x.fillStyle = g2; x.fillRect(0, 0, w, h); });
     const bwat = new THREE.Mesh(new THREE.PlaneGeometry(bw, bd).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ map: bTex.t, roughness: 0.06, metalness: 0.25, envMapIntensity: 1.4 }));
     bwat.position.set(bx, -0.25, bz); bwat.receiveShadow = true; scene.add(bwat);
+    // the channel water fades into the lagoon at the harbour mouth
+    const cw = CHAN.x1 - CHAN.x0, cEnd = ISLE.z + (ISLE.rz + 16), cd = cEnd - BASIN.z1;
+    const cTex = tex(64, 256, (x, w, h) => { const g2 = x.createLinearGradient(0, 0, 0, h); g2.addColorStop(0, 'rgba(58,186,206,0)'); g2.addColorStop(0.35, 'rgba(58,186,206,0.9)'); g2.addColorStop(1, 'rgba(68,194,204,1)'); x.fillStyle = g2; x.fillRect(0, 0, w, h); });
+    const cwat = new THREE.Mesh(new THREE.PlaneGeometry(cw, cd).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ map: cTex.t, transparent: true, roughness: 0.06, metalness: 0.25, envMapIntensity: 1.4, depthWrite: false }));
+    cwat.position.set((CHAN.x0 + CHAN.x1) / 2, -0.26, BASIN.z1 + cd / 2); scene.add(cwat);
     const quay = new THREE.MeshStandardMaterial({ color: '#e9e4da', roughness: 0.8 });
-    for (const [w, d, x, z] of [[bw + 2, 1.2, bx, BASIN.z0 - 0.6], [bw + 2, 1.2, bx, BASIN.z1 + 0.6], [1.2, bd, BASIN.x0 - 0.6, bz], [1.2, bd, BASIN.x1 + 0.6, bz]]) {
-      const m = new THREE.Mesh(new THREE.BoxGeometry(w, 1.4, d), quay); m.position.set(x, -0.4, z); m.receiveShadow = true; m.castShadow = true; scene.add(m);
+    const wall = (w, d, x, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, 1.4, d), quay); m.position.set(x, -0.4, z); m.receiveShadow = true; m.castShadow = true; scene.add(m); };
+    wall(bw + 2, 1.2, bx, BASIN.z0 - 0.6);
+    wall(CHAN.x0 - BASIN.x0 + 1, 1.2, (BASIN.x0 + CHAN.x0) / 2 - 0.5, BASIN.z1 + 0.6);
+    wall(BASIN.x1 - CHAN.x1 + 1, 1.2, (CHAN.x1 + BASIN.x1) / 2 + 0.5, BASIN.z1 + 0.6);
+    wall(1.2, bd, BASIN.x0 - 0.6, bz); wall(1.2, bd, BASIN.x1 + 0.6, bz);
+    const armEnd = ISLE.z + ISLE.rz + 12, armLen = armEnd - BASIN.z1;
+    wall(1.4, armLen, CHAN.x0 - 0.7, BASIN.z1 + armLen / 2); wall(1.4, armLen, CHAN.x1 + 0.7, BASIN.z1 + armLen / 2);
+    // harbour lights on the two breakwater heads: red to port, green to starboard on the way in
+    for (const [x, c] of [[CHAN.x0 - 0.7, '#e0473d'], [CHAN.x1 + 0.7, '#36b37e']]) {
+      const post = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 1.2, 5, 16), new THREE.MeshStandardMaterial({ color: '#fbfaf7', roughness: 0.4 })); post.position.set(x, 2.3, armEnd); post.castShadow = true; scene.add(post);
+      const band = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 0.95, 1.4, 16), new THREE.MeshStandardMaterial({ color: c, roughness: 0.4 })); band.position.set(x, 2.8, armEnd); scene.add(band);
+      const lamp = new THREE.Mesh(new THREE.SphereGeometry(0.6, 16, 10), glowMat(c, 2.2)); lamp.position.set(x, 5.3, armEnd); scene.add(lamp);
     }
-    // mooring bollards along the promenade edge
+    // mooring bollards along the quay
     const boll = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.35, 0.45, 0.9, 10), new THREE.MeshStandardMaterial({ color: '#39424e', roughness: 0.5, metalness: 0.4 }), 40);
     let nb = 0; const m4b = new THREE.Matrix4();
-    for (let x = BASIN.x0 + 4; x < BASIN.x1 - 2 && nb < 40; x += 6) { m4b.makeTranslation(x, 0.7, BASIN.z1 + 1.8); boll.setMatrixAt(nb++, m4b); }
+    for (let x = BASIN.x0 + 4; x < BASIN.x1 - 2 && nb < 40; x += 6) { m4b.makeTranslation(x, 0.7, BASIN.z0 - 1.8); boll.setMatrixAt(nb++, m4b); }
     boll.count = nb; scene.add(boll);
   }
-  const walkRing = ellipse(ISLE.rx - 2, ISLE.rz - 2); walkRing.holes.push(ellipse(ISLE.rx - 7, ISLE.rz - 7));
-  flat(walkRing, 0.05, new THREE.MeshStandardMaterial({ color: '#f5f2ec', roughness: 0.9 }), 128);
+  {
+    const pos = [], N = 256, walkMat = new THREE.MeshStandardMaterial({ color: '#f5f2ec', roughness: 0.9 });
+    const at = (t, d) => [ISLE.x + (ISLE.rx - d) * Math.cos(t), ISLE.z + (ISLE.rz - d) * Math.sin(t)];
+    const gap = (x, z) => MARINA && z > 0 && x > CHAN.x0 - 2 && x < CHAN.x1 + 2;
+    for (let k = 0; k < N; k++) {
+      const t0 = (k / N) * Math.PI * 2, t1 = ((k + 1) / N) * Math.PI * 2;
+      const [ax, az] = at(t0, 2), [bx2, bz2] = at(t1, 2), [cx, cz] = at(t1, 7), [dx, dz] = at(t0, 7);
+      if (gap(ax, az) || gap(bx2, bz2)) continue;
+      pos.push(ax, 0.05, az, cx, 0.05, cz, bx2, 0.05, bz2, ax, 0.05, az, dx, 0.05, dz, cx, 0.05, cz);
+    }
+    const g2 = new THREE.BufferGeometry(); g2.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g2.computeVertexNormals();
+    const w = new THREE.Mesh(g2, walkMat); w.receiveShadow = true; walkMat.side = THREE.DoubleSide; scene.add(w);
+  }
   const lineM = new THREE.MeshStandardMaterial({ color: '#e2ddd3', roughness: 0.9 });
   if (MARINA) {
-    const prom = new THREE.Mesh(rrGeo(150, 20, 4, 0.25), stone); prom.position.set(5, 0, BASIN.z1 + 10); prom.receiveShadow = true; scene.add(prom);
-    for (let x = -68; x <= 78; x += 6) { const l = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.02, 19), lineM); l.position.set(x, 0.27, BASIN.z1 + 10); scene.add(l); }
+    const prom = new THREE.Mesh(rrGeo(150, 24, 4, 0.25), stone); prom.position.set(5, 0, BASIN.z0 - 13); prom.receiveShadow = true; scene.add(prom);
+    for (let x = -68; x <= 78; x += 6) { const l = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.02, 19), lineM); l.position.set(x, 0.27, BASIN.z0 - 13); scene.add(l); }
   } else {
     const plaza = new THREE.Mesh(rrGeo(160, 40, 8, 0.25), stone); plaza.position.set(8, 0, 2); plaza.receiveShadow = true; scene.add(plaza);
     for (let x = -70; x <= 86; x += 6) { const l = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.02, 39), lineM); l.position.set(x, 0.27, 2); scene.add(l); }
@@ -187,7 +223,7 @@ const inIsle = (x, z, k = 1) => ((x - ISLE.x) / (ISLE.rx * k)) ** 2 + ((z - ISLE
     for (let t = 3; t < len - 3; t += 8) { const m = new THREE.Mesh(new THREE.BoxGeometry(horiz ? 3.5 : 0.35, 0.02, horiz ? 0.35 : 3.5), dash); m.position.set(horiz ? x0 + t : (x0 + x1) / 2, 0.11, horiz ? (z0 + z1) / 2 : z0 + t); scene.add(m); }
   };
   street(-200, 200, -64.5, -57.5);
-  if (MARINA) { street(-63, -57, BASIN.z1 + 20, 122); street(67, 73, BASIN.z1 + 20, 122); } else { street(-63, -57, -57.5, 122); street(67, 73, -57.5, 122); }
+  if (MARINA) { street(-63, -57, BASIN.z1 + 4, 122); street(67, 73, BASIN.z1 + 4, 122); } else { street(-63, -57, -57.5, 122); street(67, 73, -57.5, 122); }
   // audience plaza
   const ap = new THREE.Mesh(new THREE.CylinderGeometry(62, 62, 0.4, 96), stone); ap.position.set(GC.x, 0.2, GC.z); ap.receiveShadow = true; scene.add(ap);
   const ring = new THREE.Mesh(new THREE.TorusGeometry(62, 0.25, 6, 128).rotateX(Math.PI / 2), white); ring.position.set(GC.x, 0.42, GC.z); scene.add(ring);
@@ -205,7 +241,7 @@ const inIsle = (x, z, k = 1) => ((x - ISLE.x) / (ISLE.rx * k)) ** 2 + ((z - ISLE
   const spots = [];
   const along = (x0, z0, x1, z1, step, off) => { const L = Math.hypot(x1 - x0, z1 - z0), n = Math.floor(L / step); for (let i = 0; i <= n; i++) { const t = i / n, x = x0 + (x1 - x0) * t, z = z0 + (z1 - z0) * t; const nx = -(z1 - z0) / L, nzv = (x1 - x0) / L; for (const s of [-1, 1]) spots.push([x + nx * off * s, z + nzv * off * s, 1]); } };
   along(-190, -61, 190, -61, 14, 7.5);
-  if (MARINA) { along(-60, BASIN.z1 + 26, -60, 112, 14, 6.5); along(70, BASIN.z1 + 26, 70, 112, 14, 6.5); } else { along(-60, -52, -60, 112, 14, 6.5); along(70, -52, 70, 112, 14, 6.5); }
+  if (MARINA) { along(-60, BASIN.z1 + 10, -60, 112, 14, 6.5); along(70, BASIN.z1 + 10, 70, 112, 14, 6.5); } else { along(-60, -52, -60, 112, 14, 6.5); along(70, -52, 70, 112, 14, 6.5); }
   const budget = lowPower ? 160 : 360;
   for (let i = 0; spots.length < budget && i < 5000; i++) { const x = ISLE.x + (rnd() * 2 - 1) * ISLE.rx, z = ISLE.z + (rnd() * 2 - 1) * ISLE.rz; if (isFree(x, z, 5)) spots.push([x, z, 0.8 + rnd() * 0.6]); }
   const keep = spots.filter(([x, z]) => inIsle(x, z, 0.94) && !blocked.slice(0, 5).some(([x0, x1, z0, z1]) => x > x0 - 1 && x < x1 + 1 && z > z0 - 1 && z < z1 + 1) && Math.hypot(x - GC.x, z - GC.z) > 66 && !blocked.slice(5).some(([x0, x1, z0, z1]) => x > x0 - 1 && x < x1 + 1 && z > z0 - 1 && z < z1 + 1));
@@ -226,7 +262,7 @@ const inIsle = (x, z, k = 1) => ((x - ISLE.x) / (ISLE.rx * k)) ** 2 + ((z - ISLE
   const crownPts = []; for (let i = 0; i <= 8; i++) { const t = i / 8; crownPts.push(new THREE.Vector2(0.05 + t * 4.2, 0.6 * Math.sin(t * Math.PI) - t * t * 1.4)); }
   const palmCrown = new THREE.LatheGeometry(crownPts, 9);
   const palmTrunk = new THREE.CylinderGeometry(0.22, 0.38, 9, 7).translate(0, 4.5, 0);
-  const pts = []; for (let a = 0; a < Math.PI * 2; a += 0.05 + rnd() * 0.035) { const k = 1.02 + rnd() * 0.05; pts.push([ISLE.x + Math.cos(a) * ISLE.rx * k, ISLE.z + Math.sin(a) * ISLE.rz * k]); }
+  const pts = []; for (let a = 0; a < Math.PI * 2; a += 0.05 + rnd() * 0.035) { const k = 1.02 + rnd() * 0.05; const px2 = ISLE.x + Math.cos(a) * ISLE.rx * k, pz2 = ISLE.z + Math.sin(a) * ISLE.rz * k; if (!(MARINA && pz2 > 0 && px2 > CHAN.x0 - 5 && px2 < CHAN.x1 + 5)) pts.push([px2, pz2]); }
   const pc = new THREE.InstancedMesh(palmCrown, new THREE.MeshStandardMaterial({ color: '#5fa05a', roughness: 0.8, side: THREE.DoubleSide, flatShading: true }), pts.length);
   const pt = new THREE.InstancedMesh(palmTrunk, new THREE.MeshStandardMaterial({ color: '#c9b394', roughness: 0.9 }), pts.length);
   pts.forEach(([x, z], i) => {
@@ -320,9 +356,9 @@ function hullGeo(L, W, H, stripe) {
 function letterTex(b) { return tex(128, 128, (x, W) => { x.fillStyle = '#fbf8f2'; x.fillRect(0, 0, W, W); x.fillStyle = b.color; x.font = `800 84px ${FONT}`; x.textAlign = 'center'; x.fillText(b.id.toUpperCase(), W / 2, 96); }); }
 function buildYacht(b) {
   const hero = !!b.client, L = b.L, W = b.W, H = L * 0.085;
-  const zc = b.z, zs = zc - L / 2; // center and stern
+  const zc = b.z, zs = zc + L / 2; // center and stern (bow toward the quay, stern toward the harbour mouth)
   const baseY = -0.25 - 0.3 * H;
-  const g = new THREE.Group(); g.position.set(b.x, baseY, zc); scene.add(g);
+  const g = new THREE.Group(); g.position.set(b.x, baseY, zc); g.rotation.y = Math.PI; scene.add(g);
   const hull = new THREE.Mesh(hullGeo(L, W, H, hero ? '#e8a92e' : b.color), hullMat); hull.castShadow = hull.receiveShadow = true; g.add(hull);
   // superstructure: sleek rounded decks with dark glass bands
   const ym = hero ? yWhite : yWhite.clone();
@@ -371,10 +407,10 @@ function buildYacht(b) {
   };
   setGlow(b.months);
   // floating pier along the port side, from the promenade to the stern
-  const px = b.x - W / 2 - 2.9, pLen = BASIN.z1 - zs + 1;
-  const pier = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.4, pLen), wood); pier.position.set(px, 0.05, BASIN.z1 + 0.5 - pLen / 2); pier.castShadow = pier.receiveShadow = true; scene.add(pier);
+  const px = b.x - W / 2 - 2.9, pLen = zs - BASIN.z0 + 1;
+  const pier = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.4, pLen), wood); pier.position.set(px, 0.05, BASIN.z0 - 0.5 + pLen / 2); pier.castShadow = pier.receiveShadow = true; scene.add(pier);
   // gangway from the pier to the deck, with its light showing website speed
-  const deckY = baseY + H, gz = zc - L * 0.12;
+  const deckY = baseY + H, gz = zc + L * 0.12;
   const gw = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.12, 1.1), yWhite); gw.position.set(px + 2.3, (0.3 + deckY) / 2, gz); gw.rotation.z = Math.atan2(deckY - 0.3, 2.2); g.parent.add(gw);
   const door = new THREE.Mesh(new THREE.BoxGeometry(0.9, 1.6, 0.9), new THREE.MeshBasicMaterial({ color: doorCol(b.speed).multiplyScalar(1.1), toneMapped: false }));
   door.position.set(px + 0.6, 1.05, gz + 1.2); scene.add(door);
@@ -382,23 +418,23 @@ function buildYacht(b) {
   const crowd = new THREE.InstancedMesh(new THREE.CapsuleGeometry(0.22, 0.75, 4, 8), new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.8 }), 44);
   let s0 = Math.abs(b.x * 13) + 5; const rn = () => ((s0 = (s0 * 16807 + 11) % 2147483647) / 2147483647);
   const shirts = ['#f7f3ea', '#e9eef5', '#f3e3c3', '#dcebe6'].map(c => new THREE.Color(c));
-  for (let i = 0; i < 44; i++) { m4.compose(new V3(px - 1.1 + rn() * 2.2, 0.95, zs + 2 + rn() * (pLen - 3)), new THREE.Quaternion(), new V3(1, 1, 1)); crowd.setMatrixAt(i, m4); crowd.setColorAt(i, shirts[i % 4]); }
+  for (let i = 0; i < 44; i++) { m4.compose(new V3(px - 1.1 + rn() * 2.2, 0.95, BASIN.z0 + 1 + rn() * (pLen - 3)), new THREE.Quaternion(), new V3(1, 1, 1)); crowd.setMatrixAt(i, m4); crowd.setColorAt(i, shirts[i % 4]); }
   crowd.count = Math.min(44, Math.max(1, Math.round(nz(b.reviews) / 8))); crowd.castShadow = true; scene.add(crowd);
   // sites linking in: the wake behind the stern
   const wakeTex = tex(64, 256, (x, Wd, Ht) => { x.clearRect(0, 0, Wd, Ht); for (let y = 0; y < Ht; y += 32) { const gr = x.createLinearGradient(0, 0, Wd, 0); gr.addColorStop(0, 'rgba(255,255,255,0)'); gr.addColorStop(0.5, 'rgba(255,255,255,0.95)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = gr; x.fillRect(0, y, Wd, 18); } });
   wakeTex.t.wrapT = THREE.RepeatWrapping; wakeTex.t.repeat.set(1, 5);
-  const wLen = Math.max(8, zs - BASIN.z0 - 1);
+  const wLen = Math.max(8, BASIN.z1 - zs - 1);
   const flow = new THREE.Mesh(new THREE.PlaneGeometry(1, wLen).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ map: wakeTex.t, color: new THREE.Color(b.color).lerp(new THREE.Color('#ffffff'), 0.55), transparent: true, opacity: 0.9, depthWrite: false, toneMapped: false }));
-  flow.position.set(b.x, -0.18, zs - wLen / 2); flow.scale.x = flowW(b.domains); scene.add(flow);
+  flow.position.set(b.x, -0.18, zs + wLen / 2); flow.scale.x = flowW(b.domains); scene.add(flow);
   // video screen on a kiosk on the promenade
   const screen = tex(256, 144);
-  const kx = b.x + W / 2 + 4, kz = BASIN.z1 + 5;
+  const kx = b.x + W / 2 + 4, kz = BASIN.z0 - 5;
   const kiosk = new THREE.Mesh(new THREE.BoxGeometry(7.2, 4.6, 0.6), yWhite); kiosk.position.set(kx, 3.2, kz); kiosk.castShadow = true; scene.add(kiosk);
   const kLeg = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.2, 0.5), yWhite); kLeg.position.set(kx, 0.6, kz); scene.add(kLeg);
   const scM = new THREE.Mesh(new THREE.PlaneGeometry(6.4, 3.6), new THREE.MeshBasicMaterial({ map: screen.t, toneMapped: false, color: new THREE.Color(0.95, 0.95, 0.95) }));
   scM.position.set(kx, 3.2, kz + 0.31); scene.add(scM);
   // search ads: banners on the promenade
-  const bb = new THREE.Group(); bb.position.set(b.x + (hero ? 16 : 9), 0, BASIN.z1 + 16); scene.add(bb);
+  const bb = new THREE.Group(); bb.position.set(b.x + (hero ? 16 : 9), 0, BASIN.z0 - 18); scene.add(bb);
   const bbTex = tex(512, 224);
   const drawBB = (ads) => bbTex.draw((x, Wd, Ht) => { x.fillStyle = '#fbf8f2'; x.fillRect(0, 0, Wd, Ht); x.fillStyle = b.color; x.fillRect(0, 0, 12, Ht); x.fillStyle = '#5d6878'; x.font = `700 26px ${FONT}`; x.fillText('SEARCH ADS', 40, 56); x.fillStyle = '#1d2430'; x.font = `800 90px ${FONT}`; x.fillText(String(ads.n), 40, 150); x.font = `600 26px ${FONT}`; x.fillStyle = '#5d6878'; x.fillText('tracked searches', 40, 194); });
   for (const qx of [-3.4, 3.4]) { const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 6, 8), white); pole.position.set(qx, 3, 0); pole.castShadow = true; bb.add(pole); }
@@ -406,7 +442,7 @@ function buildYacht(b) {
   const bbF = new THREE.Mesh(new THREE.PlaneGeometry(9, 3.9), new THREE.MeshBasicMaterial({ map: bbTex.t, toneMapped: false, color: new THREE.Color(0.95, 0.95, 0.95) })); bbF.position.set(0, 7.6, -0.04); bb.add(bbF);
   if (b.ads) drawBB(b.ads); else bb.visible = false;
   if (hero) {
-    const mon = new THREE.Group(); mon.position.set(b.x - 2, 0, BASIN.z1 + 15); scene.add(mon);
+    const mon = new THREE.Group(); mon.position.set(b.x - 3, 0, BASIN.z0 - 11); scene.add(mon);
     const mb = new THREE.Mesh(new THREE.BoxGeometry(16.6, 0.6, 3), stone); mb.position.y = 0.3; mb.castShadow = true; mon.add(mb);
     const slab = new THREE.Mesh(new THREE.BoxGeometry(16, 4.4, 1.2), white); slab.position.y = 2.8; slab.castShadow = true; mon.add(slab);
     const face = new THREE.Mesh(new THREE.PlaneGeometry(15.4, 3.85), new THREE.MeshBasicMaterial({ map: signTex.t, toneMapped: false })); face.position.set(0, 2.8, 0.61); mon.add(face);
@@ -724,10 +760,10 @@ graph.nodes.forEach(n => {
 }
 if (MARINA) {
   const C = bld.client, A = COMPS[0] && bld[COMPS[0].id];
-  label('12 portholes = months with a YouTube upload', new V3(CLIENT.x + CLIENT.W / 2 + 1, C.baseY + CLIENT.L * 0.085 * 0.46 + 1.4, CLIENT.z - CLIENT.L * 0.12), ['store'], 'lbl-note');
+  label('12 portholes = months with a YouTube upload', new V3(CLIENT.x + CLIENT.W / 2 + 1, C.baseY + CLIENT.L * 0.085 * 0.46 + 1.4, CLIENT.z + CLIENT.L * 0.12), ['store'], 'lbl-note');
   label('Gangway light = website speed', C.door.position.clone().add(new V3(0.8, 1.6, 0)), ['store', 'reviews'], 'lbl-note');
-  if (A) label('Wake width = sites linking in', new V3(COMPS[0].x + 3, 0.2, A.stern - 10), ['comp'], 'lbl-note');
-  label('People on the pier = reviews', new V3(C.pier.x + 2, 1.8, BASIN.z1 - 4), ['reviews'], 'lbl-note');
+  if (A) label('Wake width = sites linking in', new V3(COMPS[0].x + 3, 0.2, A.stern + 10), ['comp'], 'lbl-note');
+  label('People on the pier = reviews', new V3(C.pier.x + 2, 1.8, BASIN.z0 + 8), ['reviews'], 'lbl-note');
 } else {
   label('Top 12 floors = months with a YouTube upload', new V3(CLIENT.x + 13, 58, CLIENT.z), ['store'], 'lbl-note');
   label('Door color = website speed', new V3(CLIENT.x + 7, 3.6, CLIENT.z + 11.2), ['store'], 'lbl-note');
@@ -888,12 +924,12 @@ const CAM = {
 };
 if (MARINA) {
   const C = bld.client, K = C.kiosk, zc = CLIENT.z;
-  Object.assign(CAM.overview, { pos: [104, 78, 168], tgt: [4, 8, -18] });
-  Object.assign(CAM.plan, { pos: [104, 78, 168], tgt: [4, 8, -18] });
-  Object.assign(CAM.store, { pos: [CLIENT.x + 58, 19, zc + 40], tgt: [CLIENT.x, 3, zc - 2] });
-  Object.assign(CAM.reviews, { pos: [C.pier.x + 6, 44, BASIN.z1 + 44], tgt: [C.pier.x - 8, 0, zc + 2] });
-  Object.assign(CAM.video, { pos: [K.x + 16, 8, K.z + 22], tgt: [K.x - 3, 3, K.z - 6] });
-  Object.assign(CAM.comp, { pos: [18, 86, 96], tgt: [2, 0, -26] });
+  Object.assign(CAM.overview, { pos: [112, 96, 206], tgt: [8, 2, -4] });
+  Object.assign(CAM.plan, { pos: [112, 96, 206], tgt: [8, 2, -4] });
+  Object.assign(CAM.store, { pos: [CLIENT.x + 50, 20, zc + 34], tgt: [CLIENT.x, 3, zc] });
+  Object.assign(CAM.reviews, { pos: [C.pier.x + 2, 58, BASIN.z0 + 62], tgt: [C.pier.x - 2, 0, BASIN.z0 + 14] });
+  Object.assign(CAM.video, { pos: [K.x + 20, 22, K.z + 28], tgt: [K.x, 3, K.z] });
+  Object.assign(CAM.comp, { pos: [30, 96, 170], tgt: [8, 0, 18] });
 }
 const STOPS = DATA.stops.filter(s => CAM[s.key]).map(s => ({ ...s, ...CAM[s.key] }));
 let cur = 0, fly = null, flyQueue = [], activeZones = STOPS[0].zones;
@@ -988,7 +1024,7 @@ let lastScreen = 0, lastAI = -1, frames = 0, slowT = 0;
 camera.position.set(-60, 520, 620); controls.target.set(0, 30, -40);
 // opening: sweep in to the client's tower, pause on it, then settle on the overview
 const heroTop = bld.heroTop;
-fly = MARINA ? flyTo([40, 16, BOW_Z + 30], [0, 5, CLIENT.z + 6], 4.4, { intro: true }) : flyTo([34, heroTop + 16, 46], [0, heroTop - 8, -14], 4.4, { intro: true });
+fly = MARINA ? flyTo([46, 20, CLIENT.z + CLIENT.L / 2 + 30], [0, 5, CLIENT.z], 4.4, { intro: true }) : flyTo([34, heroTop + 16, 46], [0, heroTop - 8, -14], 4.4, { intro: true });
 flyQueue = [flyTo([0, 0, 0], [0, 0, 0], 2.8, { hold: 1.1, stopIndex: 0 })];
 renderStop();
 setTimeout(() => $('#intro').classList.add('done'), 3200);
