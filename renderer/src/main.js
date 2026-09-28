@@ -627,7 +627,7 @@ const kw = [];
   const maxVol = Math.max(1, ...KEYWORDS.map(k => nz(k.volume)));
   KEYWORDS.forEach((k0, i) => {
     const col = i % 4, row = Math.floor(i / 4);
-    const x = -115.5 + col * 11, z = -29 + row * 12, h = 3 + (nz(k0.volume) / maxVol) * 38;
+    const x = -115.5 + col * 11, z = -29 + row * 12, h = KEYWORDS.some(k => k.volume != null) ? 3 + (nz(k0.volume) / maxVol) * 38 : 16;
     const bodyM = new THREE.MeshStandardMaterial({ color: '#f7f5f0', roughness: 0.55 });
     const body = new THREE.Mesh(rrGeo(5.4, 5.4, 1.4, h), bodyM); body.position.set(x, 0.8, z); body.castShadow = body.receiveShadow = true; scene.add(body);
     const capM = new THREE.MeshBasicMaterial({ color: '#d9d3ca', toneMapped: false });
@@ -698,9 +698,10 @@ function drawAI(p) {
     const w = 768, h = 640;
     x.save(); x.scale(1024 / 768, 853 / 640);
     x.fillStyle = '#fbf8f2'; x.fillRect(0, 0, w, h);
-    x.fillStyle = '#5d6878'; x.font = `700 24px ${FONT}`; x.fillText(`${AI.questions.length} BUYER QUESTIONS, ${AI.total} ANSWERS`, 36, 52);
+    x.fillStyle = '#5d6878'; x.font = `700 24px ${FONT}`; x.fillText(AI.total ? `${AI.questions.length} BUYER QUESTIONS, ${AI.total} ANSWERS` : 'AI ASSISTANTS', 36, 52);
     x.fillStyle = '#1d2430'; x.font = `700 32px ${FONT}`;
     wrap(x, `“${AI.headline}”`, w - 72).slice(0, 2).forEach((l, i) => x.fillText(l, 36, 98 + i * 38));
+    if (!AI.total) { x.fillStyle = '#8d96a3'; x.font = `700 34px ${FONT}`; x.fillText('Not checked in this audit', 36, 260); x.font = `600 24px ${FONT}`; x.fillText('The full audit asks ChatGPT, Claude and Gemini.', 36, 304); x.restore(); return; }
     AI.rows.slice(0, 4).forEach((row, i) => {
       const y = 214 + i * 64;
       x.fillStyle = '#efe9df'; rr(x, 30, y - 40, w - 60, 54, 12); x.fill();
@@ -863,16 +864,17 @@ function brandInfo(b) {
   const months = P ? P.months : b.months;
   return { title: b.name, chip: b.client ? (P ? 'Your business · projected' : 'Your business') : 'Competitor', color: b.color,
     big: (P ? P.overall : b.overall) ?? '–', bigLabel: 'Presence score',
-    rows: [['Google reviews', fmt(P ? P.reviews : b.reviews)], ['Rating', b.rating ?? 'not shown'], ['Sites linking in', fmt(P ? P.domains : b.domains)], ['Months with a YouTube upload (of 12)', months.filter(Boolean).length], ['Mobile speed score', fmt(P ? P.speed : b.speed)], ['Searches with their ad', b.ads?.n ?? 0]],
+    rows: [['Google reviews', fmt(P ? P.reviews : b.reviews)], ['Rating', b.rating ?? 'not shown'], ['Sites linking in', fmt(P ? P.domains : b.domains)], ['Months with a YouTube upload (of 12)', b.monthsChecked === false && !P ? 'not checked' : months.filter(Boolean).length], ['Mobile speed score', fmt(P ? P.speed : b.speed)], ['Searches with their ad', b.ads?.n ?? 0]],
     bars: sc, note: b.client ? (P ? 'Projected scores are ranges from fixed rules; the middle of each range is shown.' : 'Each score compares against the competitor median, which scores 100.') : 'Public data collected for this audit.' };
 }
 function kwInfo(k) {
   const own = k.now;
   return { title: k.term, chip: 'Search', color: own ? byId[own]?.color : '#8d96a3', big: k.volume == null ? '–' : k.volume.toLocaleString(), bigLabel: 'Searches per month (Google estimate)',
-    rows: [['Ranks first locally', nameOf(k.owner)], ['Google shows video results', k.video ? 'Yes' : 'No'], ['Owns the video result', k.video ? (k.videoOwner ? nameOf(k.videoOwner) : 'No local business yet') : '–'], ['In the 90-day plan', k.planOwner === 'client' ? 'Targeted' : 'Not a first target'], ...srcRow(k.evidence)],
-    note: k.video && !k.videoOwner ? 'An open video result: the fastest win for new video.' : 'Search volumes are Google Ads estimates for the area.' };
+    rows: [['Ranks first locally', nameOf(k.owner)], ['Google shows video results', k.video == null ? 'Not checked' : k.video ? 'Yes' : 'No'], ['Owns the video result', k.video ? (k.videoOwner ? nameOf(k.videoOwner) : 'No local business yet') : '–'], ['In the 90-day plan', k.planOwner === 'client' ? 'Targeted' : 'Not a first target'], ...(k.rows || []), ...srcRow(k.evidence)],
+    note: k.note ? k.note : k.video && !k.videoOwner ? 'An open video result: the fastest win for new video.' : 'Search volumes are Google Ads estimates for the area.' };
 }
 function tileInfo(t) {
+  if (MAP.checked === false) return { title: 'Google map check', chip: 'Google map, top 3', color: '#8d96a3', rows: [['Status', 'Not checked in this audit']], note: 'The full audit runs a Google Maps search from each spot on this grid.' };
   return { title: t.i === MAP.home[0] && t.j === MAP.home[1] ? 'Business location' : `Map spot ${t.i + 1}-${t.j + 1}`, chip: 'Google map, top 3', color: t.now ? byId[t.now]?.color : '#8d96a3',
     rows: [['Top 3 here', t.now ? nameOf(t.now) : 'None of the tracked businesses'], [DATA.client.name, t.now === 'client' ? 'Top 3' : 'Not in top 3'], ['After the 90-day plan', t.pro === 'client' ? 'Projected top 3' : 'Unchanged']],
     note: `Each tile is a Google Maps search for "${MAP.keyword}" from that spot.` };
@@ -891,6 +893,7 @@ function contentInfo(p, txt, kind) {
 }
 function aiInfo() {
   const AI = DATA.ai;
+  if (!AI.total) return { title: 'AI answers', chip: 'ChatGPT, Claude, Gemini, Google', color: '#2f8a6d', big: '–', bigLabel: 'Not checked in this audit', rows: AI.questions.slice(0, 6).map((q, i) => [`Question ${i + 1}`, q]), note: 'The full audit asks each assistant these questions with web search on and counts who is named.' };
   return { title: 'AI answers', chip: 'ChatGPT, Claude, Gemini, Google', color: '#2f8a6d', big: plan && AI.projectedNamed != null ? `${AI.projectedNamed} / ${AI.total}` : `${AI.clientNamed} / ${AI.total}`, bigLabel: plan && AI.projectedNamed != null ? 'Answers naming the business (projected)' : 'Answers naming the business',
     rows: [...AI.rows.map(r => [r.assistant, `${r.clientCount} of ${r.total} name ${DATA.client.name.length > 20 ? 'it' : DATA.client.name}; ${r.named.length ? 'most named: ' + r.named.map(nameOf).join(', ') : 'no competitor named'}`]), ...AI.questions.slice(0, 6).map((q, i) => [`Question ${i + 1}`, q])],
     note: 'Each question was asked with web search on, and repeated because answers vary between runs. A mention counts only if the name or website appears in the answer.' };
@@ -907,7 +910,7 @@ function streamInfo(b) {
     note: BY_SEARCH ? 'Each stream is the buyers searching the tracked terms that business ranks first on. The 90-day plan targets the searches with open video results and no clear leader.' : 'An illustration: the busier the stream, the more easily buyers find the business.' };
 }
 function linkInfo(b) { const d = b.client && plan && CLIENT.proposed ? CLIENT.proposed.domains : b.domains; return { title: `${b.name}: sites linking in`, chip: 'Backlinks', color: b.color, big: fmt(d), bigLabel: 'Referring domains', rows: [['Competitor median', fmt(compMed('domains'))]], note: 'Links from other sites help Google trust a business.' }; }
-function videoInfo(b) { return { title: `${b.name}: video`, chip: 'YouTube', color: b.color, big: b.months.filter(Boolean).length, bigLabel: 'Months with an upload, last 12', rows: b.screen ? [['Most-viewed in searches', b.screen.label], ['Views', b.screen.views]] : [['Video in YouTube searches', 'None found']], note: 'From the YouTube channel and YouTube searches for the tracked terms.' }; }
+function videoInfo(b) { return { title: `${b.name}: video`, chip: 'YouTube', color: b.color, big: b.monthsChecked === false ? '–' : b.months.filter(Boolean).length, bigLabel: 'Months with an upload, last 12', rows: b.videoNote ? [['Finding', b.videoNote]] : b.screen ? [['Most-viewed in searches', b.screen.label], ['Views', b.screen.views]] : [['Video in YouTube searches', 'None found']], note: 'From the YouTube channel and YouTube searches for the tracked terms.' }; }
 
 let drawerOpen = null;
 function openDrawer(fn) {
@@ -993,17 +996,17 @@ function passed() {
 function planSummary() {
   const cnt = (g, id) => g.flat().filter(x => x === id).length;
   const rows = [
-    ['Presence score', CLIENT.overall, PM.overall],
-    ...(BY_SEARCH ? [['Monthly searches ranked first', volWon('client', false).toLocaleString(), volWon('client', true).toLocaleString()]] : [['Buyers walking in', walkers(CLIENT.overall), walkers(PM.overall)]]),
+    [DATA.labels?.scoreRow || 'Presence score', CLIENT.overall, PM.overall],
+    ...(BY_SEARCH ? [['Monthly searches ranked first', volWon('client', false).toLocaleString(), volWon('client', true).toLocaleString()]] : []),
     ['Google reviews', CLIENT.reviews, PM.reviews],
     ['Top 3 on the map', `${cnt(MAP.grid, 'client')} of ${MAP.n * MAP.n}`, `${cnt(MAP.planGrid, 'client')} of ${MAP.n * MAP.n}`],
-    ['Searches ranked first', KEYWORDS.filter(k => k.owner === 'client').length, KEYWORDS.filter(k => k.planOwner === 'client').length],
+    ...(BY_SEARCH ? [['Searches ranked first', KEYWORDS.filter(k => k.owner === 'client').length, KEYWORDS.filter(k => k.planOwner === 'client').length]] : []),
     ['Named in AI answers', `${DATA.ai.clientNamed} of ${DATA.ai.total}`, DATA.ai.projectedNamed != null ? `${DATA.ai.projectedNamed} of ${DATA.ai.total}` : null],
     [MARINA ? 'Lit portholes (video months)' : 'Glowing floors (video months)', CLIENT.months.filter(Boolean).length, PM.months.filter(Boolean).length],
   ].filter(r => r[1] != null && r[2] != null && String(r[1]) !== String(r[2]));
   $('#planToast').innerHTML = `<button class="pclose" aria-label="Close">×</button><div class="tk">What changes in 90 days (projected)</div>` +
     rows.map(([k, a, b]) => `<div class="trow"><span>${esc(k)}</span><b><s>${esc(a)}</s> → ${esc(b)}</b></div>`).join('') +
-    `<div class="tnote">Watch the streams: buyers from the searches the plan wins leave ${esc(passed())} and head to ${esc(DATA.client.name)}, turning gold.</div>`;
+    (BY_SEARCH ? `<div class="tnote">Watch the streams: buyers from the searches the plan wins leave ${esc(passed())} and head to ${esc(DATA.client.name)}, turning gold.</div>` : `<div class="tnote">The stream to ${esc(DATA.client.name)} grows as the plan's pages and videos go live. Search volumes are measured in the full audit.</div>`);
   $('#planToast .pclose').onclick = () => document.body.classList.remove('toast-on');
 }
 let toastTimer = null;
