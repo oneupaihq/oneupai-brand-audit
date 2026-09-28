@@ -1,7 +1,8 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // PGlite is only used for local development and tests (DATABASE_URL=pglite:...).
+  serverExternalPackages: ['@electric-sql/pglite'],
 };
 
 export default nextConfig;
