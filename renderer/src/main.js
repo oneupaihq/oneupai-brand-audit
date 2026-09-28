@@ -40,7 +40,7 @@ const EV = DATA.evidence || {};
 const srcRow = ids => { const e = (ids || []).map(i => EV[i]).find(Boolean); return e ? [['Source', `${e.source}, ${e.date}${e.sample ? ' (sample)' : ''}`]] : []; };
 const nameOf = id => (id && byId[id] ? byId[id].name : 'Nobody tracked');
 
-$('#chip').textContent = DATA.sample ? 'Sample data, not a real audit' : `${DATA.client.industry} · ${new Date(DATA.generatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+$('#chip').textContent = DATA.chip || (DATA.sample ? 'Sample data, not a real audit' : `${DATA.client.industry} · ${new Date(DATA.generatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`);
 
 // ---------- renderer ----------
 const canvas = $('#gl');
