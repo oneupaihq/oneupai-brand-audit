@@ -269,6 +269,7 @@ export interface Overrides {
   hiddenFindings?: string[];
   findingText?: Record<string, { title?: string; detail?: string }>;
   anonymize?: boolean;
+  scene?: 'city' | 'marina';
 }
 
 // ---------------- report contract (what the 3D page reads) ----------------
@@ -336,6 +337,7 @@ export interface ReportStop {
 
 export interface ReportData {
   version: 1;
+  scene: 'city' | 'marina';
   sample: boolean;
   generatedAt: string;
   client: { name: string; industry: string; market: string; logo: string | null; initials: string };

@@ -107,7 +107,8 @@ export async function setAnonymize(form: FormData) {
   const id = str(form, 'id');
   const a = await getAudit(id);
   if (!a) return;
-  await patchAudit(id, { overrides: { ...(a.overrides || {}), anonymize: form.get('anonymize') === 'on' } });
+  const scene = str(form, 'scene');
+  await patchAudit(id, { overrides: { ...(a.overrides || {}), anonymize: form.get('anonymize') === 'on', ...(scene === 'city' || scene === 'marina' ? { scene } : {}) } });
   await analyze((await getAudit(id))!, { skipAi: true });
   refresh();
 }

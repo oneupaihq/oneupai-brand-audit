@@ -4,7 +4,7 @@ import type { Results } from '../types';
 import { buildBrief } from './brief';
 import { buildFindings } from './findings';
 import { buildPlan } from './plan';
-import { buildReport } from './report';
+import { buildReport, defaultScene } from './report';
 import { computeMetrics, scoreAll } from './score';
 
 // Scoring, findings, plan, brief and report. Runs after collection, and again whenever Nick
@@ -24,7 +24,7 @@ export async function analyze(a0: AuditRow, opts: { skipAi?: boolean } = {}): Pr
   const prevBrief = a.results?.brief;
   const brief = opts.skipAi && prevBrief ? prevBrief : await buildBrief(a, ids, scores, shownFindings, plan, m);
   const ev = await evidenceIndex(a.id);
-  const report = buildReport(a, ids, scores, plan, m, ev, !!a.overrides?.anonymize);
+  const report = buildReport(a, ids, scores, plan, m, ev, !!a.overrides?.anonymize, a.overrides?.scene || defaultScene(a.inputs.industry));
 
   const thin: string[] = [];
   for (const c of scores.categories) {

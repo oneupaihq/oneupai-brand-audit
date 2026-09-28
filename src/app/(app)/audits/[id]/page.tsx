@@ -162,7 +162,13 @@ export default async function AuditPage(props: PageProps<'/audits/[id]'>) {
               <div className="row" style={{ marginTop: 12 }}>
                 <form action={setAnonymize} className="row">
                   <input type="hidden" name="id" value={a.id} />
-                  <label style={{ fontWeight: 400, margin: 0 }}><input type="checkbox" name="anonymize" defaultChecked={!!a.overrides?.anonymize} /> Show competitors as Competitor A-C in the report</label>
+                  <label style={{ fontWeight: 400, margin: 0 }}>3D scene{' '}
+                    <select name="scene" defaultValue={r.report.scene || 'city'} style={{ width: 'auto', padding: '4px 8px' }}>
+                      <option value="city">City: towers</option>
+                      <option value="marina">Marina: yachts</option>
+                    </select>
+                  </label>
+                  <label style={{ fontWeight: 400, margin: 0 }}><input type="checkbox" name="anonymize" defaultChecked={!!a.overrides?.anonymize} /> Show competitors as Competitor A-C</label>
                   <button className="btn ghost small">Apply</button>
                 </form>
                 <form action={publish}><input type="hidden" name="id" value={a.id} /><button className="btn gold">Approve and publish link</button></form>

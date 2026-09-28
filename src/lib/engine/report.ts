@@ -11,7 +11,13 @@ import { videoOwner, type Metrics } from './score';
 
 const COLORS: Record<BrandId, string> = { client: '#e8a92e', a: '#4a7fe0', b: '#8d69d8', c: '#2fa58d' };
 
-export function buildReport(a: AuditRow, ids: Ident[], s: Scores, plan: Plan, m: Metrics, evidence: ReportData['evidence'], anonymize: boolean): ReportData {
+/** Default 3D scene for an industry: yacht brokers get the marina. */
+export const defaultScene = (industry: string): 'city' | 'marina' => (industry === 'yacht_broker' ? 'marina' : 'city');
+
+export function buildReport(a: AuditRow, ids: Ident[], s: Scores, plan: Plan, m: Metrics, evidence: ReportData['evidence'], anonymize: boolean, scene: 'city' | 'marina' = 'city'): ReportData {
+  const V = scene === 'marina'
+    ? { glow: 'Lit portholes, wakes and tiles', store: 'The 12 portholes along the hull are the last 12 months; lit portholes had a YouTube upload. The gangway light shows the website\'s mobile speed score', calendar: 'A weekly video calendar lights every porthole from here on.', crowd: 'The people on each pier are its review count.', links: 'Wake width is sites linking in. Banners on the promenade are search ads', storeLabel: 'On deck' }
+    : { glow: 'Glowing floors, lines and tiles', store: 'The top 12 floors are the last 12 months; glowing floors had a YouTube upload. The door shows the website\'s mobile speed score', calendar: 'A weekly video calendar lights every floor from here on.', crowd: 'The people outside each tower are its review count.', links: 'Line width is sites linking in. Billboards are search ads', storeLabel: 'Storefront' };
   const d = a.data;
   const ind = INDUSTRIES[a.inputs.industry];
   const disp = (id: BrandId) => (id === 'client' ? a.name : anonymize ? `Competitor ${id.toUpperCase()}` : ids.find(i => i.id === id)?.name || `Competitor ${id.toUpperCase()}`);
@@ -167,7 +173,7 @@ export function buildReport(a: AuditRow, ids: Ident[], s: Scores, plan: Plan, m:
   const oLow = weightedOverall(cats.map(c => proj[c.key]?.low ?? c.scores.client ?? null), cats.map(c => c.weight));
   const oHigh = weightedOverall(cats.map(c => proj[c.key]?.high ?? c.scores.client ?? null), cats.map(c => c.weight));
   const stops: ReportStop[] = [
-    { key: 'overview', label: 'Overview', t: `${nm} scores ${client.overall ?? 'n/a'} of 100. ${topC ? `${disp(topC.c)} scores ${topC.v}.` : ''}`, b: 'Gold is the business. Glowing floors, lines and tiles are places customers can find it; plain white is a gap. A score of 100 means at or above the local competitor median. Click anything for details and sources.',
+    { key: 'overview', label: 'Overview', t: `${nm} scores ${client.overall ?? 'n/a'} of 100. ${topC ? `${disp(topC.c)} scores ${topC.v}.` : ''}`, b: `Gold is the business. ${V.glow} are places customers can find it; plain white is a gap. A score of 100 means at or above the local competitor median. Click anything for details and sources.`,
       tp: `The 90-day plan projects ${oProj ?? 'n/a'} of 100 (range ${oLow ?? 'n/a'}-${oHigh ?? 'n/a'}).`, bp: 'Projections are ranges from fixed rules, shown on click. Results are measured every month against this baseline.' },
     { key: 'graph', label: 'Audience', t: `${nm} shows recent activity on ${activeNow.length} of ${checkedPlat} platforms checked.`, b: 'Node size is estimated users. A gold line means the business is active; thin means weak; dashed means absent or not checked. Colored dots show which competitors are active there.',
       tp: `After the plan: active on ${activePlan.slice(0, 5).join(', ')}.`, bp: 'One video becomes a Short, a Reel, a TikTok, a Facebook post and a Google profile post.' },
@@ -175,22 +181,22 @@ export function buildReport(a: AuditRow, ids: Ident[], s: Scores, plan: Plan, m:
       tp: `The plan targets ${planKw} of these searches first, starting with the open video results.`, bp: 'Gold caps are the searches the plan targets; a projection, not a guarantee.' },
     { key: 'map', label: 'Map', t: `Top 3 on the Google map in ${cur} of ${n * n} spots across ${a.market}.`, b: `Each tile is a map search from that spot for "${firstKw}". ${mapLeader && mapLeader.v > 0 ? `${disp(mapLeader.c)} holds the most spots.` : ''}`,
       tp: `Projected: top 3 in ${countIn(planGrid, 'client')} of ${n * n} spots.`, bp: 'Weekly Google profile posts, reviews and consistent listings spread outward from the business location.' },
-    { key: 'store', label: 'Storefront', t: `Video uploaded in ${client.months.filter(Boolean).length} of the last 12 months.`, b: `The top 12 floors are the last 12 months; glowing floors had a YouTube upload. The door shows the website's mobile speed score: ${client.speed ?? 'not checked'}.`,
-      tp: 'A weekly video calendar lights every floor from here on.', bp: `The agents turn each ${ind.contentWord}'s photos into posts for YouTube Shorts, Instagram, TikTok and the Google profile.` },
-    { key: 'reviews', label: 'Reviews', t: `${fmtNum(client.reviews)} Google reviews. The competitor median is ${fmtNum(reviewMed)}.`, b: `The people outside each tower are its review count. Rating: ${client.rating ?? 'not shown'}.`,
+    { key: 'store', label: V.storeLabel, t: `Video uploaded in ${client.months.filter(Boolean).length} of the last 12 months.`, b: `${V.store}: ${client.speed ?? 'not checked'}.`,
+      tp: V.calendar, bp: `The agents turn each ${ind.contentWord}'s photos into posts for YouTube Shorts, Instagram, TikTok and the Google profile.` },
+    { key: 'reviews', label: 'Reviews', t: `${fmtNum(client.reviews)} Google reviews. The competitor median is ${fmtNum(reviewMed)}.`, b: `${V.crowd} Rating: ${client.rating ?? 'not shown'}.`,
       tp: `Projected: ${fmtNum(client.proposed?.reviews ?? null)} reviews in 90 days.`, bp: 'A review request after every sale or job, plus short testimonial videos.' },
     { key: 'video', label: 'Video', t: `${m.uploads12.client ?? 0} YouTube uploads in the last 12 months.`, b: brands.filter(b => b.screen).length ? `Screens show each competitor's most-viewed video found in YouTube searches.` : 'No competitor video appeared in the YouTube searches checked.',
       tp: `Video for every ${ind.contentWord}, plus answers to buyer questions.`, bp: `Made by ${videoAgents.slice(0, 3).join(', ')}.` },
     { key: 'ai', label: 'AI answers', t: `AI assistants named ${nm} in ${m.aiNamed.client || 0} of ${m.aiTotal} answers.`, b: aiLeaders.length ? `They name ${aiLeaders.join(' and ')} most often.` : 'They rarely name any local business, which leaves the field open.',
       tp: aiProj != null ? `Projected: named in about ${aiProj} of ${m.aiTotal}.` : 'Projected: named more often as new content is published.', bp: 'Question videos, their transcripts on the website, and consistent listings give the assistants something to cite.' },
-    { key: 'comp', label: 'Competition', t: client.domains != null ? `${fmtNum(client.domains)} sites link to ${nm}. ${linkLeader && linkLeader.v >= 0 ? `${disp(linkLeader.c)} has ${fmtNum(linkLeader.v)}.` : ''}` : 'Linking sites were not checked in this audit.', b: `Line width is sites linking in. Billboards are search ads: competitors showed ads on ${compAds} tracked searches.`,
+    { key: 'comp', label: 'Competition', t: client.domains != null ? `${fmtNum(client.domains)} sites link to ${nm}. ${linkLeader && linkLeader.v >= 0 ? `${disp(linkLeader.c)} has ${fmtNum(linkLeader.v)}.` : ''}` : 'Linking sites were not checked in this audit.', b: `${V.links}: competitors showed ads on ${compAds} tracked searches.`,
       tp: 'The plan adds local links and, if the client chooses, video ads.', bp: 'Ads run from the best-performing shorts, aimed at the searches the business can win.' },
     { key: 'plan', label: '90-day plan', t: `The 90-day plan: ${client.overall ?? 'n/a'} to ${oProj ?? 'n/a'} projected.`, b: '', tp: `The 90-day plan: ${client.overall ?? 'n/a'} to ${oProj ?? 'n/a'} projected.`, bp: '',
       list: plan.items.filter(i => i.phase !== 'compound').slice(0, 7).map(i => `${i.action} (${i.deliveredBy.name}${i.preset ? `, ${i.preset} preset` : ''})`) },
   ];
 
   return {
-    version: 1, sample: a.sample, generatedAt: new Date().toISOString(),
+    version: 1, scene, sample: a.sample, generatedAt: new Date().toISOString(),
     client: { name: nm, industry: ind.label, market: a.market, logo: d.logoDataUrl || null, initials: initials(nm) },
     categories: cats.map(c => ({ key: c.key, label: c.label, weight: c.weight, checked: c.checked })),
     brands, keywords,
