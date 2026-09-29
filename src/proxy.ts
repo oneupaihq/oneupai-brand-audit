@@ -1,8 +1,8 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { SESSION_COOKIE, validSession } from '@/lib/auth';
 
-// Everything is behind the app password except the shared report links, the login page, and the
-// job and cron endpoints (which check their own secret).
+// Everything is behind the app password except the shared report links, their view-tracking
+// endpoint, the login page, and the job and cron endpoints (which check their own secret).
 export function proxy(req: NextRequest) {
   if (!process.env.APP_PASSWORD && process.env.NODE_ENV !== 'production') return NextResponse.next();
   if (validSession(req.cookies.get(SESSION_COOKIE)?.value)) return NextResponse.next();
@@ -14,5 +14,5 @@ export function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!login|r/|report/|api/jobs|api/cron|_next/|favicon.ico|robots.txt).*)'],
+  matcher: ['/((?!login|r/|report/|api/jobs|api/cron|api/track|_next/|favicon.ico|robots.txt).*)'],
 };

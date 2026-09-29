@@ -536,7 +536,6 @@ for (const b of BRANDS) {
 // ---------- customers walking in: each business's stream is sized by its presence score ----------
 const figGeo = mergeGeometries([new THREE.CapsuleGeometry(0.3, 0.7, 4, 8).translate(0, 0.65, 0), new THREE.SphereGeometry(0.27, 12, 8).translate(0, 1.55, 0)]).scale(1.45, 1.45, 1.45);
 const MAXW = 70;
-const walkers = (score) => Math.round(5 + (nz(score) / 100) * 55);
 // Each stream is the buyers from the tracked searches that business ranks first on; the plan moves
 // the searches it targets to the client. Falls back to the presence score if no volumes were measured.
 const VOL_TOTAL = KEYWORDS.reduce((a, k) => a + nz(k.volume), 0);
@@ -937,8 +936,11 @@ function linkInfo(b) { const d = b.client && plan && CLIENT.proposed ? CLIENT.pr
 function videoInfo(b) { return { title: `${b.name}: video`, chip: 'YouTube', color: b.color, big: b.monthsChecked === false ? '–' : b.months.filter(Boolean).length, bigLabel: 'Months with an upload, last 12', rows: b.videoNote ? [['Finding', b.videoNote]] : b.screen ? [['Most-viewed in searches', b.screen.label], ['Views', b.screen.views]] : [['Video in YouTube searches', 'None found']], note: 'From the YouTube channel and YouTube searches for the tracked terms.' }; }
 
 let drawerOpen = null;
+const track = (k, l) => { try { window.__track?.(k, l); } catch { /* tracking never breaks the page */ } };
 function openDrawer(fn) {
-  const d = fn(); drawerOpen = fn;
+  const d = fn();
+  if (fn !== drawerOpen) track('click', d.title);
+  drawerOpen = fn;
   $('#dTitle').textContent = d.title;
   $('#dChip').textContent = d.chip; $('#dChip').style.setProperty('--c', d.color || '#999');
   $('#dBig').hidden = d.big === undefined;
@@ -992,6 +994,7 @@ function pick(e) {
 // ---------- platform window ----------
 const PSTATUS = { active: 'Active', weak: 'Weak', none: 'Not present', unknown: 'Not checked' };
 function openPlatform(p) {
+  track('click', p.name);
   const st = plan ? p.planStatus : p.status;
   const isSearch = t => p.kind === 'search' || (p.kind === 'mixed' && t === t.toLowerCase());
   const searches = p.content.filter(isSearch), formats = p.content.filter(t => !isSearch(t));
@@ -1125,6 +1128,7 @@ function go(i) {
   cur = (i + STOPS.length) % STOPS.length;
   const s = STOPS[cur];
   activeZones = s.zones;
+  track('stop', s.label);
   if (s.forcePlan && !plan) setPlan(true);
   flyQueue = [];
   fly = flyTo(s.pos, s.tgt, 2.3);
@@ -1134,6 +1138,7 @@ function go(i) {
 }
 function setPlan(on) {
   const was = plan;
+  if (on !== was) track('plan', on ? 'on' : 'off');
   plan = on; planTarget = on ? 1 : 0;
   $('#plan').setAttribute('aria-pressed', on);
   $('#planLbl').textContent = on ? DATA.labels.planOn : DATA.labels.planOff;

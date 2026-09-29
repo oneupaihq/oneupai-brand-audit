@@ -6,8 +6,9 @@ The audit engine behind OneUpAI's presence audits. You enter a business; the too
 2. Scores 10 categories against the competitors' median, writes the findings, and saves every fact with its source.
 3. Builds a 90-day plan, then an ongoing plan. Every item is labelled: a ready OneUp agent, an agent to build or adapt, a OneUpAI service, or a client task.
 4. Writes an internal strategy brief with talking points, likely objections and what to offer.
-5. Publishes a shareable 3D report at `audit.oneupai.com/r/<name>`, with a switch between today and after 90 days.
-6. For won clients, re-runs every 30 days against the same competitors to measure planned against actual.
+5. Publishes a shareable 3D report at `audit.oneupai.com/r/<name>`, with a switch between today and after 90 days, and a written report at `audit.oneupai.com/r/<name>/report` to read, print or save as PDF.
+6. Tracks who opens the shared links: when, on what device, roughly where, which stops, sections and objects they looked at, and how long they actively spent.
+7. For won clients, re-runs every 30 days against the same competitors to measure planned against actual.
 
 ## Set up (once)
 
@@ -43,6 +44,13 @@ Each step is its own serverless invocation, with `maxDuration` of 600 s. Each st
 
 The social media counts are entered by hand on the review screen. Re-scoring after that is instant, with no API calls.
 
+## Shared reports and view tracking
+
+- **3D view:** `/r/<slug>`. **Written report:** `/r/<slug>/report`, built from the same results (`src/lib/engine/written.ts`). Both are public once published and unexpired; before that only a signed-in user can preview them.
+- **Written report style:** numbered sections (no leading zeros), one summary line per section, values centered in every column but the first, no gray text. "Prepared for" comes from the optional contact field on the new-audit form; "Prepared by" from `REPORT_PREPARED_BY`.
+- **Tracking:** each public page loads a small script that posts to `/api/track`: the open, stops visited, objects clicked and the plan toggle (3D); sections read, scroll depth and links clicked (written report); and active time, counted only while the page is on screen and in use. Results show under **Views** on the audit page.
+- **Privacy:** no cookies and no IP addresses are stored. A random id in the viewer's browser tells repeat visits apart; location is the city Vercel derives from the request. Bots and link previews are ignored, and nothing is recorded while you preview signed in.
+
 ## Accuracy safeguards
 
 - **Numbers:** every number comes from code working on stored data (`evidence` table). The AI model never supplies one.
@@ -54,11 +62,12 @@ The social media counts are entered by hand on the review screen. Re-scoring aft
 
 ## Code map
 
-- `src/lib/engine/`: steps, scoring, findings, plan, brief, report builder
+- `src/lib/engine/`: steps, scoring, findings, plan, brief, 3D report data (`report.ts`), written report (`written.ts`)
+- `src/lib/tracking.ts`: view tracking script, beacon handler and queries; `src/lib/report-access.ts`: who may open a report link
 - `src/lib/collectors/`: DataForSEO, Google, website crawler, sample data
 - `src/lib/industries.ts`: industry presets, which agents and services close each gap
 - `renderer/`: the 3D report (three.js). `npm run build:report` bundles it into `public/report/app.js`; it also runs automatically before `dev` and `build`.
-- `src/app/`: screens (audits list, new audit, review, brief), the report route `/r/[slug]`, job and cron routes
+- `src/app/`: screens (audits list, new audit, review, brief), the report routes `/r/[slug]` and `/r/[slug]/report`, the tracking endpoint `/api/track`, job and cron routes
 
 ## Local development
 

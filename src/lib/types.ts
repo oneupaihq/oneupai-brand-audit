@@ -21,6 +21,7 @@ export interface AuditInputs {
   services?: string[];
   social: Partial<Record<SocialKey | 'youtube', string>>;
   notes?: string;
+  contact?: string; // the person the report is prepared for
 }
 
 export interface Place {

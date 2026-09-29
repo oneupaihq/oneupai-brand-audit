@@ -77,6 +77,33 @@ create table if not exists audit_log (
   message text not null
 );
 create index if not exists audit_log_audit on audit_log(audit_id, id);
+create table if not exists report_views (
+  id text primary key,
+  audit_id text not null,
+  page text not null,
+  started_at timestamptz not null default now(),
+  last_at timestamptz not null default now(),
+  active_ms int not null default 0,
+  max_scroll int not null default 0,
+  visitor text,
+  device text,
+  browser text,
+  country text,
+  region text,
+  city text,
+  referrer text,
+  events int not null default 0
+);
+create index if not exists report_views_audit on report_views(audit_id, started_at);
+create table if not exists report_events (
+  id bigserial primary key,
+  view_id text not null,
+  audit_id text not null,
+  at timestamptz not null default now(),
+  kind text not null,
+  label text
+);
+create index if not exists report_events_view on report_events(view_id, id);
 `;
 
 export async function q<T extends Row = Row>(text: string, params: unknown[] = []): Promise<T[]> {

@@ -11,6 +11,7 @@ export default function NewAuditForm({ industries }: { industries: { key: string
         <div className="field"><label htmlFor="name">Business or personal brand name</label><input id="name" name="name" type="text" required placeholder="Remodeled-for-You" /></div>
         <div className="field"><label htmlFor="website">Website</label><input id="website" name="website" type="text" required placeholder="remodeledforyou.com" /></div>
         <div className="field"><label htmlFor="market">Market or service area</label><input id="market" name="market" type="text" required placeholder="Orlando, FL" /><div className="hint">City and state. The map grid and searches center here.</div></div>
+        <div className="field"><label htmlFor="contact">Prepared for (optional)</label><input id="contact" name="contact" type="text" placeholder="Owner or decision maker's name" /><div className="hint">Shown on the written report as &ldquo;Prepared for&rdquo;.</div></div>
         <div className="field"><label htmlFor="industry">Industry</label>
           <select id="industry" name="industry" defaultValue="remodeler">{industries.map(i => <option key={i.key} value={i.key}>{i.label}</option>)}</select></div>
         <div className="field"><label htmlFor="services">Main services (optional)</label><input id="services" name="services" type="text" placeholder="kitchen remodel, bathroom remodel, home additions" /><div className="hint">Comma-separated. Leave blank to use the industry&apos;s standard list.</div></div>

@@ -184,7 +184,29 @@ async function main() {
     ok(r2.scores.categories.find(c => c.key === 'social')!.checked, 'social is scored once entered');
     fs.writeFileSync(`.test-out/${p.industry}.json`, JSON.stringify(r2.report, null, 1));
     fs.writeFileSync(`.test-out/${p.industry}.slug`, cur.slug);
+    // Written report
+    const { renderWrittenReport } = await import('../src/lib/engine/written');
+    const doc = renderWrittenReport((await getAudit(a.id))!, r2, { threeDUrl: `/r/${cur.slug}` });
+    ok(['Current State', 'What customers search', `90-day execution to get ${p.name} more customers`, 'About this audit'].every(t => doc.includes(t.replace(/&/g, '&amp;'))), 'written report has the renamed sections');
+    ok(/Prepared by <b>/.test(doc) && doc.includes('data:image/svg+xml;base64'), 'written report shows Prepared by and the OneUpAI logo');
+    ok(!/undefined|NaN|\[object Object\]/.test(doc), 'written report has no undefined or NaN values');
+    ok((doc.match(/<span class="sn">\d<\/span>/g) || []).length === 9, 'written report numbers nine sections without leading zeros');
+    fs.writeFileSync(`.test-out/${p.industry}-report.html`, doc);
   }
+
+  console.log('\nView tracking');
+  const { recordBeacon, viewsFor } = await import('../src/lib/tracking');
+  const [tracked] = await q('select id, slug from audits where status = $1 order by created_at limit 1', ['review']);
+  const H = new Headers({ 'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile Safari/604.1', 'x-vercel-ip-city': 'Fort%20Lauderdale', 'x-vercel-ip-country': 'US' });
+  const beacon = (extra: object) => JSON.stringify({ s: tracked.slug, p: '3d', v: 'view12345678', u: 'visitor1', r: '', ...extra });
+  ok(!(await recordBeacon(beacon({ a: 1000, e: [{ k: 'open', l: '3d' }] }), H)), 'ignores views of an unpublished report');
+  await patchAudit(tracked.id, { status: 'published', published_at: new Date().toISOString() });
+  ok(await recordBeacon(beacon({ a: 4000, e: [{ k: 'open', l: '3d' }, { k: 'stop', l: 'Audience' }, { k: 'plan', l: 'on' }] }), H), 'records an open with its first events');
+  ok(await recordBeacon(beacon({ a: 95000, e: [{ k: 'click', l: 'YouTube' }, { k: 'bogus', l: 'x' }], end: true }), H), 'records later events and time');
+  ok(!(await recordBeacon(beacon({ a: 1 }), new Headers({ 'user-agent': 'Slackbot-LinkExpanding 1.0' }))), 'ignores link-preview bots');
+  const vs = await viewsFor(tracked.id);
+  ok(vs.length === 1 && vs[0].device === 'Phone' && vs[0].city === 'Fort Lauderdale', `one view from a phone in Fort Lauderdale (${vs[0]?.device}, ${vs[0]?.city})`);
+  ok(vs[0].active_ms === 95000 && vs[0].events.map(e => e.kind).join(',') === 'stop,plan,click', `keeps active time and events in order (${vs[0]?.active_ms} ms; ${vs[0]?.events.map(e => e.kind).join(',')})`);
 
   console.log('\nSample mode');
   process.env.DATAFORSEO_LOGIN = '';

@@ -42,6 +42,7 @@ export async function startAudit(_: unknown, form: FormData) {
     services: str(form, 'services').split(',').map(s => s.trim()).filter(Boolean),
     social: Object.fromEntries((['instagram', 'tiktok', 'facebook', 'linkedin', 'youtube'] as const).map(k => [k, str(form, k) || undefined]).filter(([, v]) => v)),
     notes: str(form, 'notes') || undefined,
+    contact: str(form, 'contact') || undefined,
   };
   const a = await createAudit(inputs);
   await log(a.id, `Audit started (${inputs.tier}).`);

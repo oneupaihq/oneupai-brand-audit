@@ -11,6 +11,7 @@ import type { BrandId, SocialKey } from '@/lib/types';
 import { confirmCompetitors, publish, reanalyze, retry, saveSocial, setAnonymize, setFinding, setOutcome, unpublish } from '@/app/actions';
 import AutoRefresh from './refresh';
 import CopyButton from './copy';
+import ReportViews from './views';
 
 const ORDER = ['resolve', 'keywords', 'serp_post', 'serp_collect', 'assistants', 'profiles', 'content', 'analyze'];
 const cls = (s: number | null | undefined) => (s == null ? 'muted' : s >= 80 ? 's-good' : s >= 40 ? 's-mid' : 's-bad');
@@ -149,12 +150,14 @@ export default async function AuditPage(props: PageProps<'/audits/[id]'>) {
               <h2 style={{ margin: 0 }}>Share</h2>
               <div className="row">
                 <Link className="btn ghost small" href={`/r/${a.slug}`} target="_blank">Preview 3D report</Link>
+                <Link className="btn ghost small" href={`/r/${a.slug}/report`} target="_blank">Preview written report</Link>
                 <Link className="btn ghost small" href={`/audits/${a.id}/brief`}>Strategy brief</Link>
               </div>
             </div>
             {a.status === 'published' ? (
               <div style={{ marginTop: 12 }}>
-                <div className="row"><div className="share" style={{ flex: 1 }}>{reportUrl}</div><CopyButton text={reportUrl} /></div>
+                <div className="row"><span className="small" style={{ width: 110 }}>3D view</span><div className="share" style={{ flex: 1 }}>{reportUrl}</div><CopyButton text={reportUrl} /></div>
+                <div className="row" style={{ marginTop: 6 }}><span className="small" style={{ width: 110 }}>Written report</span><div className="share" style={{ flex: 1 }}>{reportUrl}/report</div><CopyButton text={`${reportUrl}/report`} /></div>
                 <p className="small muted">Published {new Date(a.published_at!).toLocaleDateString()}. {a.expires_at ? `The link turns off on ${new Date(a.expires_at).toLocaleDateString()}.` : 'The link stays live (client).'}</p>
                 <form action={unpublish}><input type="hidden" name="id" value={a.id} /><button className="btn ghost small">Turn off the link</button></form>
               </div>
@@ -175,6 +178,8 @@ export default async function AuditPage(props: PageProps<'/audits/[id]'>) {
               </div>
             )}
           </div>
+
+          {a.published_at && <ReportViews auditId={a.id} />}
 
           <div className="card" style={{ overflowX: 'auto' }}>
             <h2>Scores</h2>
