@@ -886,7 +886,8 @@ function brandInfo(b) {
   const months = P ? P.months : b.months;
   return { title: b.name, chip: b.client ? (P ? 'Your business · projected' : 'Your business') : 'Competitor', color: b.color,
     big: (P ? P.overall : b.overall) ?? '–', bigLabel: 'Presence score',
-    rows: [['Google reviews', fmt(P ? P.reviews : b.reviews)], ['Rating', b.rating ?? 'not shown'], ['Sites linking in', fmt(P ? P.domains : b.domains)], ['Months with a YouTube upload (of 12)', b.monthsChecked === false && !P ? 'not checked' : months.filter(Boolean).length], ['Mobile speed score', fmt(P ? P.speed : b.speed)], ['Searches with their ad', b.ads?.n ?? 0]],
+    // Manual audits can supply their own rows (only what was actually checked).
+    rows: (P ? P.rows || b.rows : b.rows) || [['Google reviews', fmt(P ? P.reviews : b.reviews)], ['Rating', b.rating ?? 'not shown'], ['Sites linking in', fmt(P ? P.domains : b.domains)], ['Months with a YouTube upload (of 12)', b.monthsChecked === false && !P ? 'not checked' : months.filter(Boolean).length], ['Mobile speed score', fmt(P ? P.speed : b.speed)], ['Searches with their ad', b.ads?.n ?? 0]],
     bars: sc, note: b.client ? (P ? 'Projected scores are ranges from fixed rules; the middle of each range is shown.' : 'Each score compares against the competitor median, which scores 100.') : 'Public data collected for this audit.' };
 }
 function kwInfo(k) {
