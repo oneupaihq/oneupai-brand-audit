@@ -14,7 +14,7 @@ const ICON = {
 
 // what the scene reads from the page: no logo bytes, no internal-only fields
 const sceneData = p => ({
-  client: p.client, start: p.start, startShort: p.startShort, endShort: p.endShort, storeKey: p.storeKey,
+  client: p.client, days: p.days, start: p.start, startShort: p.startShort, endShort: p.endShort, storeKey: p.storeKey,
   phases: p.phases, weeks: p.weeks, launchPhase: p.launchPhase,
   launch: { name: p.launch.name, dates: p.launch.dates, venue: p.launch.venue, shots: p.launch.during.shots, shotsNote: p.launch.during.note || '' },
 });
@@ -24,14 +24,14 @@ export function voyagePage(plan, oneupLogoUri, bundle) {
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&display=swap">
-<title>${esc(plan.client)} · Your 90-Day Voyage</title>
+<title>${esc(plan.client)} · Your ${plan.days}-Day Voyage</title>
 <style>${asset('voyage.css')}${GUIDE_CSS}</style></head>
 <body>
-<canvas id="gl" tabindex="0" aria-label="3D view of the 90-day plan as a voyage: one buoy per week, from the start marina past ${esc(plan.launch.name)} to the day-90 lighthouse"></canvas>
+<canvas id="gl" tabindex="0" aria-label="3D view of the ${plan.days}-day plan as a voyage: one buoy per week, from the start marina past ${esc(plan.launch.name)} to the day-${plan.days} lighthouse"></canvas>
 <div id="top">
   <div class="title glass">
     <div class="logos"><img class="jl" src="${plan.logoUri}" alt="${esc(plan.brand)}"><img class="ol" src="${oneupLogoUri}" alt="OneUpAI"></div>
-    <div><div class="kick">Your 90-day voyage</div>
+    <div><div class="kick">Your ${plan.days}-day voyage</div>
     <h1>${esc(plan.client)}</h1>
     <p>${esc(plan.range)} · ${plan.weeks.length} weeks, one buoy each</p>
     <div class="legend">${legend}</div>
@@ -58,7 +58,7 @@ export function voyagePage(plan, oneupLogoUri, bundle) {
   <p class="gline">A simple setup that makes every video look and sound its best.</p>
   ${guideHtml(plan)}
 </div></div>
-<div id="fallback"><div><h2>Your 90-day plan</h2><p>This 3D view needs WebGL, which this browser has turned off. Everything is in the checklist view.</p><p><a class="btn" href="${plan.checklistUrl}">Open the checklist</a></p></div></div>
+<div id="fallback"><div><h2>Your ${plan.days}-day plan</h2><p>This 3D view needs WebGL, which this browser has turned off. Everything is in the checklist view.</p><p><a class="btn" href="${plan.checklistUrl}">Open the checklist</a></p></div></div>
 <script type="application/json" id="plan-data">${scriptJson(sceneData(plan))}</script>
 <script type="text/plain" id="logo-data">${plan.logoUri}</script>
 <script>${bundle}</script>

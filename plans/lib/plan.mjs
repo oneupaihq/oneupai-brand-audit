@@ -27,6 +27,8 @@ export function loadPlan(dir) {
   if (errors.length) throw new Error(`${file}:\n  ${errors.join('\n  ')}`);
 
   need(/^[a-z0-9-]+$/.test(raw.slug), 'slug must be lowercase letters, digits and dashes');
+  const days = raw.days ?? 90;
+  need(Number.isInteger(days) && days >= 30 && days <= 365, '"days" must be a whole number of days between 30 and 365 (default 90)');
   need(path.basename(dir) === raw.slug, `slug "${raw.slug}" must match its folder name "${path.basename(dir)}"`);
   need(fs.existsSync(path.join(dir, raw.logo)), `logo file "${raw.logo}" not found next to plan.json`);
   for (const d of ['start', 'end']) need(/^\d{4}-\d{2}-\d{2}$/.test(raw[d]), `${d} must be YYYY-MM-DD`);
@@ -53,6 +55,7 @@ export function loadPlan(dir) {
     };
   });
   need(weeks.length > 0 && weeks[0].start === raw.start, 'week 1 must start on the plan start date');
+  need(Math.abs(weeks.length - days / 7) <= 1.5, `a ${days}-day plan should have about ${Math.round(days / 7)} weeks; this one has ${weeks.length}`);
   need(weeks.filter(w => w.phase === launchPhases[0]?.id).length >= 1, 'no week is in the launch phase');
 
   const outs = weeks.flatMap(w => w.out);
@@ -67,12 +70,13 @@ export function loadPlan(dir) {
 
   const shots = raw.launch.during.shots.map((text, i) => ({ id: `shot${i + 1}`, text }));
   return {
-    ...raw, weeks, totals,
+    ...raw, days, weeks, totals,
     launch: { ...raw.launch, during: { ...raw.launch.during, shots } },
     launchPhase: launchPhases[0].id,
-    storeKey: raw.storeKey || `${raw.slug}-90day-plan-v1`,
-    checklistUrl: `${raw.slug}-90-day-plan.html`,
-    voyageUrl: `${raw.slug}-90-day-plan-3d.html`,
+    storeKey: raw.storeKey || `${raw.slug}-${days}day-plan-v1`,
+    checklistUrl: `${raw.slug}-${days}-day-plan.html`,
+    voyageUrl: `${raw.slug}-${days}-day-plan-3d.html`,
+    span: days === 180 ? 'Six months' : days === 365 ? 'One year' : days === 90 ? 'Ninety days' : `${days} days`,
     range: `${longDate(raw.start)} – ${longDate(raw.end)}`,
     startShort: shortDate(raw.start), endShort: shortDate(raw.end),
     logoUri: `data:image/${path.extname(raw.logo).slice(1).replace('jpg', 'jpeg').replace('svg', 'svg+xml')};base64,${fs.readFileSync(path.join(dir, raw.logo)).toString('base64')}`,
@@ -81,4 +85,4 @@ export function loadPlan(dir) {
 }
 
 // the pages offer "How to record" next to these items
-export const isRecording = text => { const t = text.toLowerCase(); return t.startsWith('record ') || t.startsWith('phone clips') || t.includes('calibration clip'); };
+export const isRecording = text => { const t = text.toLowerCase(); return t.startsWith('record ') || t.startsWith('phone clips') || t.startsWith('clips from the shot list') || t.startsWith('film a walkthrough'); };

@@ -18,7 +18,7 @@ export function checklistPage(plan, oneupLogoUri) {
   const PH = Object.fromEntries(plan.phases.map(p => [p.id, p]));
   const t = plan.totals, L = plan.launch, by = plan.preparedBy;
 
-  const glance = `<div class="kpis">${[[t.videos, 'long-form videos on your own YouTube channel'], [t.shorts, 'short clips in your voice'], [t.articles, 'LinkedIn articles in your words'], ['~1 hr', 'of your time a month, plus quick approvals']]
+  const glance = `<div class="kpis">${[[t.videos, 'long-form videos on your own YouTube channel'], [t.shorts, 'short clips in your voice'], [t.articles, plan.articlesLabel || 'LinkedIn articles in your words'], ['~1 hr', 'of your time a month, plus quick approvals']]
     .map(([n, l]) => `<div class="kpi pos"><div class="kn">${esc(n)}</div><div class="kl">${esc(l)}</div></div>`).join('')}</div>`
     + `<div class="phases">${plan.phases.map(p => `<div class="phase${p.launch ? ' hot' : ''}" style="--pc:${p.color}"><b>${esc(p.name)}</b><span class="pd">${esc(p.dates)}</span><span>${esc(p.line)}</span></div>`).join('')}</div>`
     + '<div class="prog"><div class="pt"><b>Your progress</b><span id="progTxt">0 of 0 checked</span></div><div class="pbar"><i id="progBar"></i></div></div>'
@@ -30,7 +30,7 @@ export function checklistPage(plan, oneupLogoUri) {
 
   const calibration = `<p>Before your first full recording, we'd like one short clip of you talking. We use it to set up your edits: caption style, pacing, framing for vertical video, music and your on-screen name. You'll get sample edits to react to by ${esc(plan.calibration.samplesBy)}, so every video after looks and sounds the way you want.</p>`
     + `<ol class="topics">${plan.calibration.topics.map(([a, b]) => `<li><b>${esc(a)}:</b> ${esc(b)}</li>`).join('')}</ol>`
-    + '<p class="gsend"><b>Setting up:</b> phone sideways at eye level, about 3 to 4 feet away, light in front of you. <a href="#how-to-record">See How to record</a> for the details.</p>';
+    + `<p class="gsend"><b>Setting up:</b> phone sideways at eye level, ${esc(plan.guide.distanceLong || 'about 3 to 4 feet away')}, light in front of you. <a href="#how-to-record">See How to record</a> for the details.</p>`;
 
   const weekCard = w => {
     const p = PH[w.phase];
@@ -52,7 +52,8 @@ export function checklistPage(plan, oneupLogoUri) {
     + (plan.boundaries.length ? `<p class="sub">Your boundaries, built in:</p>${soft(plan.boundaries)}` : '');
 
   const SECTIONS = [
-    ['At a glance', 'Ninety days, four phases, about an hour a month of your time.', glance, 'glance'],
+    ['At a glance', `${plan.span}, ${['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'][plan.phases.length] || plan.phases.length} phases, about an hour a month of your time.`, glance, 'glance'],
+    ...(plan.target ? [[plan.target.title, plan.target.line, table(plan.target.head, plan.target.rows, 'n2') + (plan.target.note ? `<p class="src">${esc(plan.target.note)}</p>` : ''), 'target']] : []),
     ['This week', 'A few quick things to get started.', thisWeek, 'this-week'],
     ['Your calibration clip', `A 5–10 minute clip of you talking, due ${plan.calibration.due}.`, calibration, 'calibration'],
     ['How to record', 'A simple setup that makes every video look and sound its best.', guideHtml(plan), 'how-to-record'],
@@ -63,7 +64,7 @@ export function checklistPage(plan, oneupLogoUri) {
     ["What we'll talk about", 'Four themes, every topic taken from your own answers.', table(['Theme', 'Share', 'Topics from your answers'], plan.themes, 'wide1 n2'), 'themes'],
     ["How you'll show up", `Your name leads; ${plan.brand} is the brand around it.`, profiles, 'profiles'],
     ['What we do for you', 'You record; we edit and publish.', table(['Tool', 'What it makes', 'From', 'Where it goes'], plan.tools), 'tools'],
-    ["What we'll measure", 'Where you start, and what you\'ll have at day 90.', table(['Measure', `Today (${plan.baselineDate})`, 'Day 90'], plan.measures)
+    ["What we'll measure", `Where you start, and what you'll have at day ${plan.days}.`, table(['Measure', `Today (${plan.baselineDate})`, `Day ${plan.days}`], plan.measures)
       + '<p class="src">Each month you get a short report: what went out, where you come up in searches, and how your audience and inquiries are moving.</p>', 'measure'],
   ];
   const body = SECTIONS.map(([a, b, c, d], i) => section(i + 1, a, b, c, d)).join('');
@@ -72,13 +73,13 @@ export function checklistPage(plan, oneupLogoUri) {
 
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">${FONTS}<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
-<title>${esc(plan.client)} · Your 90-Day Plan</title>
+<title>${esc(plan.client)} · Your ${plan.days}-Day Plan</title>
 <style>${asset('report.css')}${asset('checklist.css')}${GUIDE_CSS}</style></head>
 <body>
 <header class="hero"><div class="wrap">
  <div class="toprow"><img class="clogo" src="${plan.logoUri}" alt="${esc(plan.brand)}"><img class="olog" src="${oneupLogoUri}" alt="OneUpAI"></div>
- <p class="kicker">90-day plan · ${esc(plan.range)}</p>
- <h1>${esc(plan.client)}: Your 90-Day Plan</h1>
+ <p class="kicker">${plan.days}-day plan · ${esc(plan.range)}</p>
+ <h1>${esc(plan.client)}: Your ${plan.days}-Day Plan</h1>
  <p class="meta">Prepared for <b>${esc(plan.client)}</b> · Prepared by <b>${esc(by.name)}, ${esc(by.company)}</b> · ${esc(plan.prepared)}</p>
  <div class="hero-actions"><a class="btn gold" href="${plan.voyageUrl}">${ICON_3D}Open the 3D voyage</a><a class="btn" href="#this-week">Start with this week</a></div>
 </div></header>

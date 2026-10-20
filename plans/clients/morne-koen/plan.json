@@ -1,0 +1,1088 @@
+{
+  "slug": "morne-koen",
+  "days": 180,
+  "client": "Morne Koen",
+  "brand": "Morne Koen",
+  "market": "real-estate",
+  "start": "2026-11-02",
+  "end": "2027-04-30",
+  "prepared": "October 20, 2026",
+  "baselineDate": "Oct 20",
+  "preparedBy": {
+    "name": "Nick Zarzycki",
+    "company": "OneUpAI",
+    "email": "nz@oneupai.com"
+  },
+  "logo": "logo.svg",
+  "goal": "you become the agent people find, watch and call when they look for property in Gqeberha and on the Sunshine Coast, and you build the pipeline toward your own target: an average of 6 sales a month.",
+  "oneLine": "Property practitioner with Mandated Property Group in Gqeberha and on the Sunshine Coast. Thirty years in sales and marketing; buying, selling and moving, explained clearly.",
+  "thisWeek": 4,
+  "articlesLabel": "articles in your words, on your website",
+  "phases": [
+    {
+      "id": "setup",
+      "name": "Home base",
+      "color": "#4a7fe0",
+      "line": "Your website, a working WhatsApp, clean profiles, your calibration clip and your first videos.",
+      "dates": "Nov 2 – Nov 29"
+    },
+    {
+      "id": "season",
+      "name": "Holiday season",
+      "color": "#e8a92e",
+      "launch": true,
+      "line": "Open houses on the Sunshine Coast, \"moving to Port Alfred\" videos and January follow-up.",
+      "dates": "Nov 30 – Jan 10"
+    },
+    {
+      "id": "authority",
+      "name": "Authority",
+      "color": "#2fa58d",
+      "line": "A monthly market report, the 2027 valuation explainer, area guides and Afrikaans videos.",
+      "dates": "Jan 11 – Feb 28"
+    },
+    {
+      "id": "momentum",
+      "name": "Momentum",
+      "color": "#8d69d8",
+      "line": "Sold stories, Google reviews, investors and referral partners.",
+      "dates": "Mar 1 – Apr 4"
+    },
+    {
+      "id": "goto",
+      "name": "Go-to agent",
+      "color": "#2f6fb0",
+      "line": "The questions people ask you most, answered; your day-180 report.",
+      "dates": "Apr 5 – Apr 30"
+    }
+  ],
+  "weeks": [
+    {
+      "n": 1,
+      "dates": "Nov 2–8",
+      "start": "2026-11-02",
+      "phase": "setup",
+      "focus": "Your home base",
+      "you": [
+        "Record your 5–10 minute calibration clip and upload it by Nov 4",
+        "Approve your website name and the look of your pages",
+        "Give us access to your Facebook, YouTube and LinkedIn",
+        "Upload headshots and footage of your current listings",
+        "20-minute call to walk through your dashboard and sample edits (Nov 6)"
+      ],
+      "out": [
+        [
+          "setup",
+          "Website started: home, about, listings, valuation request"
+        ],
+        [
+          "setup",
+          "WhatsApp fixed: one number, 27 82 571 0002, on every profile"
+        ],
+        [
+          "setup",
+          "Old profiles cleaned up: RE/MAX page, duplicate SA Hometraders profile, YouTube about text"
+        ],
+        [
+          "setup",
+          "Sample edits from your calibration clip, by Nov 6"
+        ]
+      ]
+    },
+    {
+      "n": 2,
+      "dates": "Nov 9–15",
+      "start": "2026-11-09",
+      "phase": "setup",
+      "focus": "Introducing you",
+      "you": [
+        "Record Recording 1 and upload it by Nov 11 (about 45 min)",
+        "Approve next week's posts from the preview link (about 10 min)"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 1: \"Thirty years in sales, now helping you buy and sell in Gqeberha and Port Alfred\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "setup",
+          "Facebook business page and professional Instagram account live"
+        ]
+      ]
+    },
+    {
+      "n": 3,
+      "dates": "Nov 16–22",
+      "start": "2026-11-16",
+      "phase": "setup",
+      "focus": "What is my house worth?",
+      "you": [
+        "Approve next week's posts from the preview link (about 10 min)",
+        "Send one voice note"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 2: \"What is my house worth in Gqeberha? How a valuation really works\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 1: what a valuation includes, and what it doesn't"
+        ]
+      ]
+    },
+    {
+      "n": 4,
+      "dates": "Nov 23–29",
+      "start": "2026-11-23",
+      "phase": "setup",
+      "focus": "Your website goes live",
+      "you": [
+        "Approve next week's posts from the preview link (about 10 min)",
+        "Film a walkthrough of any new listing on your phone"
+      ],
+      "out": [
+        [
+          "setup",
+          "Website live in your name, with a valuation request page"
+        ],
+        [
+          "video",
+          "Video 3: \"Port Alfred, explained: West Bank, East Bank and West Beach\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "setup",
+          "Listing walkthroughs for new mandates, from your footage"
+        ]
+      ]
+    },
+    {
+      "n": 5,
+      "dates": "Nov 30–Dec 6",
+      "start": "2026-11-30",
+      "phase": "season",
+      "focus": "Getting ready for the holidays",
+      "you": [
+        "Record Recording 2 and upload it by Dec 2 (about 45 min)",
+        "Approve next week's posts from the preview link (about 10 min)",
+        "Text us your November numbers: valuations, mandates, sales (5 min)",
+        "Choose your open-house weekends for December and January"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 4: \"Moving to Port Alfred: what buyers ask me most\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 2: retiring to the Sunshine Coast, Port Alfred or Bathurst?"
+        ],
+        [
+          "note",
+          "Holiday invitation drafted for you to send"
+        ]
+      ]
+    },
+    {
+      "n": 6,
+      "dates": "Dec 7–13",
+      "start": "2026-12-07",
+      "phase": "season",
+      "focus": "Holiday buyers arrive",
+      "note": "Holiday visitors fill Port Alfred and the Sunshine Coast. Each open house is filmed for the next week's posts.",
+      "you": [
+        "Clips from the shot list at each open house",
+        "Send the holiday invitation to your contacts (we draft it)",
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 5: a West Beach family home, walked through by you"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "post",
+          "Open-house posts on Facebook and WhatsApp"
+        ]
+      ]
+    },
+    {
+      "n": 7,
+      "dates": "Dec 14–20",
+      "start": "2026-12-14",
+      "phase": "season",
+      "focus": "Selling over the holidays",
+      "you": [
+        "Clips from the shot list at each open house",
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 6: \"Selling over the holidays: what holiday buyers look for\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "post",
+          "Open-house posts on Facebook and WhatsApp"
+        ]
+      ]
+    },
+    {
+      "n": 8,
+      "dates": "Dec 21–27",
+      "start": "2026-12-21",
+      "phase": "season",
+      "focus": "Season's greetings",
+      "note": "A lighter week: short posts only.",
+      "you": [
+        "One holiday voice note",
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "short",
+          "3 shorts"
+        ],
+        [
+          "post",
+          "A year-end thank-you post to your clients and network"
+        ]
+      ]
+    },
+    {
+      "n": 9,
+      "dates": "Dec 28–Jan 3",
+      "start": "2026-12-28",
+      "phase": "season",
+      "focus": "Year in review",
+      "you": [
+        "Look over the weekly preview",
+        "Send your open-house visitor list (names and numbers you collected)"
+      ],
+      "out": [
+        [
+          "short",
+          "3 shorts"
+        ],
+        [
+          "note",
+          "Follow-up messages to open-house visitors, drafted for you"
+        ]
+      ]
+    },
+    {
+      "n": 10,
+      "dates": "Jan 4–10",
+      "start": "2027-01-04",
+      "phase": "season",
+      "focus": "2027 starts here",
+      "you": [
+        "Record Recording 3 and upload it by Jan 6 (about 45 min)",
+        "Text us your December numbers: valuations, mandates, sales (5 min)",
+        "Follow up personally with each holiday contact",
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 7: \"Gqeberha and Port Alfred property in 2027: what I expect\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 3: what the holidays told us about buyers"
+        ]
+      ]
+    },
+    {
+      "n": 11,
+      "dates": "Jan 11–17",
+      "start": "2027-01-11",
+      "phase": "authority",
+      "focus": "Your first market report",
+      "you": [
+        "Look over the weekly preview",
+        "Send one voice note"
+      ],
+      "out": [
+        [
+          "report",
+          "January market report: Gqeberha and Port Alfred, in English and Afrikaans"
+        ],
+        [
+          "video",
+          "Video 8: \"The 2027 municipal valuation: what it means for your rates and your sale price\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 12,
+      "dates": "Jan 18–24",
+      "start": "2027-01-18",
+      "phase": "authority",
+      "focus": "Estate living",
+      "you": [
+        "Look over the weekly preview",
+        "Film a walkthrough of any new listing on your phone"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 9: \"Wedgewood Golf Estate: living there, and what sells\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 4: estate living in Gqeberha, the costs nobody mentions"
+        ]
+      ]
+    },
+    {
+      "n": 13,
+      "dates": "Jan 25–31",
+      "start": "2027-01-25",
+      "phase": "authority",
+      "focus": "Why sales fall through",
+      "you": [
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 10: \"Five things that slow down a sale, and how to avoid them\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 14,
+      "dates": "Feb 1–7",
+      "start": "2027-02-01",
+      "phase": "authority",
+      "focus": "First-time buyers",
+      "you": [
+        "Record Recording 4 and upload it by Feb 3 (about 45 min)",
+        "Text us your January numbers: valuations, mandates, sales (5 min)",
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 11: \"Buying your first home in Gqeberha: bond, costs and transfer\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 5: the costs of buying, line by line"
+        ]
+      ]
+    },
+    {
+      "n": 15,
+      "dates": "Feb 8–14",
+      "start": "2027-02-08",
+      "phase": "authority",
+      "focus": "Pricing it right",
+      "you": [
+        "Look over the weekly preview",
+        "Send one voice note"
+      ],
+      "out": [
+        [
+          "report",
+          "February market report, in English and Afrikaans"
+        ],
+        [
+          "video",
+          "Video 12: \"Sellers: pricing it right the first time\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 16,
+      "dates": "Feb 15–21",
+      "start": "2027-02-15",
+      "phase": "authority",
+      "focus": "In Afrikaans",
+      "you": [
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 13: \"Jou huis verkoop in Gqeberha: wat jy moet weet\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 6: selling a home that's been in the family for years"
+        ]
+      ]
+    },
+    {
+      "n": 17,
+      "dates": "Feb 22–28",
+      "start": "2027-02-22",
+      "phase": "authority",
+      "focus": "The Sunshine Coast",
+      "you": [
+        "Look over the weekly preview",
+        "Film a walkthrough of any new listing on your phone"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 14: \"Bathurst and Port Alfred: country, river and sea\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 18,
+      "dates": "Mar 1–7",
+      "start": "2027-03-01",
+      "phase": "momentum",
+      "focus": "Your first sold story",
+      "you": [
+        "Record Recording 5 and upload it by Mar 3 (about 45 min)",
+        "Text us your February numbers: valuations, mandates, sales (5 min)",
+        "Ask one recent client if they'd share their story",
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 15: a sold story, told with your client"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "setup",
+          "Review request sent after every sale"
+        ]
+      ]
+    },
+    {
+      "n": 19,
+      "dates": "Mar 8–14",
+      "start": "2027-03-08",
+      "phase": "momentum",
+      "focus": "Investors",
+      "you": [
+        "Look over the weekly preview",
+        "Send one voice note"
+      ],
+      "out": [
+        [
+          "report",
+          "March market report, in English and Afrikaans"
+        ],
+        [
+          "video",
+          "Video 16: \"Buying to let in Gqeberha: questions to ask first\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 7: what landlords should check before buying"
+        ]
+      ]
+    },
+    {
+      "n": 20,
+      "dates": "Mar 15–21",
+      "start": "2027-03-15",
+      "phase": "momentum",
+      "focus": "Gqeberha's quieter estates",
+      "you": [
+        "Look over the weekly preview",
+        "Introduce us to two people you refer clients to (bond, conveyancing, moving)"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 17: \"Royalston and Clarendon Marine, walked through\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "note",
+          "Referral partner posts drafted for you"
+        ]
+      ]
+    },
+    {
+      "n": 21,
+      "dates": "Mar 22–28",
+      "start": "2027-03-22",
+      "phase": "momentum",
+      "focus": "Why homes don't sell",
+      "you": [
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 18: \"Why homes don't sell: what I see in the listings\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 8: preparing your home for viewings"
+        ]
+      ]
+    },
+    {
+      "n": 22,
+      "dates": "Mar 29–Apr 4",
+      "start": "2027-03-29",
+      "phase": "momentum",
+      "focus": "In Afrikaans, again",
+      "you": [
+        "Film a walkthrough of any new listing on your phone",
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 19: \"Koop jou eerste huis in Gqeberha\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 23,
+      "dates": "Apr 5–11",
+      "start": "2027-04-05",
+      "phase": "goto",
+      "focus": "Is now a good time to sell?",
+      "you": [
+        "Record Recording 6 and upload it by Apr 7 (about 45 min)",
+        "Text us your March numbers: valuations, mandates, sales (5 min)",
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "report",
+          "April market report, in English and Afrikaans"
+        ],
+        [
+          "video",
+          "Video 20: \"Autumn market: is now a good time to sell?\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 24,
+      "dates": "Apr 12–18",
+      "start": "2027-04-12",
+      "phase": "goto",
+      "focus": "What clients say",
+      "you": [
+        "Look over the weekly preview",
+        "Ask two more clients for a Google review"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 21: a second sold story"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 9: questions to ask any estate agent before you sign"
+        ]
+      ]
+    },
+    {
+      "n": 25,
+      "dates": "Apr 19–25",
+      "start": "2027-04-19",
+      "phase": "goto",
+      "focus": "Ask Morne",
+      "you": [
+        "Look over the weekly preview",
+        "Send one voice note"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 22: \"Ask Morne: your questions answered\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 10: the questions people asked most this year"
+        ]
+      ]
+    },
+    {
+      "n": 26,
+      "dates": "Apr 26–30",
+      "start": "2027-04-26",
+      "phase": "goto",
+      "focus": "Six months on",
+      "you": [
+        "30-minute review call",
+        "Text us your April numbers: valuations, mandates, sales (5 min)"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 23: \"Six months on camera: what changed\""
+        ],
+        [
+          "short",
+          "3 shorts"
+        ],
+        [
+          "report",
+          "Your day-180 report, compared with where you started"
+        ]
+      ]
+    }
+  ],
+  "weeksNote": "Titles are working titles; you approve each one. Every new listing gets a walkthrough in the next open slot, from your phone footage.",
+  "totals": {
+    "videos": 23,
+    "shorts": 97,
+    "articles": 10
+  },
+  "later": [
+    "Whether Mandated allows a website and a Google Business Profile in your name",
+    "Which areas you want to lead with; we suggest Gqeberha and the Sunshine Coast",
+    "Is the Instagram account @morne_koen yours?"
+  ],
+  "calibration": {
+    "due": "Wednesday, November 4",
+    "samplesBy": "Nov 6",
+    "topics": [
+      [
+        "Introduce yourself",
+        "your name, Mandated Property Group, Gqeberha and the Sunshine Coast, and who you help."
+      ],
+      [
+        "From sales to property",
+        "thirty years in sales and marketing, and why you moved into property."
+      ],
+      [
+        "A seller question",
+        "\"What is my house worth?\" and how you answer it."
+      ],
+      [
+        "A buyer tip",
+        "one thing people moving to Port Alfred or Gqeberha should know."
+      ],
+      [
+        "One listing",
+        "a home you have for sale right now and who it suits."
+      ]
+    ]
+  },
+  "launch": {
+    "name": "Holiday open houses",
+    "dates": "Nov 30 – Jan 10",
+    "venue": "event",
+    "title": "Holiday season playbook",
+    "line": "Holiday visitors to Port Alfred and the Sunshine Coast become buyers and sellers you follow up in January.",
+    "before": {
+      "title": "Before the holidays · Nov 23 – Dec 6",
+      "items": [
+        "Videos for people thinking of moving or retiring to the coast, so visitors find you before they arrive.",
+        "Open-house weekends chosen and announced on Facebook, WhatsApp and your website.",
+        "A holiday invitation from you to your contacts, which we draft."
+      ]
+    },
+    "during": {
+      "title": "During the holidays · Dec 7 – Jan 3 · your open-house shot list",
+      "note": "Vertical clips, 10–20 seconds each. Upload the clips after each open house.",
+      "shots": [
+        "A quick hello at the front door before visitors arrive",
+        "The room buyers like most, and why",
+        "The view, the garden or the street at its best",
+        "One question a visitor asked, answered in a sentence",
+        "The town around it: the river, the beach, the shops",
+        "With their permission, a short hello from a visitor or the seller"
+      ]
+    },
+    "after": {
+      "title": "After the holidays · Jan 4 – 10",
+      "items": [
+        "A personal follow-up to every open-house visitor, which we draft.",
+        "Video 7, your 2027 market view, and the first market report the week after.",
+        "You text us the number of visitors, valuations booked and offers."
+      ]
+    }
+  },
+  "guide": {
+    "sit": {
+      "title": "Sit-down recordings",
+      "when": "Your calibration clip and the monthly recordings",
+      "steps": [
+        [
+          "Phone sideways, at eye level",
+          "Set it on a small tripod or a stack of books, not in your hand."
+        ],
+        [
+          "About 1 to 1.2 metres away",
+          "Frame yourself from mid-chest up, centered, with a little space above your head."
+        ],
+        [
+          "Light in front of you",
+          "Face a window or a lamp. Avoid a bright window behind you."
+        ],
+        [
+          "A quiet room",
+          "Turn off fans and music if you can. Outdoors, a clip-on mic makes a big difference."
+        ],
+        [
+          "Look at the lens",
+          "Talk to it like a client across the table. Pause a second before and after each answer; restarts are fine."
+        ]
+      ],
+      "setting": "One-time setting: if your phone offers it, record in 4K at 30 fps (on iPhone: Settings > Camera > Record Video)."
+    },
+    "clips": {
+      "title": "Listing and open-house clips",
+      "when": "Walkthroughs, open houses and anything worth sharing",
+      "steps": [
+        [
+          "Phone upright",
+          "Hold it with both hands, elbows in, and walk slowly."
+        ],
+        [
+          "10 to 20 seconds each",
+          "Several short clips beat one long one: each room, the view, the street."
+        ],
+        [
+          "Open the curtains",
+          "Daylight and lights on make every room look bigger."
+        ],
+        [
+          "Ask first",
+          "Get a quick OK before filming people or anything personal in a seller's home."
+        ]
+      ]
+    },
+    "distanceShort": "1–1.2 m",
+    "distanceLong": "about 1 to 1.2 metres away",
+    "send": "Upload the original from your camera roll through your link. No trimming, filters or captions; we take care of all of that."
+  },
+  "approvals": [
+    [
+      "Every Thursday",
+      "we send you one preview link on WhatsApp, with email as a backup, showing next week's posts: each video, its title and caption, where it goes and when."
+    ],
+    [
+      "By Sunday evening",
+      "mark each one approve, change or skip. A quick comment is enough."
+    ],
+    [
+      "Changes",
+      "small caption fixes we make and confirm with you. A change to a video comes back to you within one business day."
+    ],
+    [
+      "No reply means no post",
+      "we send one friendly reminder and hold anything you haven't approved."
+    ],
+    [
+      "Open-house weekends",
+      "same-day clips come to you on WhatsApp as they're ready. Reply OK or a change and we post within a couple of hours."
+    ],
+    [
+      "Your style is set once",
+      "the sample edits from your calibration clip lock in captions, music and your on-screen name, so weekly reviews are only about what you say."
+    ]
+  ],
+  "afterMonth": "Once you're happy with the quality, we phase in automatic approval. Shorts cut from videos you've already approved go first, then everything else. You'll still get the weekly preview, so you can stop anything before it posts.",
+  "hour": [
+    [
+      "Recording",
+      "~45 min",
+      "We send about 12 questions drawn from your own answers. You record on your phone, in one sitting or a few, and upload through your link. No scripts."
+    ],
+    [
+      "Listing clips and voice notes",
+      "~15 min",
+      "Phone clips of new listings and open houses, and quick voice notes when something happens."
+    ],
+    [
+      "Monthly numbers",
+      "~5 min",
+      "A quick text: valuations, mandates, sales, and where each lead came from."
+    ],
+    [
+      "Weekly approvals",
+      "~10 min a week",
+      "One preview link during the first month; after that, a quick look at what's coming."
+    ]
+  ],
+  "themes": [
+    [
+      "Selling well",
+      "35%",
+      "\"What is my house worth?\" · Pricing it right the first time · Why homes don't sell · The 2027 municipal valuation · Preparing for viewings"
+    ],
+    [
+      "Buying and moving",
+      "30%",
+      "Moving to Port Alfred · Retiring to the Sunshine Coast · Your first home in Gqeberha · Bond and transfer costs · Buying to let"
+    ],
+    [
+      "The places",
+      "20%",
+      "Port Alfred: West Bank, East Bank, West Beach · Bathurst · Wedgewood Golf Estate · Royalston and Clarendon Marine · St Georges Park"
+    ],
+    [
+      "Your story",
+      "15%",
+      "Thirty years in sales and marketing · Why property · Sold stories told with your clients · A week in your work"
+    ]
+  ],
+  "profiles": [
+    [
+      "Website (new)",
+      "Morne Koen | Property in Gqeberha & the Sunshine Coast",
+      "A domain in your name, checked at setup",
+      "Listings, area guides, market reports and a valuation request page"
+    ],
+    [
+      "Facebook page (new)",
+      "Morne Koen – Property, Gqeberha & Sunshine Coast",
+      "–",
+      "Property posts move here; your personal profile stays personal"
+    ],
+    [
+      "Instagram (new professional account)",
+      "Morne Koen | Eastern Cape Property",
+      "A handle in your name, checked at setup",
+      "Same one line, with your WhatsApp number"
+    ],
+    [
+      "YouTube",
+      "Morne Koen | Eastern Cape Property",
+      "@Morne_Koen_Developments (renamed)",
+      "About text updated to Mandated; the empty second channel retired"
+    ],
+    [
+      "LinkedIn",
+      "Morne Koen",
+      "–",
+      "Property Practitioner, Mandated Property Group | Gqeberha & Sunshine Coast | 30 years in sales and marketing"
+    ],
+    [
+      "WhatsApp Business",
+      "Morne Koen, Mandated",
+      "27 82 571 0002",
+      "Listings catalogue and a channel for new listings"
+    ]
+  ],
+  "boundaries": [
+    "These channels are about Eastern Cape property. Dubai investment and agent recruitment stay off them unless you choose otherwise.",
+    "Personal and family posts stay on your personal profile.",
+    "Sold stories only with your client's permission, and no confidential details.",
+    "No prices or valuations stated on camera without your approval.",
+    "You approve every post for the first month, until you're happy with the quality."
+  ],
+  "tools": [
+    [
+      "OneUpAI web",
+      "Your website: listings, area guides, market reports, valuation requests",
+      "Your listings and our articles",
+      "Your own domain"
+    ],
+    [
+      "OneUpShorts",
+      "Captioned shorts, 30–60 seconds, in one consistent style",
+      "Your recordings, voice notes and clips",
+      "Facebook, Instagram, YouTube Shorts, LinkedIn"
+    ],
+    [
+      "OneUpAI editing",
+      "Long-form videos with titles, chapters and captions",
+      "Your recordings and listing footage",
+      "YouTube, Facebook, your website"
+    ],
+    [
+      "OneUpMoments",
+      "30, 60 or 90-second listing and open-house recaps",
+      "Your phone clips and listing photos",
+      "Facebook, Instagram, WhatsApp"
+    ],
+    [
+      "OneUpArticles",
+      "The monthly market report and narrated news briefings",
+      "Market data and property news",
+      "Your website, YouTube, LinkedIn"
+    ],
+    [
+      "OneUpScores",
+      "Background music for each video",
+      "A description of the mood",
+      "Every video"
+    ],
+    [
+      "Publishing (OneUpAI gateway)",
+      "Each approved piece, sized and captioned for its platform",
+      "Your approved edits",
+      "Every channel, on schedule"
+    ]
+  ],
+  "measures": [
+    [
+      "Website in your name",
+      "None",
+      "Live, with a valuation request page"
+    ],
+    [
+      "Videos on your YouTube channel",
+      "3 (1 in the last 12 months)",
+      "26"
+    ],
+    [
+      "Short clips in your voice",
+      "0",
+      "97"
+    ],
+    [
+      "Market reports",
+      "0",
+      "4, in English and Afrikaans"
+    ],
+    [
+      "Instagram",
+      "No confirmed account",
+      "Professional account, posting weekly"
+    ],
+    [
+      "Facebook",
+      "5,132 followers on your personal profile",
+      "Business page, posting weekly; followers reported monthly"
+    ],
+    [
+      "Google search \"Morne Koen\"",
+      "8 of 9 results about you",
+      "Your website first"
+    ],
+    [
+      "Area searches on page 1 (estate agent Gqeberha, Port Alfred; sell my house)",
+      "0 of 6",
+      "Reported monthly"
+    ],
+    [
+      "Google reviews",
+      "None found",
+      "Asked after every sale; reported monthly"
+    ],
+    [
+      "Valuations, mandates and sales",
+      "Your numbers at kickoff",
+      "Reported monthly against your target of 6 sales a month"
+    ]
+  ],
+  "target": {
+    "title": "Your target",
+    "line": "An average of 6 sales a month is your number; this is the pipeline it takes.",
+    "head": [
+      "Each month",
+      "To average 6 sales",
+      "Starting assumption"
+    ],
+    "rows": [
+      [
+        "Sales",
+        "6",
+        "Your target"
+      ],
+      [
+        "New mandates",
+        "About 12",
+        "About half of mandates sell within the six months"
+      ],
+      [
+        "Valuations",
+        "About 24, or 6 a week",
+        "You win about half the valuations you do"
+      ],
+      [
+        "Seller conversations",
+        "About 50",
+        "About half of serious seller inquiries book a valuation"
+      ]
+    ],
+    "note": "These are starting assumptions. In week 1 we replace them with your own numbers from the last 12 months, and every month we report what actually happened at each step."
+  }
+}

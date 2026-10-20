@@ -4,7 +4,7 @@ import { esc } from './html.mjs';
 const NAVY = '#0f2c4a', GOLD = '#b87c0b', GOLDF = '#e8a92e', LINE = '#e4ded4';
 
 // side view: eye level to the lens, 3 to 4 feet apart
-const SVG_SETUP = `<svg viewBox="0 0 360 210" role="img" aria-label="Side view: phone on a small tripod at eye level, about 3 to 4 feet in front of you">
+const svgSetup = dist => `<svg viewBox="0 0 360 210" role="img" aria-label="Side view: phone on a small tripod at eye level, ${esc(dist)} in front of you">
 <rect x="0" y="0" width="360" height="210" rx="14" fill="#f3fafc"/>
 <rect x="236" y="22" width="92" height="40" rx="8" fill="#fff6dc" stroke="${GOLDF}"/>
 <text x="282" y="47" text-anchor="middle" font-size="12" font-weight="700" fill="${GOLD}">Window / lamp</text>
@@ -22,7 +22,7 @@ const SVG_SETUP = `<svg viewBox="0 0 360 210" role="img" aria-label="Side view: 
 <line x1="112" y1="140" x2="256" y2="140" stroke="#5d6878" stroke-width="1.5"/>
 <path d="M112 140 l8 -5 v10 z M256 140 l-8 -5 v10 z" fill="#5d6878"/>
 <rect x="150" y="128" width="68" height="24" rx="12" fill="#fff" stroke="${LINE}"/>
-<text x="184" y="145" text-anchor="middle" font-size="13" font-weight="800" fill="${NAVY}">3–4 ft</text>
+<text x="184" y="145" text-anchor="middle" font-size="13" font-weight="800" fill="${NAVY}">${esc(dist)}</text>
 </svg>`;
 
 // front view: what the phone sees, with the vertical crop used for shorts
@@ -61,7 +61,7 @@ const card = g => `<div class="gcard"><h4>${esc(g.title)}</h4><p class="when">${
 export const guideHtml = plan => {
   const g = plan.guide;
   return '<div class="guide-figs">'
-    + `<figure>${SVG_SETUP}<figcaption>The setup: lens at eye level, light in front of you.</figcaption></figure>`
+    + `<figure>${svgSetup(g.distanceShort || '3–4 ft')}<figcaption>The setup: lens at eye level, light in front of you.</figcaption></figure>`
     + `<figure>${SVG_FRAME}<figcaption>The frame: centered, mid-chest up, a little headroom.</figcaption></figure>`
     + '</div>'
     + `<div class="guide-cards">${card(g.sit)}${card(g.clips)}</div>`

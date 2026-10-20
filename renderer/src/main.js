@@ -24,6 +24,7 @@ const nz = v => (v == null ? 0 : v);
 
 // ---------- data ----------
 const MARINA = DATA.scene === 'marina';
+const DAYS = DATA.planDays || 90; // plan length shown in labels (90 by default; some clients get 180)
 const CATS = DATA.categories.map(c => c.label);
 const LAYOUT = { client: { x: 0, z: -14, w: 14 }, a: { x: -32, z: -8, w: 11 }, b: { x: 32, z: -8, w: 11 }, c: { x: 56, z: 6, w: 10 } };
 // marina: yachts moored side by side, bows lined up toward the promenade; the business's yacht is always the longest
@@ -893,13 +894,13 @@ function brandInfo(b) {
 function kwInfo(k) {
   const own = k.now;
   return { title: k.term, chip: 'Search', color: own ? byId[own]?.color : '#8d96a3', big: k.volume == null ? '–' : k.volume.toLocaleString(), bigLabel: 'Searches per month (Google estimate)',
-    rows: [['Ranks first locally', nameOf(k.owner)], ['Google shows video results', k.video == null ? 'Not checked' : k.video ? 'Yes' : 'No'], ['Owns the video result', k.video ? (k.videoOwner ? nameOf(k.videoOwner) : 'No local business yet') : '–'], ['In the 90-day plan', k.planOwner === 'client' ? 'Targeted' : 'Not a first target'], ...(k.rows || []), ...srcRow(k.evidence)],
+    rows: [['Ranks first locally', nameOf(k.owner)], ['Google shows video results', k.video == null ? 'Not checked' : k.video ? 'Yes' : 'No'], ['Owns the video result', k.video ? (k.videoOwner ? nameOf(k.videoOwner) : 'No local business yet') : '–'], [`In the ${DAYS}-day plan`, k.planOwner === 'client' ? 'Targeted' : 'Not a first target'], ...(k.rows || []), ...srcRow(k.evidence)],
     note: k.note ? k.note : k.video && !k.videoOwner ? 'An open video result: the fastest win for new video.' : 'Search volumes are Google Ads estimates for the area.' };
 }
 function tileInfo(t) {
   if (MAP.checked === false) return { title: 'Google map check', chip: 'Google map, top 3', color: '#8d96a3', rows: [['Status', 'Not checked in this audit']], note: 'The full audit runs a Google Maps search from each spot on this grid.' };
   return { title: t.i === MAP.home[0] && t.j === MAP.home[1] ? 'Business location' : `Map spot ${t.i + 1}-${t.j + 1}`, chip: 'Google map, top 3', color: t.now ? byId[t.now]?.color : '#8d96a3',
-    rows: [['Top 3 here', t.now ? nameOf(t.now) : 'None of the tracked businesses'], [DATA.client.name, t.now === 'client' ? 'Top 3' : 'Not in top 3'], ['After the 90-day plan', t.pro === 'client' ? 'Projected top 3' : 'Unchanged']],
+    rows: [['Top 3 here', t.now ? nameOf(t.now) : 'None of the tracked businesses'], [DATA.client.name, t.now === 'client' ? 'Top 3' : 'Not in top 3'], [`After the ${DAYS}-day plan`, t.pro === 'client' ? 'Projected top 3' : 'Unchanged']],
     note: `Each tile is a Google Maps search for "${MAP.keyword}" from that spot.` };
 }
 function platformInfo(p) {
@@ -926,12 +927,12 @@ function streamInfo(b) {
   const after = plan, vol = BY_SEARCH ? volWon(b.id, after) : null;
   const won = KEYWORDS.filter(k => (after ? k.planOwner : k.owner) === b.id);
   const S = streams.find(x => x.b.id === b.id);
-  return { title: `${b.name}: buyers walking in`, chip: after && b.client ? 'Projected after 90 days' : after ? 'After the client\'s 90-day plan' : 'Today', color: b.color,
+  return { title: `${b.name}: buyers walking in`, chip: after && b.client ? `Projected after ${DAYS} days` : after ? `After the client's ${DAYS}-day plan` : 'Today', color: b.color,
     big: BY_SEARCH ? vol.toLocaleString() : sharePct(b, after) + '%', bigLabel: BY_SEARCH ? 'Monthly searches where they rank first' : 'Share of people walking in',
     rows: [['Searches ranked first', `${won.length} of ${KEYWORDS.length}`], ...won.slice(0, 5).map(k => ['', `${k.term} (${fmt(k.volume)}/mo)`]),
       ...(BY_SEARCH ? [] : [['Presence score', after && b.client ? PM.overall : (b.overall ?? '–')]]),
       ...(after && !b.client && S?.d ? [['Switching to ' + DATA.client.name, S.d]] : [])],
-    note: BY_SEARCH ? 'Each stream is the buyers searching the tracked terms that business ranks first on. The 90-day plan targets the searches with open video results and no clear leader.' : 'An illustration: each stream is that business\'s share of presence among the businesses shown, based on the areas checked. With the plan on, the share the client gains is taken from the competitors.' };
+    note: BY_SEARCH ? 'Each stream is the buyers searching the tracked terms that business ranks first on. The plan targets the searches with open video results and no clear leader.' : 'An illustration: each stream is that business\'s share of presence among the businesses shown, based on the areas checked. With the plan on, the share the client gains is taken from the competitors.' };
 }
 function linkInfo(b) { const d = b.client && plan && CLIENT.proposed ? CLIENT.proposed.domains : b.domains; return { title: `${b.name}: sites linking in`, chip: 'Backlinks', color: b.color, big: fmt(d), bigLabel: 'Referring domains', rows: [['Competitor median', fmt(compMed('domains'))]], note: 'Links from other sites help Google trust a business.' }; }
 function videoInfo(b) { return { title: `${b.name}: video`, chip: 'YouTube', color: b.color, big: b.monthsChecked === false ? '–' : b.months.filter(Boolean).length, bigLabel: 'Months with an upload, last 12', rows: b.videoNote ? [['Finding', b.videoNote]] : b.screen ? [['Most-viewed in searches', b.screen.label], ['Views', b.screen.views]] : [['Video in YouTube searches', 'None found']], note: 'From the YouTube channel and YouTube searches for the tracked terms.' }; }
@@ -1003,12 +1004,12 @@ function openPlatform(p) {
   $('#pwin').innerHTML = `
     <button class="pclose" aria-label="Close">×</button>
     <div class="phead"><i style="background:${p.color}"></i><div><h2>${esc(p.name)}</h2><div class="pusers">${p.users ? fmtUsers(p.users) + ' ' + esc(p.usersLabel || 'monthly users') : esc(p.usersLabel || '')}</div></div></div>
-    <div class="prow"><span>${esc(DATA.client.name)}${plan ? ' (after 90 days)' : ''}</span><b class="st-${st}">${PSTATUS[st]}</b></div>
+    <div class="prow"><span>${esc(DATA.client.name)}${plan ? ` (after ${DAYS} days)` : ''}</span><b class="st-${st}">${PSTATUS[st]}</b></div>
     <div class="prow"><span>Competitors active</span><b>${p.comps.length ? p.comps.map(c => esc(nameOf(c))).join(', ') : 'None found'}</b></div>
     <div class="prow"><span>Fit for this business</span><b>${esc(p.fit)}</b></div>
     ${searches.length ? `<h3>What buyers search or ask</h3><div class="pchips">${chips(searches, 'search')}</div>` : ''}
     ${formats.length ? `<h3>Content that works here</h3><div class="pchips">${chips(formats, '')}</div>` : ''}
-    <h3>In the 90-day plan</h3><p class="pfix">${esc(p.fix)}</p>
+    <h3>In the ${DAYS}-day plan</h3><p class="pfix">${esc(p.fix)}</p>
     <p class="pnote">${esc(p.note)}</p>`;
   $('#pwin .pclose').onclick = closePlatform;
   document.body.classList.add('pwin-open');
@@ -1032,7 +1033,7 @@ function planSummary() {
     ['Named in AI answers', `${DATA.ai.clientNamed} of ${DATA.ai.total}`, DATA.ai.projectedNamed != null ? `${DATA.ai.projectedNamed} of ${DATA.ai.total}` : null],
     [MARINA ? 'Lit portholes (video months)' : 'Glowing floors (video months)', CLIENT.months.filter(Boolean).length, PM.months.filter(Boolean).length],
   ].filter(r => r[1] != null && r[2] != null && String(r[1]) !== String(r[2]));
-  $('#planToast').innerHTML = `<button class="pclose" aria-label="Close">×</button><div class="tk">What changes in 90 days (projected)</div>` +
+  $('#planToast').innerHTML = `<button class="pclose" aria-label="Close">×</button><div class="tk">What changes in ${DAYS} days (projected)</div>` +
     rows.map(([k, a, b]) => `<div class="trow"><span>${esc(k)}</span><b><s>${esc(a)}</s> → ${esc(b)}</b></div>`).join('') +
     (COMPS.some(b => crowd(b, true) < crowd(b, false)) ? `<div class="tnote">Watch the gold paths: people leave ${esc(passed())} and walk over to ${esc(DATA.client.name)}, turning gold.</div>` : `<div class="tnote">The stream to ${esc(DATA.client.name)} grows as the plan's pages and videos go live.</div>`);
   $('#planToast .pclose').onclick = () => document.body.classList.remove('toast-on');
@@ -1163,6 +1164,7 @@ function setPlan(on) {
   const nav = $('#dots');
   STOPS.forEach((s, i) => { const b = document.createElement('button'); b.className = 'dot'; b.innerHTML = `<span>${String(i + 1)}</span>${esc(s.label)}`; b.onclick = () => go(i); nav.appendChild(b); });
   $('#prev').onclick = () => go(cur - 1); $('#next').onclick = () => go(cur + 1);
+  $('#planLbl').textContent = DATA.labels.planOff;
   $('#plan').onclick = () => setPlan(!plan);
   addEventListener('keydown', e => { if (e.key === 'ArrowRight') go(cur + 1); if (e.key === 'ArrowLeft') go(cur - 1); if (e.key.toLowerCase() === 'p') setPlan(!plan); if (e.key === 'Escape') { closeDrawer(); closePlatform(); } });
   controls.addEventListener('start', () => { fly = null; flyQueue = []; controls.autoRotate = false; });

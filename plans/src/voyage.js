@@ -1,5 +1,5 @@
-// A client's 90-day plan as a voyage: one buoy per week, the client's yacht sails the course from the
-// start marina, past the launch event, to the day-90 lighthouse. Built by plans/build.mjs; every word
+// A client's plan (90 days by default) as a voyage: one buoy per week, the client's yacht sails the course from the
+// start marina, past the launch event, to the last-day lighthouse. Built by plans/build.mjs; every word
 // and date comes from the plan data embedded in the page (see plans/README.md).
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -50,11 +50,11 @@ const scene = new THREE.Scene();
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 const HAZE = '#dcf2f7';
-scene.fog = new THREE.Fog(HAZE, 420, 1500);
+scene.fog = new THREE.Fog(HAZE, 420, 1500); // stretched for long courses once the course is laid out
 const camera = new THREE.PerspectiveCamera(40, 1, 0.5, 4000);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true; controls.dampingFactor = 0.08;
-controls.maxPolarAngle = 1.42; controls.minDistance = 22; controls.maxDistance = 900;
+controls.maxPolarAngle = 1.42; controls.minDistance = 22; controls.maxDistance = 900; // raised for long courses below
 
 function tex(w, h, draw) {
   const c = document.createElement('canvas'); c.width = w; c.height = h;
@@ -102,8 +102,14 @@ const COAST_Z = -92;
 const START = new V3(-500, 0, -52); // just off the start marina
 // a gentle zigzag offshore; the launch week's buoy sits close to shore, in front of the event
 const ZIGZAG = [-6, 20, 4, 8, 2, 28, 12, -6, 18, 34, 14, 28, 16];
-const BUOYS = WEEKS.map((w, i) => new V3(-410 + i * 70, 0, i === LAUNCH_IDX ? -34 : ZIGZAG[i % ZIGZAG.length]));
+// buoys 70 apart for a 13-week plan; longer plans pack them a little tighter so the course stays one coastline
+const STEP = WEEKS.length <= 13 ? 70 : Math.max(48, Math.round(910 / (WEEKS.length - 1)));
+const BUOYS = WEEKS.map((w, i) => new V3(-410 + i * STEP, 0, i === LAUNCH_IDX ? -34 : ZIGZAG[i % ZIGZAG.length]));
 const ISLE = new V3(BUOYS[BUOYS.length - 1].x + 124, 0, 6);
+// the course's middle and its size against the 13-week course (1 = 13 weeks), for the overview, fog and coastline
+const CX = (START.x + ISLE.x) / 2, K = (ISLE.x + 60 - (START.x - 60)) / 1160;
+const X0 = START.x - 800, X1 = ISLE.x + 800;
+controls.maxDistance = 900 * Math.max(1, K);
 const curve = new THREE.CatmullRomCurve3([START, ...BUOYS, new V3(ISLE.x - 64, 0, ISLE.z + 14)], false, 'centripetal', 0.5);
 const CL = curve.getLength();
 const SAMPLES = 2400, samp = curve.getSpacedPoints(SAMPLES);
@@ -115,9 +121,9 @@ const waterU = { time: { value: 0 } };
 {
   const m = new THREE.ShaderMaterial({
     toneMapped: false,
-    uniforms: { ...waterU, shallow: { value: new THREE.Color('#a7ece3') }, mid: { value: new THREE.Color('#47c4d1') }, deep: { value: new THREE.Color('#1c93bd') }, haze: { value: new THREE.Color(HAZE) }, isle: { value: new THREE.Vector2(ISLE.x, ISLE.z) } },
+    uniforms: { ...waterU, hk: { value: Math.max(1, K) }, shallow: { value: new THREE.Color('#a7ece3') }, mid: { value: new THREE.Color('#47c4d1') }, deep: { value: new THREE.Color('#1c93bd') }, haze: { value: new THREE.Color(HAZE) }, isle: { value: new THREE.Vector2(ISLE.x, ISLE.z) } },
     vertexShader: 'varying vec3 vW; void main(){ vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }',
-    fragmentShader: `uniform float time; uniform vec3 shallow, mid, deep, haze; uniform vec2 isle; varying vec3 vW;
+    fragmentShader: `uniform float time, hk; uniform vec3 shallow, mid, deep, haze; uniform vec2 isle; varying vec3 vW;
       void main(){
         float d = vW.z - (${COAST_Z.toFixed(1)});
         float di = length(vW.xz - isle) - 44.0;
@@ -128,7 +134,7 @@ const waterU = { time: { value: 0 } };
         c += n * 0.02;
         c += pow(max(0.0, n - 1.2) / 0.8, 3.0) * 0.4;
         float dist = length(vW - cameraPosition);
-        c = mix(c, haze, smoothstep(420.0, 1600.0, dist));
+        c = mix(c, haze, smoothstep(420.0 * hk, 1600.0 * hk, dist));
         gl_FragColor = vec4(c, 1.0);
         #include <colorspace_fragment>
       }`,
@@ -146,15 +152,17 @@ const wood = new THREE.MeshStandardMaterial({ color: '#c3a47f', roughness: 0.85 
 const sandMat = new THREE.MeshStandardMaterial({ color: '#f1e3c2', roughness: 0.95 });
 const grassMat = new THREE.MeshStandardMaterial({ color: '#a7cf8e', roughness: 0.95 });
 {
-  const sand = new THREE.Mesh(new THREE.BoxGeometry(3600, 1.6, 18), sandMat); sand.position.set(0, -0.2, COAST_Z - 9); sand.receiveShadow = true; scene.add(sand);
-  const grass = new THREE.Mesh(new THREE.BoxGeometry(3600, 2, 900), grassMat); grass.position.set(0, 0, COAST_Z - 18 - 450); grass.receiveShadow = true; scene.add(grass);
-  const road = new THREE.Mesh(new THREE.BoxGeometry(3600, 0.1, 9), new THREE.MeshStandardMaterial({ color: '#d9d3c7', roughness: 0.9 })); road.position.set(0, 1.05, COAST_Z - 30); scene.add(road);
+  scene.fog.near = 420 * Math.max(1, K); scene.fog.far = 1500 * Math.max(1, K);
+  const CW = X1 - X0 + 1000;
+  const sand = new THREE.Mesh(new THREE.BoxGeometry(CW, 1.6, 18), sandMat); sand.position.set(CX, -0.2, COAST_Z - 9); sand.receiveShadow = true; scene.add(sand);
+  const grass = new THREE.Mesh(new THREE.BoxGeometry(CW, 2, 900), grassMat); grass.position.set(CX, 0, COAST_Z - 18 - 450); grass.receiveShadow = true; scene.add(grass);
+  const road = new THREE.Mesh(new THREE.BoxGeometry(CW, 0.1, 9), new THREE.MeshStandardMaterial({ color: '#d9d3c7', roughness: 0.9 })); road.position.set(CX, 1.05, COAST_Z - 30); scene.add(road);
 }
 // palms
 {
   const crownPts = []; for (let i = 0; i <= 8; i++) { const t = i / 8; crownPts.push(new THREE.Vector2(0.05 + t * 4.2, 0.6 * Math.sin(t * Math.PI) - t * t * 1.4)); }
   const pts = [];
-  for (let x = -1300; x <= 1300; x += 11 + rnd() * 8) pts.push([x + (rnd() - 0.5) * 4, COAST_Z - 12 - rnd() * 6]);
+  for (let x = X0; x <= X1; x += 11 + rnd() * 8) pts.push([x + (rnd() - 0.5) * 4, COAST_Z - 12 - rnd() * 6]);
   for (let a = 0; a < Math.PI * 2; a += 0.35 + rnd() * 0.2) pts.push([ISLE.x + Math.cos(a) * 30, ISLE.z + Math.sin(a) * 24]);
   const pc = new THREE.InstancedMesh(new THREE.LatheGeometry(crownPts, 9), new THREE.MeshStandardMaterial({ color: '#5fa05a', roughness: 0.8, side: THREE.DoubleSide, flatShading: true }), pts.length);
   const pt = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.22, 0.38, 9, 7).translate(0, 4.5, 0), new THREE.MeshStandardMaterial({ color: '#c9b394', roughness: 0.9 }), pts.length);
@@ -176,12 +184,12 @@ const grassMat = new THREE.MeshStandardMaterial({ color: '#a7cf8e', roughness: 0
   const topT = new THREE.MeshStandardMaterial({ color: '#f4f1ea', roughness: 0.7 });
   const side = new THREE.MeshStandardMaterial({ map: band.t, roughness: 0.45, metalness: 0.05 });
   const geo = new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0);
-  const n = lowPower ? 150 : 260;
+  const n = Math.round((lowPower ? 150 : 260) * Math.max(1, K));
   const bm = new THREE.InstancedMesh(geo, [side, side, topT, topT, side, side], n);
   const m4 = new THREE.Matrix4(), q = new THREE.Quaternion();
   const fx = BUOYS[LAUNCH_IDX].x;
   for (let i = 0; i < n; i++) {
-    const x = -1300 + rnd() * 2600, z = COAST_Z - 70 - rnd() * 280;
+    const x = X0 + rnd() * (X1 - X0), z = COAST_Z - 70 - rnd() * 280;
     const k = Math.exp(-((x - fx) ** 2) / (2 * 150 ** 2)), k2 = Math.exp(-((x - START.x) ** 2) / (2 * 120 ** 2));
     const h = 6 + rnd() * 10 + k * (24 + rnd() * 60) + k2 * rnd() * 16;
     const w = 10 + rnd() * 16, d = 10 + rnd() * 14;
@@ -374,7 +382,7 @@ let lamp;
   const keeper = new THREE.Mesh(new THREE.BoxGeometry(9, 4.5, 7).translate(0, 2.25, 0), white); keeper.position.set(lx - 11, 1.4, lz + 4); keeper.castShadow = true; scene.add(keeper);
   const kr = new THREE.Mesh(new THREE.ConeGeometry(6.6, 3, 4).rotateY(Math.PI / 4), new THREE.MeshStandardMaterial({ color: '#1f3550', roughness: 0.6 })); kr.scale.set(1, 1, 0.8); kr.position.set(lx - 11, 7.4, lz + 4); scene.add(kr);
   const dock = new THREE.Mesh(new THREE.BoxGeometry(26, 0.6, 4), wood); dock.position.set(ISLE.x - 50, 0.3, ISLE.z + 8); dock.receiveShadow = true; scene.add(dock);
-  const lb = label('Day 90', PLAN.endShort, PLAN.phases[PLAN.phases.length - 1].color, 44); lb.position.set(lx, H + 18, lz); scene.add(lb);
+  const lb = label(`Day ${PLAN.days || 90}`, PLAN.endShort, PLAN.phases[PLAN.phases.length - 1].color, 44); lb.position.set(lx, H + 18, lz); scene.add(lb);
 }
 
 // ---------- the course: dotted line, buoys, numbers ----------
@@ -435,7 +443,7 @@ PLAN.phases.forEach(p => {
 // ---------- a few boats passing offshore ----------
 const passers = [];
 [[16, '#9aa8b8', 190, 7], [13, '#4a7fe0', 300, -5], [18, '#c9a26a', 420, 6]].forEach(([L, c, z, v], i) => {
-  const y = makeYacht(L, c, false); y.position.set(-900 + i * 600, 0, z); y.rotation.y = v > 0 ? Math.PI / 2 : -Math.PI / 2; scene.add(y); passers.push({ y, v });
+  const y = makeYacht(L, c, false); y.position.set(CX - 900 + i * 600, 0, z); y.rotation.y = v > 0 ? Math.PI / 2 : -Math.PI / 2; scene.add(y); passers.push({ y, v });
 });
 
 // ---------- camera framing: keep the yacht centered in the open part of the screen ----------
@@ -490,7 +498,7 @@ function flyTo(dur = 1.8) { fly = { t0: performance.now(), dur: dur * 1000, pos:
 let sel = todayIdx, prevSel = -1, playing = false, playTimer = 0;
 const chips = $('#chips');
 chips.innerHTML = WEEKS.map((w, i) => `<button class="wk" data-i="${i}" style="--pc:${PH[w.phase].color}" aria-label="Week ${w.n}, ${esc(w.dates)}">${w.n}</button>`).join('');
-const isRec = t => { t = t.toLowerCase(); return t.startsWith('record ') || t.startsWith('phone clips') || t.includes('calibration clip'); };
+const isRec = t => { t = t.toLowerCase(); return t.startsWith('record ') || t.startsWith('phone clips') || t.startsWith('clips from the shot list') || t.startsWith('film a walkthrough'); };
 const check = (it, kind) => `<li><label class="ck"><input type="checkbox" data-id="${esc(it.id)}"${state[it.id] ? ' checked' : ''}><span class="box" aria-hidden="true"></span><span class="t">${esc(it.text)}</span>${isRec(it.text) ? '<button type="button" class="howto" data-guide>How to record</button>' : ''}${kind ? `<em class="kind k-${esc(kind)}">${KIND[kind] || esc(kind)}</em>` : ''}</label></li>`;
 function renderPanel() {
   const w = WEEKS[sel], p = PH[w.phase];
@@ -572,8 +580,8 @@ const hashWeek = /^#week-(\d+)$/.exec(location.hash);
 if (hashWeek) sel = Math.max(0, Math.min(WEEKS.length - 1, +hashWeek[1] - 1));
 resize();
 // open on the whole voyage, then sail from the marina to the selected week
-camera.position.set(40, isPhone() ? 1050 : 640, isPhone() ? 560 : 500);
-controls.target.set(isPhone() ? 20 : 40, 0, -30);
+const overviewAt = () => { camera.position.set(CX + 20, (isPhone() ? 1050 : 640) * K, (isPhone() ? 560 : 500) * K); controls.target.set(CX + (isPhone() ? 0 : 20), 0, -30); };
+overviewAt();
 u = 0; placeYacht(0, 1); lastPos.copy(hero.position);
 paintDots(0);
 renderPanel(); targetU = 0;
@@ -614,7 +622,7 @@ function frame() {
   const rp = (t * 0.8) % 1; ring.scale.setScalar(1 + rp * 0.9); ring.material.opacity = 0.9 * (1 - rp);
   eventFlags.forEach((f, i) => { f.rotation.y = Math.sin(t * 2.4 + i) * 0.35; });
   if (lamp) lamp.material.opacity = 0.75 + Math.sin(t * 2) * 0.25;
-  passers.forEach(p => { p.y.position.x += p.v * dt; if (p.y.position.x > 1100) p.y.position.x = -1100; if (p.y.position.x < -1100) p.y.position.x = 1100; p.y.position.y = Math.sin(t + p.y.position.z) * 0.15; });
+  passers.forEach(p => { p.y.position.x += p.v * dt; if (p.y.position.x > X1) p.y.position.x = X0; if (p.y.position.x < X0) p.y.position.x = X1; p.y.position.y = Math.sin(t + p.y.position.z) * 0.15; });
   if (hero.userData.flag) hero.userData.flag.rotation.y = Math.PI / 2 + Math.sin(t * 3) * 0.12;
   controls.update();
   renderer.render(scene, camera);
@@ -624,5 +632,5 @@ requestAnimationFrame(frame);
 window.__voyage = {
   select,
   jump(i) { select(i); u = targetU; fly = null; following = true; placeYacht(clock.elapsedTime, 1); const tg = hero.position.clone().setY(3).add(tgtOff()); controls.target.copy(tg); camera.position.copy(tg).add(followOff()); lastPos.copy(hero.position); },
-  overview() { fly = null; following = false; camera.position.set(40, isPhone() ? 1050 : 640, isPhone() ? 560 : 500); controls.target.set(isPhone() ? 20 : 40, 0, -30); },
+  overview() { fly = null; following = false; overviewAt(); },
 };
