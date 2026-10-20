@@ -1,0 +1,703 @@
+{
+  "slug": "jace-kizzier",
+  "client": "Jace Kizzier",
+  "brand": "Jace Yachting",
+  "market": "yacht",
+  "start": "2026-10-05",
+  "end": "2027-01-03",
+  "prepared": "October 5, 2026",
+  "baselineDate": "Sep 29",
+  "preparedBy": {
+    "name": "Nick Zarzycki",
+    "company": "OneUpAI",
+    "email": "nz@oneupai.com"
+  },
+  "logo": "logo.png",
+  "storeKey": "jk-90day-plan-v1",
+  "goal": "you become the South Florida yacht broker people find on YouTube, Instagram, Facebook and LinkedIn when they search your name, the yachts you sell and the questions buyers ask. FLIBS is the launch.",
+  "oneLine": "Yacht broker with Denison Yachting in Palm Beach and Fort Lauderdale. 26 years in yachting, co-founder of Paragon Motor Yachts. Helps clients buy and sell yachts of 70–160 feet.",
+  "thisWeek": 4,
+  "phases": [
+    {
+      "id": "setup",
+      "name": "Set up",
+      "dates": "Oct 5 – Oct 27",
+      "color": "#4a7fe0",
+      "line": "Profiles and channel, your calibration clip, the DIRT POOR walkthrough and the FLIBS invitation."
+    },
+    {
+      "id": "flibs",
+      "name": "FLIBS",
+      "dates": "Oct 28 – Nov 1",
+      "color": "#e8a92e",
+      "line": "Same-day shorts, a daily LinkedIn post, DIRT POOR on show and buyer meetings.",
+      "launch": true
+    },
+    {
+      "id": "follow",
+      "name": "Follow-up",
+      "dates": "Nov 2 – Nov 29",
+      "color": "#2fa58d",
+      "line": "Show recap and leads, Recording 2, and buying, selling and new-build videos."
+    },
+    {
+      "id": "rhythm",
+      "name": "Steady rhythm",
+      "dates": "Nov 30 – Jan 3",
+      "color": "#8d69d8",
+      "line": "Recording 3, ownership and negotiation, your story, the year-end view and your day-90 report."
+    }
+  ],
+  "weeks": [
+    {
+      "n": 1,
+      "dates": "Oct 5–11",
+      "start": "2026-10-05",
+      "phase": "setup",
+      "focus": "Profiles, YouTube channel and access",
+      "you": [
+        "Record your 5–10 minute calibration clip and upload it by Oct 7",
+        "Approve the YouTube channel name, \"Jace Kizzier | Jace Yachting\"",
+        "Give us access to set up your YouTube channel and post to your LinkedIn",
+        "Upload your headshots, logo files and any yacht footage",
+        "20-minute call to walk through your dashboard and sample edits (Oct 9)"
+      ],
+      "out": [
+        [
+          "setup",
+          "Names and bios updated"
+        ],
+        [
+          "setup",
+          "Your link page: latest videos and a \"text Jace\" button"
+        ],
+        [
+          "short",
+          "2 shorts from existing DIRT POOR footage"
+        ],
+        [
+          "setup",
+          "Sample edits from your calibration clip, by Oct 9"
+        ]
+      ]
+    },
+    {
+      "n": 2,
+      "dates": "Oct 12–18",
+      "start": "2026-10-12",
+      "phase": "setup",
+      "focus": "Introducing you",
+      "you": [
+        "Record Recording 1 and upload it by Oct 14 (about 45 min)",
+        "Approve next week's posts from the preview link (about 10 min)"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 1: \"From a 25-foot sailboat to Paragon: 26 years in yachting\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 1: why a pre-listing survey protects the sale"
+        ]
+      ]
+    },
+    {
+      "n": 3,
+      "dates": "Oct 19–25",
+      "start": "2026-10-19",
+      "phase": "setup",
+      "focus": "DIRT POOR and the FLIBS invitation",
+      "you": [
+        "Approve next week's posts from the preview link (about 10 min)",
+        "Send one voice note",
+        "Send the FLIBS invite to your contacts (we draft it)"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 2: DIRT POOR, 118' Trinity walkthrough with you"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 2: getting the most from a boat show as a buyer"
+        ],
+        [
+          "note",
+          "FLIBS invite drafted for you to send"
+        ]
+      ]
+    },
+    {
+      "n": 4,
+      "dates": "Oct 26–Nov 1",
+      "start": "2026-10-26",
+      "phase": "flibs",
+      "focus": "FLIBS",
+      "note": "Fort Lauderdale International Boat Show, Oct 28 – Nov 1. DIRT POOR is on display.",
+      "you": [
+        "Phone clips from the shot list, each show day",
+        "A one-minute voice note each evening",
+        "Approve same-day clips by text"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 3 (Oct 26): \"What I'll be looking at at FLIBS 2026\""
+        ],
+        [
+          "short",
+          "A same-day short each show day (5)"
+        ],
+        [
+          "post",
+          "A daily LinkedIn post"
+        ]
+      ]
+    },
+    {
+      "n": 5,
+      "dates": "Nov 2–8",
+      "start": "2026-11-02",
+      "phase": "follow",
+      "focus": "Show recap and follow-up",
+      "you": [
+        "Voice note: what buyers asked most",
+        "Text us the number of show leads",
+        "Follow up personally with each lead within a week",
+        "Send the follow-up note (we draft it)",
+        "Approve next week's posts from the preview link (about 10 min)",
+        "Text your October numbers (5 min)"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 4: FLIBS recap"
+        ],
+        [
+          "short",
+          "3 shorts: \"what buyers asked me at FLIBS\""
+        ],
+        [
+          "note",
+          "Follow-up note drafted for you to send"
+        ]
+      ]
+    },
+    {
+      "n": 6,
+      "dates": "Nov 9–15",
+      "start": "2026-11-09",
+      "phase": "follow",
+      "focus": "Buying smart",
+      "you": [
+        "Record Recording 2 and upload it by Nov 10 (about 45 min)",
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 5: \"Buying a yacht today: more choice, more leverage\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 3: what FLIBS showed buyers"
+        ]
+      ]
+    },
+    {
+      "n": 7,
+      "dates": "Nov 16–22",
+      "start": "2026-11-16",
+      "phase": "follow",
+      "focus": "Selling well",
+      "you": [
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 6: \"Before you list your yacht: the pre-listing survey\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 8,
+      "dates": "Nov 23–29",
+      "start": "2026-11-23",
+      "phase": "follow",
+      "focus": "The builder's eye",
+      "you": [
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 7: \"Production or custom: what to know before a new build\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 4: the ownership costs first-time buyers underestimate"
+        ]
+      ]
+    },
+    {
+      "n": 9,
+      "dates": "Nov 30–Dec 6",
+      "start": "2026-11-30",
+      "phase": "rhythm",
+      "focus": "Ownership",
+      "you": [
+        "Look over the weekly preview",
+        "Send one voice note",
+        "Text your November numbers (5 min)"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 8: \"What makes a yacht age well, and sell well\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 5: maintenance and resale value"
+        ]
+      ]
+    },
+    {
+      "n": 10,
+      "dates": "Dec 7–13",
+      "start": "2026-12-07",
+      "phase": "rhythm",
+      "focus": "Negotiation",
+      "you": [
+        "Record Recording 3 and upload it by Dec 8 (about 45 min)",
+        "A look at recent sales activity beforehand",
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 9: \"What will the seller actually accept?\""
+        ],
+        [
+          "short",
+          "4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 11,
+      "dates": "Dec 14–20",
+      "start": "2026-12-14",
+      "phase": "rhythm",
+      "focus": "Your story",
+      "you": [
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 10: \"The deal no one thought would close\" (no client details)"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "post",
+          "LinkedIn: a year-end thank-you to your network"
+        ]
+      ]
+    },
+    {
+      "n": 12,
+      "dates": "Dec 21–27",
+      "start": "2026-12-21",
+      "phase": "rhythm",
+      "focus": "Year-end market view",
+      "you": [
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 11: \"Buying and selling heading into 2027\""
+        ],
+        [
+          "short",
+          "2 shorts"
+        ],
+        [
+          "article",
+          "Article 6: year-end market notes"
+        ]
+      ]
+    },
+    {
+      "n": 13,
+      "dates": "Dec 28–Jan 3",
+      "start": "2026-12-28",
+      "phase": "rhythm",
+      "focus": "90-day review",
+      "you": [
+        "15-minute review call",
+        "Text your December numbers (5 min)"
+      ],
+      "out": [
+        [
+          "short",
+          "2 shorts"
+        ],
+        [
+          "report",
+          "Your day-90 report, compared with where you started"
+        ]
+      ]
+    }
+  ],
+  "weeksNote": "Titles are working titles; you approve each one. Any new listing you take on gets a walkthrough or listing video in the next open slot.",
+  "later": [
+    "Which other yachts you'd like to feature at FLIBS (mid-October is fine)",
+    "Is the Instagram handle @jaceyachting (no dot) yours?",
+    "Whether Denison allows you your own Google Business Profile"
+  ],
+  "calibration": {
+    "due": "Wednesday, October 7",
+    "samplesBy": "Oct 9",
+    "topics": [
+      [
+        "Introduce yourself",
+        "your name, Denison Yachting, Palm Beach and Fort Lauderdale, and who you help."
+      ],
+      [
+        "How you got into yachting",
+        "the 25-foot sailboat, living aboard with your dog, and how it led to Paragon."
+      ],
+      [
+        "A buyer question",
+        "\"What will the seller actually accept?\""
+      ],
+      [
+        "A seller tip",
+        "why you recommend a full pre-listing survey."
+      ],
+      [
+        "DIRT POOR",
+        "why she's worth seeing at FLIBS."
+      ]
+    ]
+  },
+  "launch": {
+    "name": "FLIBS",
+    "dates": "Oct 28 – Nov 1",
+    "venue": "boat-show",
+    "title": "FLIBS playbook",
+    "line": "Buyer meetings booked before the show, every lead followed up within a week after it.",
+    "before": {
+      "title": "Before the show · Oct 5–27",
+      "items": [
+        "A DIRT POOR walkthrough on your YouTube channel, built from your footage and listing photos, with your intro from the calibration clip.",
+        "Shorts counting down to the show: DIRT POOR details, and what you look for on a show dock.",
+        "On Oct 21, a personal email and text from you to your contacts, which we draft: \"I'll be at FLIBS. Text me at 949-292-4583 to see DIRT POOR or anything else at the show.\" The same invitation goes out on YouTube and LinkedIn.",
+        "Video 3, your FLIBS preview, goes out Oct 26, once you've picked the other yachts to feature."
+      ]
+    },
+    "during": {
+      "title": "During the show · Oct 28 – Nov 1 · your phone shot list",
+      "note": "Vertical clips, 10–20 seconds each. Each evening, upload the clips and a one-minute voice note.",
+      "shots": [
+        "A quick hello each morning, with the docks behind you",
+        "Aboard DIRT POOR: one feature you'd point out to a buyer",
+        "One construction or finish detail a day, shown at its best",
+        "One quick market take: what buyers are asking, what's drawing a crowd",
+        "A lifestyle moment: the docks at golden hour, a tender run, the crowd",
+        "With their permission, a short hello with a builder or fellow broker"
+      ]
+    },
+    "after": {
+      "title": "After the show · Nov 2–8",
+      "items": [
+        "Video 4, the FLIBS recap, plus 3 shorts on what buyers asked most.",
+        "A personal follow-up note from you to the people you met, which we draft.",
+        "You text us the number of show leads and follow up personally with each one within a week."
+      ]
+    }
+  },
+  "guide": {
+    "sit": {
+      "title": "Sit-down recordings",
+      "when": "Your calibration clip and the monthly recordings",
+      "steps": [
+        [
+          "Phone sideways, at eye level",
+          "Set it on a small tripod or a stack of books, not in your hand."
+        ],
+        [
+          "About 3 to 4 feet away",
+          "Frame yourself from mid-chest up, centered, with a little space above your head."
+        ],
+        [
+          "Light in front of you",
+          "Face a window or a lamp. Avoid a bright window behind you."
+        ],
+        [
+          "A quiet room",
+          "Turn off fans and music if you can. Outdoors, a clip-on mic makes a big difference."
+        ],
+        [
+          "Look at the lens",
+          "Talk to it like a client across the table. Pause a second before and after each answer; restarts are fine."
+        ]
+      ],
+      "setting": "One-time setting: if your phone offers it, record in 4K at 30 fps (on iPhone: Settings > Camera > Record Video)."
+    },
+    "clips": {
+      "title": "Show and dock clips",
+      "when": "FLIBS, listings and anything worth sharing",
+      "steps": [
+        [
+          "Phone upright",
+          "Hold it with both hands, elbows in, and keep it steady."
+        ],
+        [
+          "10 to 20 seconds each",
+          "Get close to what you're showing; several short clips beat one long one."
+        ],
+        [
+          "Back to the wind",
+          "When you talk on camera outside, it keeps your voice clear."
+        ],
+        [
+          "Ask first",
+          "Get a quick OK before filming other people or the inside of a client's yacht."
+        ]
+      ]
+    },
+    "send": "Upload the original from your camera roll through your link. No trimming, filters or captions; we take care of all of that."
+  },
+  "approvals": [
+    [
+      "Every Thursday",
+      "we text you one preview link, with email as a backup, showing the next week's posts: each video, its title and caption, where it goes and when."
+    ],
+    [
+      "By Sunday evening",
+      "mark each one approve, change or skip. A quick comment is enough."
+    ],
+    [
+      "Changes",
+      "small caption fixes we make and confirm with you. A change to a video comes back to you within one business day."
+    ],
+    [
+      "No reply means no post",
+      "we send one friendly reminder and hold anything you haven't approved."
+    ],
+    [
+      "FLIBS week",
+      "same-day clips come to you by text as they're ready. Reply OK or a change and we post within a couple of hours; anything not approved by 8 pm waits until the next day."
+    ],
+    [
+      "Your style is set once",
+      "the sample edits from your calibration clip lock in captions, music and your on-screen name, so weekly reviews are only about what you say."
+    ]
+  ],
+  "afterMonth": "Once you're happy with the quality, we phase in automatic approval. Shorts cut from videos you've already approved go first, then everything else. You'll still get the weekly preview, so you can stop anything before it posts.",
+  "hour": [
+    [
+      "Recording",
+      "~45 min",
+      "We send about 12 questions drawn from your own answers. You record your answers on your phone, in one sitting or a few, and upload them through your link. No scripts."
+    ],
+    [
+      "Voice notes and clips",
+      "~10 min",
+      "Quick notes or phone clips when something happens: a new listing, a showing, a closing, something heard on the docks."
+    ],
+    [
+      "Monthly numbers",
+      "~5 min",
+      "A quick text: inquiries, buyer consultations and listing appointments, and where each came from."
+    ],
+    [
+      "Weekly approvals",
+      "~10 min a week",
+      "One preview link during the first month; after that, a quick look at what's coming."
+    ]
+  ],
+  "themes": [
+    [
+      "Buying smart",
+      "35%",
+      "\"What will the seller actually accept?\" · The ownership costs first-time buyers underestimate · More choice and leverage for buyers than in the COVID years · How negotiations run, including survey allowances · Why the best feature depends on how you'll use the yacht"
+    ],
+    [
+      "Selling well",
+      "25%",
+      "Why you recommend a full pre-listing survey, mechanical included · The pricing mistake of starting too high · Why good yachts sometimes don't sell · What makes you confident a yacht will sell · What an excellent listing broker does"
+    ],
+    [
+      "The builder's eye",
+      "20%",
+      "Quality behind the panels: materials, workmanship, wiring · Production vs custom before a new build · What building Paragon taught you about yard costs · The upgrades that matter: engines first, then electronics · What makes a yacht age well · New-build trends: bigger windows, more upright bows"
+    ],
+    [
+      "Your story and the life",
+      "20%",
+      "A 25-foot sailboat after college, two years aboard with your dog · Twins, moving ashore, finding the business side · Offshore Yachts, then Paragon with Scott Robinson · The international deal colleagues thought wouldn't close · Boat shows, the docks, South Florida"
+    ]
+  ],
+  "profiles": [
+    [
+      "YouTube (new)",
+      "Jace Kizzier | Jace Yachting",
+      "@jace.yachting if available",
+      "Yacht broker with Denison Yachting, Palm Beach and Fort Lauderdale. Buying, selling and owning yachts, from 26 years in the industry and building Paragon Motor Yachts."
+    ],
+    [
+      "Instagram",
+      "Jace Kizzier | Yacht Broker",
+      "@jace.yachting",
+      "Yacht broker, Denison Yachting · Palm Beach & Fort Lauderdale · 26 years in yachting · Co-founder, Paragon Motor Yachts · 949-292-4583"
+    ],
+    [
+      "Facebook page",
+      "Jace Yachting – Jace Kizzier, Yacht Broker",
+      "–",
+      "Same as Instagram. Posts go to the page and are shared to your personal profile."
+    ],
+    [
+      "LinkedIn",
+      "Jace Kizzier",
+      "–",
+      "Yacht Broker, Denison Yachting | Buyer and seller representation, 70–160 ft | Co-founder, Paragon Motor Yachts | Palm Beach & Fort Lauderdale"
+    ]
+  ],
+  "boundaries": [
+    "Your construction background informs your brokerage advice; we never present refit or project management as a service.",
+    "No politics, and nothing critical of other brokers, brokerages or builders.",
+    "Opinions come with your reasoning, because very little in yachting is black and white.",
+    "Nothing goes out on topics you haven't spoken to, such as price brackets or brand value, unless you choose to cover them.",
+    "Sold stories only with your client's permission, and no confidential details.",
+    "You approve every post for the first month, until you're happy with the quality."
+  ],
+  "tools": [
+    [
+      "OneUpShorts",
+      "Captioned shorts, 30–60 seconds, in one consistent caption style",
+      "Your recorded answers, voice notes and show clips",
+      "YouTube Shorts and LinkedIn; Instagram once added"
+    ],
+    [
+      "OneUpAI editing",
+      "Long-form videos with titles, chapters and captions; listing walkthroughs with your intro",
+      "Your recordings, footage and listing photos",
+      "YouTube, LinkedIn"
+    ],
+    [
+      "OneUpMoments",
+      "30, 60 or 90-second recaps",
+      "Your FLIBS photos and clips",
+      "YouTube, LinkedIn"
+    ],
+    [
+      "OneUpScores",
+      "Instrumental background music for each video",
+      "A description of the mood",
+      "Every video"
+    ],
+    [
+      "OneUpArticles",
+      "Narrated, captioned news briefings, 30 seconds to 2 minutes",
+      "Links to yachting news articles",
+      "YouTube, LinkedIn, when a week needs extra content"
+    ],
+    [
+      "LinkedIn articles",
+      "Articles written from your recorded answers, in your words",
+      "Your recordings",
+      "LinkedIn"
+    ],
+    [
+      "Publishing (OneUpAI gateway)",
+      "Each approved piece, sized and captioned for its platform",
+      "Your approved edits",
+      "YouTube, LinkedIn, on schedule"
+    ]
+  ],
+  "measures": [
+    [
+      "Long-form videos on your own YouTube channel",
+      "0 (no channel yet)",
+      "11"
+    ],
+    [
+      "Short clips in your voice",
+      "0",
+      "46"
+    ],
+    [
+      "LinkedIn articles in your words",
+      "0",
+      "6"
+    ],
+    [
+      "Personal notes to your contacts (FLIBS invite and follow-up)",
+      "–",
+      "2"
+    ],
+    [
+      "YouTube search \"Jace Kizzier\"",
+      "No channel",
+      "Your channel comes up first"
+    ],
+    [
+      "Instagram search \"Jace Kizzier\"",
+      "No result",
+      "@jace.yachting comes up, once Instagram is added"
+    ],
+    [
+      "Facebook and LinkedIn search \"Jace Kizzier yacht broker\"",
+      "–",
+      "Your page and profile come up first"
+    ],
+    [
+      "Followers: Instagram · Facebook page · LinkedIn · YouTube",
+      "428 · 308 · 510+ · 0",
+      "Reported monthly"
+    ],
+    [
+      "Inquiries, buyer consultations, listing appointments",
+      "–",
+      "Reported monthly, by where they came from"
+    ]
+  ],
+  "totals": {
+    "videos": 11,
+    "shorts": 46,
+    "articles": 6
+  }
+}

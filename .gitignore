@@ -42,3 +42,6 @@ yarn-error.log*
 next-env.d.ts
 .test-out/
 .data/
+
+# client plan pages (plans/build.mjs)
+/plans/out/

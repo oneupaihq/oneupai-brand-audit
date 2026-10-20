@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "tsx scripts/test-engine.ts"
+    "test": "tsx scripts/test-engine.ts",
+    "plans": "node plans/build.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",

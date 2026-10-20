@@ -1,0 +1,604 @@
+{
+  "slug": "TODO-client-slug (must match this folder name)",
+  "client": "TODO: Client Name",
+  "brand": "TODO: Brand Name",
+  "market": "TODO: yacht | real-estate | landscaping | other",
+  "start": "TODO: YYYY-MM-DD (week 1 Monday)",
+  "end": "TODO: YYYY-MM-DD (day 90)",
+  "prepared": "TODO: Month D, YYYY",
+  "baselineDate": "TODO: Mon D (the audit date)",
+  "preparedBy": {
+    "name": "Nick Zarzycki",
+    "company": "OneUpAI",
+    "email": "nz@oneupai.com"
+  },
+  "logo": "logo.png",
+  "goal": "TODO: you become the [market] [role] people find on YouTube, Instagram, Facebook and LinkedIn when they search your name, what you sell and the questions buyers ask. [Event] is the launch.",
+  "oneLine": "TODO: the one-line bio used on every profile",
+  "thisWeek": 4,
+  "phases": [
+    {
+      "id": "setup",
+      "name": "Set up",
+      "dates": "TODO",
+      "color": "#4a7fe0",
+      "line": "TODO: what happens in weeks 1 to 3"
+    },
+    {
+      "id": "launch",
+      "name": "TODO: event name",
+      "dates": "TODO",
+      "color": "#e8a92e",
+      "line": "TODO: what happens during the event",
+      "launch": true
+    },
+    {
+      "id": "follow",
+      "name": "Follow-up",
+      "dates": "TODO",
+      "color": "#2fa58d",
+      "line": "TODO: what happens in weeks 5 to 8"
+    },
+    {
+      "id": "rhythm",
+      "name": "Steady rhythm",
+      "dates": "TODO",
+      "color": "#8d69d8",
+      "line": "TODO: what happens in weeks 9 to 13"
+    }
+  ],
+  "weeks": [
+    {
+      "n": 1,
+      "dates": "TODO: Mon D–D",
+      "start": "TODO: YYYY-MM-DD (a Monday, 7 days after the week before)",
+      "phase": "setup",
+      "focus": "TODO: one line for the week",
+      "you": [
+        "Record your 5–10 minute calibration clip and upload it by TODO date",
+        "Approve the YouTube channel name, \"TODO\"",
+        "Give us access to set up your YouTube channel and post to your LinkedIn",
+        "Upload your headshots, logo files and any footage",
+        "20-minute call to walk through your dashboard and sample edits (TODO date)"
+      ],
+      "out": [
+        [
+          "setup",
+          "Names and bios updated"
+        ],
+        [
+          "setup",
+          "Your link page: latest videos and a contact button"
+        ],
+        [
+          "setup",
+          "Sample edits from your calibration clip, by TODO date"
+        ]
+      ]
+    },
+    {
+      "n": 2,
+      "dates": "TODO: Mon D–D",
+      "start": "TODO: YYYY-MM-DD (a Monday, 7 days after the week before)",
+      "phase": "setup",
+      "focus": "TODO: one line for the week",
+      "you": [
+        "TODO: what the client does this week"
+      ],
+      "out": [
+        [
+          "video",
+          "TODO: Video n: working title"
+        ],
+        [
+          "short",
+          "TODO: 4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 3,
+      "dates": "TODO: Mon D–D",
+      "start": "TODO: YYYY-MM-DD (a Monday, 7 days after the week before)",
+      "phase": "setup",
+      "focus": "TODO: one line for the week",
+      "you": [
+        "TODO: what the client does this week"
+      ],
+      "out": [
+        [
+          "video",
+          "TODO: Video n: working title"
+        ],
+        [
+          "short",
+          "TODO: 4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 4,
+      "dates": "TODO: Mon D–D",
+      "start": "TODO: YYYY-MM-DD (a Monday, 7 days after the week before)",
+      "phase": "launch",
+      "focus": "TODO: one line for the week",
+      "you": [
+        "TODO: what the client does this week"
+      ],
+      "out": [
+        [
+          "video",
+          "TODO: Video n: working title"
+        ],
+        [
+          "short",
+          "TODO: 4 shorts"
+        ]
+      ],
+      "note": "TODO: the event, its dates and why it matters"
+    },
+    {
+      "n": 5,
+      "dates": "TODO: Mon D–D",
+      "start": "TODO: YYYY-MM-DD (a Monday, 7 days after the week before)",
+      "phase": "follow",
+      "focus": "TODO: one line for the week",
+      "you": [
+        "TODO: what the client does this week"
+      ],
+      "out": [
+        [
+          "video",
+          "TODO: Video n: working title"
+        ],
+        [
+          "short",
+          "TODO: 4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 6,
+      "dates": "TODO: Mon D–D",
+      "start": "TODO: YYYY-MM-DD (a Monday, 7 days after the week before)",
+      "phase": "follow",
+      "focus": "TODO: one line for the week",
+      "you": [
+        "TODO: what the client does this week"
+      ],
+      "out": [
+        [
+          "video",
+          "TODO: Video n: working title"
+        ],
+        [
+          "short",
+          "TODO: 4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 7,
+      "dates": "TODO: Mon D–D",
+      "start": "TODO: YYYY-MM-DD (a Monday, 7 days after the week before)",
+      "phase": "follow",
+      "focus": "TODO: one line for the week",
+      "you": [
+        "TODO: what the client does this week"
+      ],
+      "out": [
+        [
+          "video",
+          "TODO: Video n: working title"
+        ],
+        [
+          "short",
+          "TODO: 4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 8,
+      "dates": "TODO: Mon D–D",
+      "start": "TODO: YYYY-MM-DD (a Monday, 7 days after the week before)",
+      "phase": "follow",
+      "focus": "TODO: one line for the week",
+      "you": [
+        "TODO: what the client does this week"
+      ],
+      "out": [
+        [
+          "video",
+          "TODO: Video n: working title"
+        ],
+        [
+          "short",
+          "TODO: 4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 9,
+      "dates": "TODO: Mon D–D",
+      "start": "TODO: YYYY-MM-DD (a Monday, 7 days after the week before)",
+      "phase": "rhythm",
+      "focus": "TODO: one line for the week",
+      "you": [
+        "TODO: what the client does this week"
+      ],
+      "out": [
+        [
+          "video",
+          "TODO: Video n: working title"
+        ],
+        [
+          "short",
+          "TODO: 4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 10,
+      "dates": "TODO: Mon D–D",
+      "start": "TODO: YYYY-MM-DD (a Monday, 7 days after the week before)",
+      "phase": "rhythm",
+      "focus": "TODO: one line for the week",
+      "you": [
+        "TODO: what the client does this week"
+      ],
+      "out": [
+        [
+          "video",
+          "TODO: Video n: working title"
+        ],
+        [
+          "short",
+          "TODO: 4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 11,
+      "dates": "TODO: Mon D–D",
+      "start": "TODO: YYYY-MM-DD (a Monday, 7 days after the week before)",
+      "phase": "rhythm",
+      "focus": "TODO: one line for the week",
+      "you": [
+        "TODO: what the client does this week"
+      ],
+      "out": [
+        [
+          "video",
+          "TODO: Video n: working title"
+        ],
+        [
+          "short",
+          "TODO: 4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 12,
+      "dates": "TODO: Mon D–D",
+      "start": "TODO: YYYY-MM-DD (a Monday, 7 days after the week before)",
+      "phase": "rhythm",
+      "focus": "TODO: one line for the week",
+      "you": [
+        "TODO: what the client does this week"
+      ],
+      "out": [
+        [
+          "video",
+          "TODO: Video n: working title"
+        ],
+        [
+          "short",
+          "TODO: 4 shorts"
+        ]
+      ]
+    },
+    {
+      "n": 13,
+      "dates": "TODO: Mon D–D",
+      "start": "TODO: YYYY-MM-DD (a Monday, 7 days after the week before)",
+      "phase": "rhythm",
+      "focus": "TODO: one line for the week",
+      "you": [
+        "15-minute review call",
+        "Text your monthly numbers (5 min)"
+      ],
+      "out": [
+        [
+          "short",
+          "2 shorts"
+        ],
+        [
+          "report",
+          "Your day-90 report, compared with where you started"
+        ]
+      ]
+    }
+  ],
+  "weeksNote": "Titles are working titles; you approve each one.",
+  "later": [
+    "TODO: small open questions the client can answer whenever"
+  ],
+  "calibration": {
+    "due": "TODO: Weekday, Month D",
+    "samplesBy": "TODO: Mon D",
+    "topics": [
+      [
+        "Introduce yourself",
+        "TODO: name, company, area and who you help"
+      ],
+      [
+        "How you got started",
+        "TODO: from the questionnaire"
+      ],
+      [
+        "A buyer question",
+        "TODO: from the questionnaire"
+      ],
+      [
+        "A seller tip",
+        "TODO: from the questionnaire"
+      ],
+      [
+        "TODO: the event or a featured listing",
+        "TODO: why it is worth seeing"
+      ]
+    ]
+  },
+  "launch": {
+    "name": "TODO: short event name, shown in 3D",
+    "dates": "TODO: Mon D – Mon D",
+    "venue": "TODO: boat-show | event",
+    "title": "TODO: Event playbook",
+    "line": "TODO: the result we want from the event",
+    "before": {
+      "title": "Before the event · TODO dates",
+      "items": [
+        "TODO: what we publish and send before the event"
+      ]
+    },
+    "during": {
+      "title": "During the event · TODO dates · your phone shot list",
+      "note": "Vertical clips, 10–20 seconds each. Each evening, upload the clips and a one-minute voice note.",
+      "shots": [
+        "TODO: shot 1",
+        "TODO: shot 2",
+        "TODO: shot 3"
+      ]
+    },
+    "after": {
+      "title": "After the event · TODO dates",
+      "items": [
+        "TODO: recap video, follow-up note, leads"
+      ]
+    }
+  },
+  "guide": {
+    "sit": {
+      "title": "Sit-down recordings",
+      "when": "Your calibration clip and the monthly recordings",
+      "steps": [
+        [
+          "Phone sideways, at eye level",
+          "Set it on a small tripod or a stack of books, not in your hand."
+        ],
+        [
+          "About 3 to 4 feet away",
+          "Frame yourself from mid-chest up, centered, with a little space above your head."
+        ],
+        [
+          "Light in front of you",
+          "Face a window or a lamp. Avoid a bright window behind you."
+        ],
+        [
+          "A quiet room",
+          "Turn off fans and music if you can. Outdoors, a clip-on mic makes a big difference."
+        ],
+        [
+          "Look at the lens",
+          "Talk to it like a client across the table. Pause a second before and after each answer; restarts are fine."
+        ]
+      ],
+      "setting": "One-time setting: if your phone offers it, record in 4K at 30 fps (on iPhone: Settings > Camera > Record Video)."
+    },
+    "clips": {
+      "title": "Event and on-location clips",
+      "when": "TODO: the event, listings and anything worth sharing",
+      "steps": [
+        [
+          "Phone upright",
+          "Hold it with both hands, elbows in, and keep it steady."
+        ],
+        [
+          "10 to 20 seconds each",
+          "Get close to what you're showing; several short clips beat one long one."
+        ],
+        [
+          "Back to the wind",
+          "When you talk on camera outside, it keeps your voice clear."
+        ],
+        [
+          "Ask first",
+          "Get a quick OK before filming other people or someone's home, boat or business."
+        ]
+      ]
+    },
+    "send": "Upload the original from your camera roll through your link. No trimming, filters or captions; we take care of all of that."
+  },
+  "approvals": [
+    [
+      "Every Thursday",
+      "we text you one preview link, with email as a backup, showing the next week's posts: each video, its title and caption, where it goes and when."
+    ],
+    [
+      "By Sunday evening",
+      "mark each one approve, change or skip. A quick comment is enough."
+    ],
+    [
+      "Changes",
+      "small caption fixes we make and confirm with you. A change to a video comes back to you within one business day."
+    ],
+    [
+      "No reply means no post",
+      "we send one friendly reminder and hold anything you haven't approved."
+    ],
+    [
+      "Your style is set once",
+      "the sample edits from your calibration clip lock in captions, music and your on-screen name, so weekly reviews are only about what you say."
+    ],
+    [
+      "Event week",
+      "same-day clips come to you by text as they're ready. Reply OK or a change and we post within a couple of hours; anything not approved by 8 pm waits until the next day."
+    ]
+  ],
+  "afterMonth": "Once you're happy with the quality, we phase in automatic approval. Shorts cut from videos you've already approved go first, then everything else. You'll still get the weekly preview, so you can stop anything before it posts.",
+  "hour": [
+    [
+      "Recording",
+      "~45 min",
+      "We send about 12 questions drawn from your own answers. You record your answers on your phone, in one sitting or a few, and upload them through your link. No scripts."
+    ],
+    [
+      "Voice notes and clips",
+      "~10 min",
+      "Quick notes or phone clips when something happens: a new listing, a showing, a closing, something heard on the docks."
+    ],
+    [
+      "Monthly numbers",
+      "~5 min",
+      "A quick text: inquiries, buyer consultations and listing appointments, and where each came from."
+    ],
+    [
+      "Weekly approvals",
+      "~10 min a week",
+      "One preview link during the first month; after that, a quick look at what's coming."
+    ]
+  ],
+  "themes": [
+    [
+      "TODO: theme",
+      "35%",
+      "TODO: topics from the questionnaire"
+    ],
+    [
+      "TODO: theme",
+      "25%",
+      "TODO: topics"
+    ],
+    [
+      "TODO: theme",
+      "20%",
+      "TODO: topics"
+    ],
+    [
+      "TODO: theme",
+      "20%",
+      "TODO: topics"
+    ]
+  ],
+  "profiles": [
+    [
+      "YouTube (new)",
+      "TODO: name shown",
+      "TODO: @handle",
+      "TODO: bio"
+    ],
+    [
+      "Instagram",
+      "TODO: ",
+      "TODO: ",
+      "TODO: "
+    ],
+    [
+      "Facebook page",
+      "TODO: ",
+      "TODO: ",
+      "TODO: "
+    ],
+    [
+      "LinkedIn",
+      "TODO: ",
+      "TODO: ",
+      "TODO: "
+    ]
+  ],
+  "boundaries": [
+    "TODO: topics and claims to avoid, from the questionnaire",
+    "You approve every post for the first month, until you're happy with the quality."
+  ],
+  "tools": [
+    [
+      "OneUpShorts",
+      "Captioned shorts, 30–60 seconds, in one consistent caption style",
+      "Your recorded answers, voice notes and show clips",
+      "YouTube Shorts and LinkedIn; Instagram once added"
+    ],
+    [
+      "OneUpAI editing",
+      "Long-form videos with titles, chapters and captions; listing walkthroughs with your intro",
+      "Your recordings, footage and listing photos",
+      "YouTube, LinkedIn"
+    ],
+    [
+      "OneUpMoments",
+      "30, 60 or 90-second recaps",
+      "Your event photos and clips",
+      "YouTube, LinkedIn"
+    ],
+    [
+      "OneUpScores",
+      "Instrumental background music for each video",
+      "A description of the mood",
+      "Every video"
+    ],
+    [
+      "OneUpArticles",
+      "Narrated, captioned news briefings, 30 seconds to 2 minutes",
+      "Links to news articles in your market",
+      "YouTube, LinkedIn, when a week needs extra content"
+    ],
+    [
+      "LinkedIn articles",
+      "Articles written from your recorded answers, in your words",
+      "Your recordings",
+      "LinkedIn"
+    ],
+    [
+      "Publishing (OneUpAI gateway)",
+      "Each approved piece, sized and captioned for its platform",
+      "Your approved edits",
+      "YouTube, LinkedIn, on schedule"
+    ]
+  ],
+  "measures": [
+    [
+      "Long-form videos on your own YouTube channel",
+      "TODO: today",
+      "TODO"
+    ],
+    [
+      "Short clips in your voice",
+      "TODO: today",
+      "TODO"
+    ],
+    [
+      "YouTube search \"TODO client name\"",
+      "TODO: today",
+      "Your channel comes up first"
+    ],
+    [
+      "Followers: Instagram · Facebook page · LinkedIn · YouTube",
+      "TODO: from the audit",
+      "Reported monthly"
+    ],
+    [
+      "Inquiries, consultations, appointments",
+      "–",
+      "Reported monthly, by where they came from"
+    ]
+  ]
+}
