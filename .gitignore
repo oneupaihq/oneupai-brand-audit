@@ -45,3 +45,6 @@ next-env.d.ts
 
 # client plan pages (plans/build.mjs)
 /plans/out/
+
+# built client audits (audits/clients/*/build.py)
+/audits/out/
