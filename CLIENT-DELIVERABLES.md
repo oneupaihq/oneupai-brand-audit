@@ -81,6 +81,7 @@ Planning defaults from the reference clients:
   - Automatic approval phases in after the first month, starting with shorts cut from already-approved videos.
 - **Launch moment:** one event the market already watches. FLIBS for yacht brokers; the holiday season and open houses for coastal estate agents.
 - **Client's time:** about an hour a month, plus about 10 minutes a week for approvals.
+- **Clients who won't film:** recording becomes optional. The week-1 calibration clip becomes a starter pack of five written or voice-note answers, and each month's recording becomes about 12 answers in writing or by voice note, or guides they already have. Videos are narrated (a voice they choose, on-screen text, graphics, licensed footage) and the narrator never speaks as the client. Set `copy` and the `calibration` extras in `plan.json`, as in `plans/clients/pearce-placements/`.
 
 ## Step 5: Plan document (Claude Docs)
 

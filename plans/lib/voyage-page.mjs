@@ -17,6 +17,7 @@ const sceneData = p => ({
   client: p.client, days: p.days, start: p.start, startShort: p.startShort, endShort: p.endShort, storeKey: p.storeKey,
   phases: p.phases, weeks: p.weeks, launchPhase: p.launchPhase,
   launch: { name: p.launch.name, dates: p.launch.dates, venue: p.launch.venue, shots: p.launch.during.shots, shotsNote: p.launch.during.note || '' },
+  copy: { howto: p.copy.howto, shotsTitle: p.copy.shotsTitle, shotsHowto: p.copy.shotsHowto },
 });
 
 export function voyagePage(plan, oneupLogoUri, bundle) {
@@ -35,7 +36,7 @@ export function voyagePage(plan, oneupLogoUri, bundle) {
     <h1>${esc(plan.client)}</h1>
     <p>${esc(plan.range)} · ${plan.weeks.length} weeks, one buoy each</p>
     <div class="legend">${legend}</div>
-    <div class="hint">Tap a buoy or a week number. Drag to look around. <button type="button" class="howto" data-guide>How to record</button></div></div>
+    <div class="hint">Tap a buoy or a week number. Drag to look around. <button type="button" class="howto" data-guide>${esc(plan.copy.howto)}</button></div></div>
   </div>
 </div>
 <div id="prog" class="glass">
@@ -54,8 +55,8 @@ export function voyagePage(plan, oneupLogoUri, bundle) {
   <button id="play" type="button">${ICON.play}<span>Play voyage</span></button>
 </div></div>
 <div id="guide" hidden role="dialog" aria-modal="true" aria-labelledby="gtitle"><div class="gbox">
-  <div class="ghead"><h2 id="gtitle">How to record</h2><button type="button" id="gclose" aria-label="Close">&times;</button></div>
-  <p class="gline">A simple setup that makes every video look and sound its best.</p>
+  <div class="ghead"><h2 id="gtitle">${esc(plan.copy.guideTitle)}</h2><button type="button" id="gclose" aria-label="Close">&times;</button></div>
+  <p class="gline">${esc(plan.copy.guideLine)}</p>
   ${guideHtml(plan)}
 </div></div>
 <div id="fallback"><div><h2>Your ${plan.days}-day plan</h2><p>This 3D view needs WebGL, which this browser has turned off. Everything is in the checklist view.</p><p><a class="btn" href="${plan.checklistUrl}">Open the checklist</a></p></div></div>

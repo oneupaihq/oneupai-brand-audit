@@ -498,8 +498,9 @@ function flyTo(dur = 1.8) { fly = { t0: performance.now(), dur: dur * 1000, pos:
 let sel = todayIdx, prevSel = -1, playing = false, playTimer = 0;
 const chips = $('#chips');
 chips.innerHTML = WEEKS.map((w, i) => `<button class="wk" data-i="${i}" style="--pc:${PH[w.phase].color}" aria-label="Week ${w.n}, ${esc(w.dates)}">${w.n}</button>`).join('');
-const isRec = t => { t = t.toLowerCase(); return t.startsWith('record ') || t.startsWith('phone clips') || t.startsWith('clips from the shot list') || t.startsWith('film a walkthrough'); };
-const check = (it, kind) => `<li><label class="ck"><input type="checkbox" data-id="${esc(it.id)}"${state[it.id] ? ' checked' : ''}><span class="box" aria-hidden="true"></span><span class="t">${esc(it.text)}</span>${isRec(it.text) ? '<button type="button" class="howto" data-guide>How to record</button>' : ''}${kind ? `<em class="kind k-${esc(kind)}">${KIND[kind] || esc(kind)}</em>` : ''}</label></li>`;
+const HOWTO = esc(PLAN.copy?.howto || 'How to record');
+const isRec = t => { t = t.toLowerCase().replace(/^optional: /, ''); return t.startsWith('record ') || t.startsWith('phone clips') || t.startsWith('clips from the shot list') || t.startsWith('film a walkthrough'); };
+const check = (it, kind) => `<li><label class="ck"><input type="checkbox" data-id="${esc(it.id)}"${state[it.id] ? ' checked' : ''}><span class="box" aria-hidden="true"></span><span class="t">${esc(it.text)}</span>${isRec(it.text) ? `<button type="button" class="howto" data-guide>${HOWTO}</button>` : ''}${kind ? `<em class="kind k-${esc(kind)}">${KIND[kind] || esc(kind)}</em>` : ''}</label></li>`;
 function renderPanel() {
   const w = WEEKS[sel], p = PH[w.phase];
   $('#pbody').innerHTML = `
@@ -509,7 +510,7 @@ function renderPanel() {
     <div class="wprog"><div class="bar"><i id="wbar"></i></div><span id="wtxt"></span></div>
     <h3>Your part</h3><ul class="checks">${w.you.map(it => check(it)).join('')}</ul>
     <h3>What goes out</h3><ul class="checks">${w.out.map(it => check(it, it.kind)).join('')}</ul>
-    ${sel === LAUNCH_IDX ? `<h3>Your shot list</h3><p class="sub">${esc(PLAN.launch.shotsNote)} <button type="button" class="howto" data-guide>How to record</button></p><ul class="checks">${SHOTS.map(it => check(it)).join('')}</ul>` : ''}`;
+    ${sel === LAUNCH_IDX ? `<h3>${esc(PLAN.copy?.shotsTitle || 'Your shot list')}</h3><p class="sub">${esc(PLAN.launch.shotsNote)}${PLAN.copy?.shotsHowto === false ? '' : ` <button type="button" class="howto" data-guide>${HOWTO}</button>`}</p><ul class="checks">${SHOTS.map(it => check(it)).join('')}</ul>` : ''}`;
   $('#pbody').querySelectorAll('input[data-id]').forEach(b => b.addEventListener('change', () => {
     if (b.checked) state[b.dataset.id] = true; else delete state[b.dataset.id];
     save(); refreshProgress();

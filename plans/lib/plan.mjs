@@ -11,6 +11,14 @@ const longDate = iso => new Date(iso + 'T00:00:00Z').toLocaleDateString('en-US',
 const shortDate = iso => new Date(iso + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 
 // how many shorts an item stands for: "4 shorts", "A same-day short each show day (5)", else 1
+// page wording that differs for clients who don't film themselves; each key can be set in plan.json "copy"
+const COPY = {
+  kpiVideos: 'long-form videos on your own YouTube channel', kpiShorts: 'short clips in your voice', kpiTimeN: '~1 hr', kpiTime: 'of your time a month, plus quick approvals',
+  glanceTime: 'about an hour a month of your time', guideTitle: 'How to record', guideLine: 'A simple setup that makes every video look and sound its best.', howto: 'How to record',
+  hourTitle: 'Your hour a month', hourLine: 'Your part is talking, not producing.', themesTitle: "What we'll talk about", toolsLine: 'You record; we edit and publish.',
+  shotsTitle: 'Your shot list', shotsHowto: true,
+};
+
 const shortCount = text => { const m = /^(\d+)\b/.exec(text) || /\((\d+)\)/.exec(text); return m ? +m[1] : 1; };
 
 export function loadPlan(dir) {
@@ -70,7 +78,7 @@ export function loadPlan(dir) {
 
   const shots = raw.launch.during.shots.map((text, i) => ({ id: `shot${i + 1}`, text }));
   return {
-    ...raw, days, weeks, totals,
+    ...raw, days, weeks, totals, copy: { ...COPY, ...(raw.copy || {}) },
     launch: { ...raw.launch, during: { ...raw.launch.during, shots } },
     launchPhase: launchPhases[0].id,
     storeKey: raw.storeKey || `${raw.slug}-${days}day-plan-v1`,
@@ -85,4 +93,4 @@ export function loadPlan(dir) {
 }
 
 // the pages offer "How to record" next to these items
-export const isRecording = text => { const t = text.toLowerCase(); return t.startsWith('record ') || t.startsWith('phone clips') || t.startsWith('clips from the shot list') || t.startsWith('film a walkthrough'); };
+export const isRecording = text => { const t = text.toLowerCase().replace(/^optional: /, ''); return t.startsWith('record ') || t.startsWith('phone clips') || t.startsWith('clips from the shot list') || t.startsWith('film a walkthrough'); };

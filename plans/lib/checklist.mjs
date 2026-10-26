@@ -7,8 +7,9 @@ import { isRecording } from './plan.mjs';
 const asset = f => fs.readFileSync(new URL(`../assets/${f}`, import.meta.url), 'utf8');
 const ICON_3D = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c3 2 6 2 9 0s6-2 9 0"/><path d="M5 13l2-6h10l2 6"/><path d="M12 3v4"/></svg>';
 
+let HOWTO = 'How to record';
 const check = (id, text, extra = '') => {
-  if (isRecording(text)) extra = '<a class="howto" href="#how-to-record">How to record</a>' + extra;
+  if (isRecording(text)) extra = `<a class="howto" href="#how-to-record">${esc(HOWTO)}</a>` + extra;
   return `<li><label class="ck"><input type="checkbox" data-id="${esc(id)}"><span class="box" aria-hidden="true"></span><span class="t">${esc(text)}</span>${extra}</label></li>`;
 };
 const section = (n, title, line, body, id) => `<section id="${id}"><div class="sh"><span class="sn">${n}</span><h2>${esc(title)}</h2></div><p class="line">${esc(line)}</p>${body}</section>`;
@@ -16,9 +17,10 @@ const soft = items => `<ul class="soft">${items.map(x => `<li>${esc(x)}</li>`).j
 
 export function checklistPage(plan, oneupLogoUri) {
   const PH = Object.fromEntries(plan.phases.map(p => [p.id, p]));
-  const t = plan.totals, L = plan.launch, by = plan.preparedBy;
+  const t = plan.totals, L = plan.launch, by = plan.preparedBy, C = plan.copy;
+  HOWTO = C.howto;
 
-  const glance = `<div class="kpis">${[[t.videos, 'long-form videos on your own YouTube channel'], [t.shorts, 'short clips in your voice'], [t.articles, plan.articlesLabel || 'LinkedIn articles in your words'], ['~1 hr', 'of your time a month, plus quick approvals']]
+  const glance = `<div class="kpis">${[[t.videos, C.kpiVideos], [t.shorts, C.kpiShorts], [t.articles, plan.articlesLabel || 'LinkedIn articles in your words'], [C.kpiTimeN, C.kpiTime]]
     .map(([n, l]) => `<div class="kpi pos"><div class="kn">${esc(n)}</div><div class="kl">${esc(l)}</div></div>`).join('')}</div>`
     + `<div class="phases">${plan.phases.map(p => `<div class="phase${p.launch ? ' hot' : ''}" style="--pc:${p.color}"><b>${esc(p.name)}</b><span class="pd">${esc(p.dates)}</span><span>${esc(p.line)}</span></div>`).join('')}</div>`
     + '<div class="prog"><div class="pt"><b>Your progress</b><span id="progTxt">0 of 0 checked</span></div><div class="pbar"><i id="progBar"></i></div></div>'
@@ -28,9 +30,10 @@ export function checklistPage(plan, oneupLogoUri) {
   const thisWeek = `<ul class="checks">${w1.you.slice(0, plan.thisWeek).map(i => check(i.id, i.text)).join('')}</ul>`
     + (plan.later?.length ? `<p class="sub">Whenever you're ready, no rush:</p>${soft(plan.later)}` : '');
 
-  const calibration = `<p>Before your first full recording, we'd like one short clip of you talking. We use it to set up your edits: caption style, pacing, framing for vertical video, music and your on-screen name. You'll get sample edits to react to by ${esc(plan.calibration.samplesBy)}, so every video after looks and sounds the way you want.</p>`
-    + `<ol class="topics">${plan.calibration.topics.map(([a, b]) => `<li><b>${esc(a)}:</b> ${esc(b)}</li>`).join('')}</ol>`
-    + `<p class="gsend"><b>Setting up:</b> phone sideways at eye level, ${esc(plan.guide.distanceLong || 'about 3 to 4 feet away')}, light in front of you. <a href="#how-to-record">See How to record</a> for the details.</p>`;
+  const K = plan.calibration;
+  const calibration = `<p>${esc(K.intro || `Before your first full recording, we'd like one short clip of you talking. We use it to set up your edits: caption style, pacing, framing for vertical video, music and your on-screen name. You'll get sample edits to react to by ${K.samplesBy}, so every video after looks and sounds the way you want.`)}</p>`
+    + `<ol class="topics">${K.topics.map(([a, b]) => `<li><b>${esc(a)}:</b> ${esc(b)}</li>`).join('')}</ol>`
+    + (K.setup === false ? '' : `<p class="gsend"><b>Setting up:</b> phone sideways at eye level, ${esc(plan.guide.distanceLong || 'about 3 to 4 feet away')}, light in front of you. <a href="#how-to-record">See How to record</a> for the details.</p>`);
 
   const weekCard = w => {
     const p = PH[w.phase];
@@ -52,19 +55,19 @@ export function checklistPage(plan, oneupLogoUri) {
     + (plan.boundaries.length ? `<p class="sub">Your boundaries, built in:</p>${soft(plan.boundaries)}` : '');
 
   const SECTIONS = [
-    ['At a glance', `${plan.span}, ${['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'][plan.phases.length] || plan.phases.length} phases, about an hour a month of your time.`, glance, 'glance'],
+    ['At a glance', `${plan.span}, ${['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'][plan.phases.length] || plan.phases.length} phases, ${C.glanceTime}.`, glance, 'glance'],
     ...(plan.target ? [[plan.target.title, plan.target.line, table(plan.target.head, plan.target.rows, 'n2') + (plan.target.note ? `<p class="src">${esc(plan.target.note)}</p>` : ''), 'target']] : []),
     ['This week', 'A few quick things to get started.', thisWeek, 'this-week'],
-    ['Your calibration clip', `A 5–10 minute clip of you talking, due ${plan.calibration.due}.`, calibration, 'calibration'],
-    ['How to record', 'A simple setup that makes every video look and sound its best.', guideHtml(plan), 'how-to-record'],
+    [K.title || 'Your calibration clip', K.line || `A 5–10 minute clip of you talking, due ${K.due}.`, calibration, 'calibration'],
+    [C.guideTitle, C.guideLine, guideHtml(plan), 'how-to-record'],
     ['Week by week', 'Check things off as you go; your progress saves on this device.', weeks, 'weeks'],
     [L.title, L.line, launch, 'launch'],
     ...(plan.cadence ? [[plan.cadence.title, plan.cadence.line, table(plan.cadence.head, plan.cadence.rows, 'wide1') + (plan.cadence.note ? `<p class="src">${esc(plan.cadence.note)}</p>` : ''), 'cadence']] : []),
     ['How approvals work', "For the first month, nothing goes live until you've approved it.", approvals, 'approvals'],
-    ['Your hour a month', 'Your part is talking, not producing.', table(['Each month', 'Time', 'What it is'], plan.hour, 'n2'), 'hour'],
-    ["What we'll talk about", 'Four themes, every topic taken from your own answers.', table(['Theme', 'Share', 'Topics from your answers'], plan.themes, 'wide1 n2'), 'themes'],
+    [C.hourTitle, C.hourLine, table(['Each month', 'Time', 'What it is'], plan.hour, 'n2'), 'hour'],
+    [C.themesTitle, 'Four themes, every topic taken from your own answers.', table(['Theme', 'Share', 'Topics from your answers'], plan.themes, 'wide1 n2'), 'themes'],
     ["How you'll show up", plan.profilesLine || `Your name leads; ${plan.brand} is the brand around it.`, profiles, 'profiles'],
-    ['What we do for you', 'You record; we edit and publish.', table(['Tool', 'What it makes', 'From', 'Where it goes'], plan.tools), 'tools'],
+    ['What we do for you', C.toolsLine, table(['Tool', 'What it makes', 'From', 'Where it goes'], plan.tools), 'tools'],
     ["What we'll measure", `Where you start, and what you'll have at day ${plan.days}.`, table(['Measure', `Today (${plan.baselineDate})`, `Day ${plan.days}`], plan.measures)
       + '<p class="src">Each month you get a short report: what went out, where you come up in searches, and how your audience and inquiries are moving.</p>', 'measure'],
   ];

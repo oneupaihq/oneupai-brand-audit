@@ -97,7 +97,7 @@ s1 = k + f'''
  <li><b>Not found in category searches.</b> Pearce Placements owns its name search but appears in none of five searches captains and crew use, such as "yacht crew recruitment agency" and "yacht crew recruitment South Africa".</li>
 </ol>
 {SCORE}
-<div class="call"><b>The opportunity:</b> The large agencies win on audience size, but their YouTube advice for captains is more than ten years old and the crew-career searches belong to individual creators. A recruiter who has worked interior, deck and galley, explaining hiring and careers on camera every week, can own the space between them: the agency captains trust to hire and crew trust to represent them.</div>'''
+<div class="call"><b>The opportunity:</b> The large agencies win on audience size, but their YouTube advice for captains is more than ten years old and the crew-career searches belong to individual creators. A recruiter who has worked interior, deck and galley, publishing clear answers on hiring and careers every week, can own the space between them: the agency captains trust to hire and crew trust to represent them.</div>'''
 
 s2 = exhibit(2, 'What Pearce Placements offers, and the proof shown', table(
     ['Item', 'What the website shows', 'Gap'],
@@ -174,14 +174,14 @@ gaps = [
 s6 = '<ol class="gaps">' + ''.join(f'<li><b>{a}</b> {b}</li>' for a, b in gaps) + '</ol>'
 
 s7 = '''<div class="tl" style="grid-template-columns:repeat(4,1fr)">
-<div class="ph"><b>Weeks 1–3</b><span>Website fixes and service pages, YouTube and Facebook set up, calibration clip, first recording</span></div>
+<div class="ph"><b>Weeks 1–3</b><span>Website fixes and service pages, YouTube and Facebook set up, starter pack of answers, first videos</span></div>
 <div class="ph"><b>Weeks 4–7</b><span>Hiring authority: interview questions, fees, MLC 2006, why crew leave, the CV checklist</span></div>
 <div class="ph"><b>Weeks 8–9</b><span>Year-end posts and the Med season hiring guide, ready for January</span></div>
 <div class="ph p3"><b>Weeks 10–13</b><span>Med season hiring: the guide to captains, first-job advice to crew, day-90 report</span></div></div>''' + exhibit(7, 'Every month, from month one and continuing after day 90', table(
     ['What', 'Each month', 'Made with'],
-    [['Long-form videos on the Pearce Placements YouTube channel', '4', 'Lucy\'s recordings, edited by OneUpAI'],
+    [['Long-form videos on the Pearce Placements YouTube channel', '4', 'Narrated from Lucy\'s answers and guides; no filming needed'],
      ['Short captioned clips for LinkedIn, Instagram, Facebook and YouTube', '16', 'OneUpShorts'],
-     ['Articles on the website, shared on LinkedIn', '2', 'Lucy\'s recorded answers'],
+     ['Articles on the website, shared on LinkedIn', '2', 'Lucy\'s written and voice-note answers'],
      ['Role posts for open positions', 'Each role', 'Your job briefs, with the captain\'s permission'],
      ['Weekly LinkedIn posts in Lucy\'s name', '4', 'Cut from each video'],
      ['Website, service pages and profile upkeep', 'Ongoing', 'OneUpAI']]),
@@ -215,7 +215,7 @@ SECTIONS = [
     ('Website and profiles', 'Twelve pages with a solid Crew Hub, two near-empty service pages and an empty blog.', s4),
     ('Social and video', 'The three firms have tens of thousands of followers; Pearce Placements is starting from close to zero.', s5),
     ('What is holding Pearce Placements back', 'Seven gaps, most important first.', s6),
-    ('90 days to an established voice', 'Month one builds the base; months two and three put Lucy in front of captains and crew every week, leading into the Med season hiring window.', s7),
+    ('90 days to an established voice', 'Month one builds the base; months two and three put Lucy\'s advice in front of captains and crew every week, leading into the Med season hiring window.', s7),
     ('How results are measured', 'Four levels, from content published to placements, tracked against this baseline.', s8),
     ('About this audit', f'A baseline audit from public sources, checked by hand on {DATE}.', s9),
 ]
@@ -301,7 +301,7 @@ stops = [
      'tp': f'With the YouTube channel and website articles live: {PL} on the same areas.', 'bp': 'Followers, search positions and placements are not projected; the monthly report measures them.'},
     {'key': 'graph', 'label': 'Audience', 't': 'A small audience on Instagram and LinkedIn; no Facebook page or YouTube channel.',
      'b': 'Sphere size is audience size. A gold path means Pearce Placements is active there; dashed means absent or not checked.',
-     'tp': 'After the plan: Lucy on camera every week on YouTube, LinkedIn, Instagram and Facebook, all pointing to the website.', 'bp': 'One recording a month feeds the month of videos and shorts.'},
+     'tp': 'After the plan: Lucy\'s advice every week on YouTube, LinkedIn, Instagram and Facebook, all pointing to the website.', 'bp': 'One set of answers a month, written or by voice note, feeds the month of videos and shorts.'},
     {'key': 'kw', 'label': 'Searches', 't': 'The name search is theirs. Agency, hiring and career searches show other agencies and creators.',
      'b': 'Each tower is a search. Its color is whichever of the four appears; grey means none of them.',
      'tp': 'The plan targets hiring, MLC and South Africa searches, and the YouTube hiring questions, first.', 'bp': 'Gold caps are the searches the plan targets.'},
@@ -313,13 +313,13 @@ stops = [
      'tp': 'After each placement, the captain and the crew member are asked for a short testimonial.', 'bp': 'Published only with their permission; no vessel names unless they agree.'},
     {'key': 'video', 'label': 'Video', 't': 'No channel. The agency advice videos that rank are over ten years old.',
      'b': 'YPI CREW posted 3 videos in the last 12 months; Morgan & Mallet posts automated job ads; Seven Seas has no channel.',
-     'tp': 'Lucy answers captains\' and crew questions on camera every week.', 'bp': 'Edited by OneUpAI from her recordings.'},
+     'tp': 'Narrated videos answer captains\' and crew questions every week.', 'bp': 'Made by OneUpAI from Lucy\'s answers and guides; she never has to appear on camera.'},
     {'key': 'comp', 'label': 'Firms', 't': 'The large agencies lead on audience, not on current advice.',
      'b': "The people walking in are each agency's share of presence among the four, based on the areas checked.",
      'tp': 'With the plan, attention shifts toward Pearce Placements.', 'bp': 'An illustration based on the areas checked; inquiries are measured monthly.'},
     {'key': 'plan', 'label': '90-day plan', 't': 'The 90-day plan', 'b': '', 'tp': 'The 90-day plan', 'bp': '',
      'list': ['Website fixed: service pages, typos, social links', 'YouTube channel and Facebook page set up',
-              'Calibration clip, then one recording a month', '4 long-form videos and 16 shorts a month',
+              'Starter pack, then one set of answers a month', '4 long-form videos and 16 shorts a month',
               'Hiring guides for captains; career advice for crew', 'A Med season hiring guide in January',
               'Testimonials after each placement', 'Day-90 report, then a monthly rhythm']},
 ]
