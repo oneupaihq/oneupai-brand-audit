@@ -32,6 +32,8 @@ Both pages are single files with no server and nothing to install. They share ch
 | `launch` | The event: `name` and `dates` (shown in 3D), `venue`, playbook `title` and `line`, and `before`, `during` (with the phone `shots` list) and `after` |
 | `guide` | The "How to record" steps; the template's version works for most clients |
 | `approvals`, `afterMonth`, `hour`, `themes`, `profiles`, `boundaries`, `tools`, `measures` | The rest of the plan, as rows |
+| `cadence` | Optional. What continues after the last week: `title`, `line`, `head`, `rows` and an optional `note`, shown after the launch playbook |
+| `target`, `articlesLabel`, `profilesLine` | Optional. A worked-back sales target; the label for articles when they aren't on LinkedIn; the line under "How you'll show up" when the brand isn't the client's own name |
 | `totals` | Optional. If given, the build checks it against the weeks: video and article items count once each, and a short item counts its leading number or a number in brackets, so "4 shorts" is 4 and "a short each day (5)" is 5 |
 | `storeKey` | Optional. Where check marks are saved in the browser; leave it out for new clients |
 

@@ -1,0 +1,434 @@
+{
+  "slug": "pearce-placements",
+  "days": 90,
+  "client": "Pearce Placements",
+  "brand": "Pearce Placements",
+  "market": "yacht-crew-recruitment",
+  "start": "2026-11-02",
+  "end": "2027-01-31",
+  "prepared": "October 26, 2026",
+  "baselineDate": "Oct 26",
+  "preparedBy": {
+    "name": "Nick Zarzycki",
+    "company": "OneUpAI",
+    "email": "nz@oneupai.com"
+  },
+  "logo": "logo.svg",
+  "goal": "Pearce Placements becomes the agency captains find when they look for hiring advice and crew find when they look for work, with every inquiry tracked by where it came from and a monthly rhythm in place by day 90.",
+  "oneLine": "Yacht crew recruitment led by Lucy Pearce, a 200GT Yachtmaster in yachting since 2008. Crew matched to the boat and the team; no fees ever charged to crew.",
+  "profilesLine": "Pearce Placements is the brand; you are its face and voice.",
+  "thisWeek": 5,
+  "articlesLabel": "articles in your words, on your website",
+  "phases": [
+    {
+      "id": "setup",
+      "name": "Foundations",
+      "color": "#4a7fe0",
+      "line": "Website fixes and service pages, YouTube and Facebook set up, your calibration clip and first videos.",
+      "dates": "Nov 2 – Nov 22"
+    },
+    {
+      "id": "authority",
+      "name": "Hiring authority",
+      "color": "#2fa58d",
+      "line": "Interview questions, fees, MLC 2006, why crew leave and the yacht CV checklist.",
+      "dates": "Nov 23 – Dec 20"
+    },
+    {
+      "id": "yearend",
+      "name": "Year-end",
+      "color": "#8d69d8",
+      "line": "Lighter weeks; the Med season hiring guide gets ready for January.",
+      "dates": "Dec 21 – Jan 3"
+    },
+    {
+      "id": "med",
+      "name": "Med season hiring",
+      "color": "#e8a92e",
+      "launch": true,
+      "line": "The hiring guide to captains, first-job advice to crew, and your day-90 report.",
+      "dates": "Jan 4 – Jan 31"
+    }
+  ],
+  "weeks": [
+    {
+      "n": 1,
+      "dates": "Nov 2–8",
+      "start": "2026-11-02",
+      "phase": "setup",
+      "focus": "Getting set up",
+      "you": [
+        "Record your 5–10 minute calibration clip and upload it by Nov 4",
+        "Tell us who manages your website today (the footer credits Strategytask) and give us editor access",
+        "Give us access to your LinkedIn company page and Instagram",
+        "Send your logo, a few photos of you at work, and any captain feedback you're happy to share",
+        "20-minute call to walk through your dashboard and sample edits (Nov 6)"
+      ],
+      "out": [
+        ["setup", "Website fix list: typos, service pages, home page heading, social links"],
+        ["setup", "YouTube channel and Facebook page created in the Pearce Placements name"],
+        ["setup", "Inquiry log: every form, WhatsApp and email inquiry tagged by where it came from"],
+        ["setup", "Sample edits from your calibration clip, by Nov 6"]
+      ]
+    },
+    {
+      "n": 2,
+      "dates": "Nov 9–15",
+      "start": "2026-11-09",
+      "phase": "setup",
+      "focus": "Introducing Lucy",
+      "you": [
+        "Record Recording 1 and upload it by Nov 11 (about 45 min)",
+        "Approve next week's posts from the preview link (about 10 min)"
+      ],
+      "out": [
+        ["video", "Video 1: \"From crew to recruiter: why I started Pearce Placements\""],
+        ["short", "4 shorts"],
+        ["setup", "Your LinkedIn headline and the company page updated with the one line"]
+      ]
+    },
+    {
+      "n": 3,
+      "dates": "Nov 16–22",
+      "start": "2026-11-16",
+      "phase": "setup",
+      "focus": "What captains should ask",
+      "you": [
+        "Approve next week's posts from the preview link (about 10 min)",
+        "Send one voice note"
+      ],
+      "out": [
+        ["video", "Video 2: \"Yacht crew interview questions captains should ask\""],
+        ["short", "4 shorts"],
+        ["article", "Article 1: hiring yacht crew, and the questions that show whether someone will stay"],
+        ["setup", "Service pages rewritten: Tide Placements and Anchor Premium, with what each includes"]
+      ]
+    },
+    {
+      "n": 4,
+      "dates": "Nov 23–29",
+      "start": "2026-11-23",
+      "phase": "authority",
+      "focus": "The fee, explained",
+      "you": [
+        "Approve next week's posts from the preview link (about 10 min)",
+        "Tell us about any roles you're filling (no vessel names needed)"
+      ],
+      "out": [
+        ["video", "Video 3: \"What a yacht crew agency costs, and what the fee covers\""],
+        ["short", "4 shorts"],
+        ["setup", "Typos fixed, social links added, home page heading says yacht crew recruitment"],
+        ["post", "Role posts for open positions"]
+      ]
+    },
+    {
+      "n": 5,
+      "dates": "Nov 30–Dec 6",
+      "start": "2026-11-30",
+      "phase": "authority",
+      "focus": "MLC 2006 for captains",
+      "you": [
+        "Record Recording 2 and upload it by Dec 2 (about 45 min)",
+        "Text us your November numbers: inquiries, roles taken on, placements, crew registrations (5 min)",
+        "Approve next week's posts from the preview link (about 10 min)"
+      ],
+      "out": [
+        ["video", "Video 4: \"MLC 2006 and crew agencies: what captains should check\""],
+        ["short", "4 shorts"],
+        ["article", "Article 2: Seafarer Employment Agreements, explained for captains"],
+        ["setup", "Testimonial request sent to recent captains and crew, with your approval"]
+      ]
+    },
+    {
+      "n": 6,
+      "dates": "Dec 7–13",
+      "start": "2026-12-07",
+      "phase": "authority",
+      "focus": "Why good crew leave",
+      "you": [
+        "Look over the weekly preview",
+        "Send one voice note"
+      ],
+      "out": [
+        ["video", "Video 5: \"Why good crew leave, and what captains can do about it\""],
+        ["short", "4 shorts"],
+        ["post", "LinkedIn post in your name, from this week's video"]
+      ]
+    },
+    {
+      "n": 7,
+      "dates": "Dec 14–20",
+      "start": "2026-12-14",
+      "phase": "authority",
+      "focus": "The CV, from the recruiter's desk",
+      "you": [
+        "Look over the weekly preview"
+      ],
+      "out": [
+        ["video", "Video 6: \"What I look for in a yacht CV\""],
+        ["short", "4 shorts"],
+        ["article", "Article 3: the yacht CV checklist, and what recruiters read first"],
+        ["setup", "CV checklist page on your website, linked to crew registration"]
+      ]
+    },
+    {
+      "n": 8,
+      "dates": "Dec 21–27",
+      "start": "2026-12-21",
+      "phase": "yearend",
+      "focus": "Season's greetings",
+      "note": "A lighter week: short posts only.",
+      "you": [
+        "One year-end voice note",
+        "Look over the weekly preview"
+      ],
+      "out": [
+        ["short", "3 shorts"],
+        ["post", "A year-end thank-you to the captains and crew you've worked with"]
+      ]
+    },
+    {
+      "n": 9,
+      "dates": "Dec 28–Jan 3",
+      "start": "2026-12-28",
+      "phase": "yearend",
+      "focus": "Getting ready for the Med",
+      "you": [
+        "Look over the weekly preview",
+        "Send the list of captains you'd like to invite to the Med season guide"
+      ],
+      "out": [
+        ["video", "Video 7: \"Interior, deck and galley: how I match crew to a boat and its team\""],
+        ["short", "3 shorts"],
+        ["setup", "Med season hiring guide page on your website, with a request form"],
+        ["note", "Invitation to captains, drafted for you to send"]
+      ]
+    },
+    {
+      "n": 10,
+      "dates": "Jan 4–10",
+      "start": "2027-01-04",
+      "phase": "med",
+      "focus": "When to hire for the Med",
+      "you": [
+        "Record Recording 3 and upload it by Jan 6 (about 45 min)",
+        "Text us your December numbers: inquiries, roles taken on, placements, crew registrations (5 min)",
+        "Send the Med season guide invitation to your captains (we draft it)",
+        "Look over the weekly preview"
+      ],
+      "out": [
+        ["video", "Video 8: \"Hiring for the Med season: when to start and what to plan\""],
+        ["short", "4 shorts"],
+        ["article", "Article 4: Med season crew planning, a timeline for captains"],
+        ["post", "The Med season guide shared on LinkedIn, Instagram and Facebook"]
+      ]
+    },
+    {
+      "n": 11,
+      "dates": "Jan 11–17",
+      "start": "2027-01-11",
+      "phase": "med",
+      "focus": "Your first yacht job",
+      "you": [
+        "Clips from the shot list, whenever suits you",
+        "Look over the weekly preview"
+      ],
+      "out": [
+        ["video", "Video 9: \"Your first yacht job this Med season: a recruiter's view\""],
+        ["short", "4 shorts"],
+        ["post", "Role posts for open positions"]
+      ]
+    },
+    {
+      "n": 12,
+      "dates": "Jan 18–24",
+      "start": "2027-01-18",
+      "phase": "med",
+      "focus": "Before crew sign",
+      "you": [
+        "Clips from the shot list, whenever suits you",
+        "Look over the weekly preview"
+      ],
+      "out": [
+        ["video", "Video 10: \"Rotation, leave and contracts: what crew ask before they sign\""],
+        ["short", "4 shorts"],
+        ["article", "Article 5: replacing crew mid-season, the first 48 hours"]
+      ]
+    },
+    {
+      "n": 13,
+      "dates": "Jan 25–31",
+      "start": "2027-01-25",
+      "phase": "med",
+      "focus": "Ninety days on",
+      "you": [
+        "30-minute review call",
+        "Text us your January numbers: inquiries, roles taken on, placements, crew registrations (5 min)"
+      ],
+      "out": [
+        ["video", "Video 11: \"Ask Lucy: captains' and crew questions answered\""],
+        ["short", "4 shorts"],
+        ["article", "Article 6: what captains and crew asked us this season"],
+        ["report", "Your day-90 report, compared with the October audit"]
+      ]
+    }
+  ],
+  "weeksNote": "Titles are working titles; you approve each one. Every role you're filling can get a role post in the next open slot, with the captain's permission and no vessel name unless they agree.",
+  "totals": {
+    "videos": 11,
+    "shorts": 46,
+    "articles": 6
+  },
+  "later": [
+    "Whether Anchor Premium prices go on the website or stay on request",
+    "Placements you'd be happy to describe, without names, as case studies",
+    "Whether to add TikTok after day 90"
+  ],
+  "calibration": {
+    "due": "Wednesday, November 4",
+    "samplesBy": "Nov 6",
+    "topics": [
+      ["Introduce yourself", "your name, Pearce Placements, and the captains and crew you work with."],
+      ["From crew to recruiter", "yachting since 2008 across interior, deck and galley, and why you started Pearce Placements."],
+      ["A captain question", "\"What should I look for when I hire a stew or a deckhand?\" and how you answer it."],
+      ["A crew tip", "one thing that makes a CV stand out to you."],
+      ["Team fit", "how you match crew to a boat and its team, and why it matters."]
+    ]
+  },
+  "launch": {
+    "name": "Med season hiring",
+    "dates": "Jan 4 – Jan 31",
+    "venue": "event",
+    "title": "Med season playbook",
+    "line": "From February to May, yachts fill positions for the Mediterranean summer. January puts your hiring guide in front of captains and your advice in front of crew before that window opens.",
+    "before": {
+      "title": "Before · Dec 21 – Jan 3",
+      "items": [
+        "A Med season hiring guide page on your website, with a request form.",
+        "An invitation to captains you've worked with, which we draft for you to send.",
+        "Role posts ready for any positions you're already filling."
+      ]
+    },
+    "during": {
+      "title": "During · Jan 4 – 31 · your phone shot list",
+      "note": "Vertical clips, 10–20 seconds each, whenever suits you. Upload them through your link.",
+      "shots": [
+        "Your answer to \"When should I start hiring for the Med?\"",
+        "A role you're filling now, without the vessel name",
+        "One thing that makes a CV stand out this season",
+        "Your desk on a busy hiring day",
+        "A tip for crew looking for their first Med season job",
+        "A short thank-you to captains who've hired through you"
+      ]
+    },
+    "after": {
+      "title": "After · from Feb 1",
+      "items": [
+        "A personal follow-up to every captain who requested the guide, which we draft.",
+        "February to May is the main hiring window; the monthly rhythm keeps you in front of captains and crew through it.",
+        "Your day-90 report compares every measure with the October audit."
+      ]
+    }
+  },
+  "cadence": {
+    "title": "After day 90: the monthly rhythm",
+    "line": "From February the plan becomes a set monthly routine, timed to the hiring seasons.",
+    "head": ["When", "What happens", "Your part"],
+    "rows": [
+      ["First week of each month", "One recording; a short note on what captains are asking for; last month's report", "~45 min recording, 5 min for your numbers"],
+      ["Every week", "1 long-form video, 4 shorts, a LinkedIn post in your name, and role posts as roles come in", "A quick look at the preview"],
+      ["Twice a month", "An article on your website, shared on LinkedIn", "None; drawn from your recording"],
+      ["After each placement", "A testimonial request to the captain and the crew member; a case study when both agree", "Forward the reply"],
+      ["Every quarter", "A 30-minute review: results, what to change, service pages and guides refreshed", "30-minute call"],
+      ["February to May", "Med season: hiring guides, role posts and first-job advice lead", "As above"],
+      ["June to September", "Mid-season: keeping crew, replacements, and crew moving up a department", "As above"],
+      ["October to January", "Caribbean season: winter hiring and replacements lead; the next Med season guide goes out in January", "As above"]
+    ],
+    "note": "Season timing from YPI CREW's guide to the yachting seasons: the Mediterranean runs roughly May to October, with crew searching February to May; the Caribbean roughly November to February, with crew searching October to December."
+  },
+  "guide": {
+    "sit": {
+      "title": "Sit-down recordings",
+      "when": "Your calibration clip and the monthly recordings",
+      "steps": [
+        ["Phone sideways, at eye level", "Set it on a small tripod or a stack of books, not in your hand."],
+        ["About 1 to 1.2 metres away", "Frame yourself from mid-chest up, centered, with a little space above your head."],
+        ["Light in front of you", "Face a window or a lamp. Avoid a bright window behind you."],
+        ["A quiet room", "Turn off fans and music if you can. Outdoors, a clip-on mic makes a big difference."],
+        ["Look at the lens", "Talk to it like a captain across the table. Pause a second before and after each answer; restarts are fine."]
+      ],
+      "setting": "One-time setting: if your phone offers it, record in 4K at 30 fps (on iPhone: Settings > Camera > Record Video)."
+    },
+    "clips": {
+      "title": "Quick clips",
+      "when": "The shot list, role posts and anything worth sharing",
+      "steps": [
+        ["Phone upright", "Hold it steady with both hands, or prop it up."],
+        ["10 to 20 seconds each", "One point per clip; several short clips beat one long one."],
+        ["Nothing private on screen", "Keep CVs, names and vessel details out of the frame."],
+        ["Ask first", "Get a quick OK before filming anyone else."]
+      ]
+    },
+    "distanceShort": "1–1.2 m",
+    "distanceLong": "about 1 to 1.2 metres away",
+    "send": "Upload the original from your camera roll through your link. No trimming, filters or captions; we take care of all of that."
+  },
+  "approvals": [
+    ["Every Thursday", "we send you one preview link on WhatsApp, with email as a backup, showing next week's posts: each video, its title and caption, where it goes and when."],
+    ["By Sunday evening", "mark each one approve, change or skip. A quick comment is enough."],
+    ["Changes", "small caption fixes we make and confirm with you. A change to a video comes back to you within one business day."],
+    ["No reply means no post", "we send one friendly reminder and hold anything you haven't approved."],
+    ["Med season weeks", "same-day clips and role posts come to you on WhatsApp as they're ready. Reply OK or a change and we post within a couple of hours."],
+    ["Your style is set once", "the sample edits from your calibration clip lock in captions, music and your on-screen name, so weekly reviews are only about what you say."]
+  ],
+  "afterMonth": "Once you're happy with the quality, we phase in automatic approval. Shorts cut from videos you've already approved go first, then everything else. You'll still get the weekly preview, so you can stop anything before it posts.",
+  "hour": [
+    ["Recording", "~45 min", "We send about 12 questions drawn from your own answers. You record on your phone, in one sitting or a few, and upload through your link. No scripts."],
+    ["Clips and voice notes", "~15 min", "Quick phone clips from the shot list, and voice notes when something happens in the market."],
+    ["Monthly numbers", "~5 min", "A quick text: inquiries, roles taken on, placements, crew registrations, and where each inquiry came from."],
+    ["Weekly approvals", "~10 min a week", "One preview link during the first month; after that, a quick look at what's coming."]
+  ],
+  "themes": [
+    ["Hiring and keeping crew", "35%", "Interview questions that matter · What the fee covers · Why good crew leave · Matching crew to the boat and the team · Replacing crew mid-season"],
+    ["Crew careers", "30%", "What I look for in a yacht CV · Your first yacht job · Interior, deck and galley · Rotation, leave and contracts · Moving up a department"],
+    ["Rules and fair recruitment", "20%", "MLC 2006 for captains · Seafarer Employment Agreements · Why crew never pay a fee · Checking certificates and references"],
+    ["Lucy's view", "15%", "In yachting since 2008 · Why Pearce Placements · What captains are asking for this month · The season ahead"]
+  ],
+  "profiles": [
+    ["Website", "Pearce Placements | Yacht Crew Recruitment", "pearceplacements.com", "Service pages for both ways to hire, the Med season guide, the CV checklist, articles and testimonials"],
+    ["LinkedIn company page", "Pearce Placements | Yacht Recruitment Agency", "/company/pearceplacements", "The one line; weekly posts from each video"],
+    ["Lucy on LinkedIn", "Lucy Pearce", "–", "Founder, Pearce Placements | Yacht crew recruitment | 200GT Yachtmaster, in yachting since 2008"],
+    ["YouTube (new)", "Pearce Placements", "@pearceplacements, checked at setup", "Hiring guides for captains and career advice for crew, presented by you"],
+    ["Instagram", "Pearce Placements | Yacht Recruitment", "@pearceplacements", "The one line, with your WhatsApp number"],
+    ["Facebook page (new)", "Pearce Placements – Yacht Crew Recruitment", "–", "Role posts and crew advice"],
+    ["WhatsApp Business", "Pearce Placements", "+27 79 655 5492", "Quick replies for captains and crew, linked from every profile"]
+  ],
+  "boundaries": [
+    "No candidate names, vessel names or owners' details without permission.",
+    "Fees and salary figures only as published on your website or as you approve.",
+    "No criticism of other agencies.",
+    "Personal and family life stays off these channels.",
+    "You approve every post for the first month, until you're happy with the quality."
+  ],
+  "tools": [
+    ["OneUpAI web", "Service pages, the Med season guide, the CV checklist and articles", "Your recordings and our drafts", "pearceplacements.com"],
+    ["OneUpShorts", "Captioned shorts, 30–60 seconds, in one consistent style", "Your recordings, voice notes and clips", "LinkedIn, Instagram, Facebook, YouTube Shorts"],
+    ["OneUpAI editing", "Long-form videos with titles, chapters and captions", "Your recordings", "YouTube, LinkedIn, your website"],
+    ["OneUpMoments", "30, 60 or 90-second role posts and recaps", "Your phone clips and job briefs", "Instagram, Facebook, LinkedIn, WhatsApp"],
+    ["OneUpArticles", "Articles and the monthly note on what captains are asking for", "Your recorded answers", "Your website, LinkedIn"],
+    ["OneUpScores", "Background music for each video", "A description of the mood", "Every video"],
+    ["Publishing (OneUpAI gateway)", "Each approved piece, sized and captioned for its platform", "Your approved edits", "Every channel, on schedule"]
+  ],
+  "measures": [
+    ["Website", "Blog empty; service pages are forms with 17 and 27 words; two typos", "6 articles; service pages rewritten; Med season guide and CV checklist live"],
+    ["Videos on your YouTube channel", "No channel", "11"],
+    ["Short clips in your voice", "0", "46"],
+    ["LinkedIn company page", "36 followers; 2 articles", "Weekly posts; followers reported monthly"],
+    ["Lucy on LinkedIn", "599 followers; mostly reposts", "A weekly post in your words"],
+    ["Instagram", "141 followers; 1 post", "Posting weekly; followers reported monthly"],
+    ["Facebook", "No page found", "Business page posting weekly"],
+    ["Category searches on page 1", "0 of 5", "Reported monthly"],
+    ["Testimonials and case studies", "None published", "Asked after every placement; published with permission"],
+    ["Inquiries, roles and placements", "Your numbers at kickoff", "Reported monthly, by where each came from"]
+  ]
+}

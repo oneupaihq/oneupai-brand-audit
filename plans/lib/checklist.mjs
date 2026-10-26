@@ -59,10 +59,11 @@ export function checklistPage(plan, oneupLogoUri) {
     ['How to record', 'A simple setup that makes every video look and sound its best.', guideHtml(plan), 'how-to-record'],
     ['Week by week', 'Check things off as you go; your progress saves on this device.', weeks, 'weeks'],
     [L.title, L.line, launch, 'launch'],
+    ...(plan.cadence ? [[plan.cadence.title, plan.cadence.line, table(plan.cadence.head, plan.cadence.rows, 'wide1') + (plan.cadence.note ? `<p class="src">${esc(plan.cadence.note)}</p>` : ''), 'cadence']] : []),
     ['How approvals work', "For the first month, nothing goes live until you've approved it.", approvals, 'approvals'],
     ['Your hour a month', 'Your part is talking, not producing.', table(['Each month', 'Time', 'What it is'], plan.hour, 'n2'), 'hour'],
     ["What we'll talk about", 'Four themes, every topic taken from your own answers.', table(['Theme', 'Share', 'Topics from your answers'], plan.themes, 'wide1 n2'), 'themes'],
-    ["How you'll show up", `Your name leads; ${plan.brand} is the brand around it.`, profiles, 'profiles'],
+    ["How you'll show up", plan.profilesLine || `Your name leads; ${plan.brand} is the brand around it.`, profiles, 'profiles'],
     ['What we do for you', 'You record; we edit and publish.', table(['Tool', 'What it makes', 'From', 'Where it goes'], plan.tools), 'tools'],
     ["What we'll measure", `Where you start, and what you'll have at day ${plan.days}.`, table(['Measure', `Today (${plan.baselineDate})`, `Day ${plan.days}`], plan.measures)
       + '<p class="src">Each month you get a short report: what went out, where you come up in searches, and how your audience and inquiries are moving.</p>', 'measure'],
