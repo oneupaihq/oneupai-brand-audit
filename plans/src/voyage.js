@@ -43,13 +43,13 @@ try {
 } catch (e) { document.body.classList.add('nogl'); throw e; }
 renderer.setPixelRatio(Math.min(devicePixelRatio || 1, lowPower ? 1.5 : 2));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.0;
+renderer.toneMappingExposure = 0.9;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const scene = new THREE.Scene();
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-const HAZE = '#dcf2f7';
+const HAZE = '#c6e3ea';
 scene.fog = new THREE.Fog(HAZE, 420, 1500); // stretched for long courses once the course is laid out
 const camera = new THREE.PerspectiveCamera(40, 1, 0.5, 4000);
 const controls = new OrbitControls(camera, canvas);
@@ -79,7 +79,7 @@ let seed = 7; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 21474836
 {
   const m = new THREE.ShaderMaterial({
     side: THREE.BackSide, depthWrite: false, fog: false, toneMapped: false,
-    uniforms: { top: { value: new THREE.Color('#4fb8e0') }, mid: { value: new THREE.Color('#9fdcf0') }, low: { value: new THREE.Color('#e4f6f9') } },
+    uniforms: { top: { value: new THREE.Color('#3a9cc6') }, mid: { value: new THREE.Color('#86c7de') }, low: { value: new THREE.Color('#cfe8ee') } },
     vertexShader: 'varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
     fragmentShader: 'uniform vec3 top, mid, low; varying vec3 vP; void main(){ float h = vP.y; vec3 c = h > 0.08 ? mix(mid, top, smoothstep(0.08, 0.7, h)) : mix(low, mid, smoothstep(-0.02, 0.08, h)); gl_FragColor = vec4(c, 1.0);\n#include <colorspace_fragment>\n}',
   });
@@ -88,8 +88,8 @@ let seed = 7; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 21474836
   const cm = new THREE.SpriteMaterial({ map: cloudTex.t, fog: false, depthWrite: false, transparent: true, opacity: 0.85 });
   for (let i = 0; i < 22; i++) { const a = rnd() * Math.PI * 2, d = 1150 + rnd() * 400, s = 180 + rnd() * 240; const c = new THREE.Sprite(cm); c.position.set(Math.cos(a) * d, 220 + rnd() * 320, Math.sin(a) * d); c.scale.set(s * 2.2, s * 0.6, 1); scene.add(c); }
 }
-scene.add(new THREE.HemisphereLight('#d6f1fb', '#c9bfa8', 1.05));
-const sun = new THREE.DirectionalLight('#fff0d8', 2.6);
+scene.add(new THREE.HemisphereLight('#d6f1fb', '#c9bfa8', 0.92));
+const sun = new THREE.DirectionalLight('#fff0d8', 2.35);
 sun.castShadow = true;
 sun.shadow.mapSize.set(lowPower ? 1024 : 2048, lowPower ? 1024 : 2048);
 Object.assign(sun.shadow.camera, { left: -70, right: 70, top: 70, bottom: -70, near: 10, far: 400 });
@@ -121,7 +121,7 @@ const waterU = { time: { value: 0 } };
 {
   const m = new THREE.ShaderMaterial({
     toneMapped: false,
-    uniforms: { ...waterU, hk: { value: Math.max(1, K) }, shallow: { value: new THREE.Color('#a7ece3') }, mid: { value: new THREE.Color('#47c4d1') }, deep: { value: new THREE.Color('#1c93bd') }, haze: { value: new THREE.Color(HAZE) }, isle: { value: new THREE.Vector2(ISLE.x, ISLE.z) } },
+    uniforms: { ...waterU, hk: { value: Math.max(1, K) }, shallow: { value: new THREE.Color('#7fd3cb') }, mid: { value: new THREE.Color('#2fa5b8') }, deep: { value: new THREE.Color('#14739a') }, haze: { value: new THREE.Color(HAZE) }, isle: { value: new THREE.Vector2(ISLE.x, ISLE.z) } },
     vertexShader: 'varying vec3 vW; void main(){ vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }',
     fragmentShader: `uniform float time, hk; uniform vec3 shallow, mid, deep, haze; uniform vec2 isle; varying vec3 vW;
       void main(){
@@ -147,16 +147,16 @@ const waterU = { time: { value: 0 } };
 }
 
 // ---------- coast: beach, palms, a white skyline ----------
-const white = new THREE.MeshStandardMaterial({ color: '#f7f5f0', roughness: 0.55 });
-const wood = new THREE.MeshStandardMaterial({ color: '#c3a47f', roughness: 0.85 });
-const sandMat = new THREE.MeshStandardMaterial({ color: '#f1e3c2', roughness: 0.95 });
-const grassMat = new THREE.MeshStandardMaterial({ color: '#a7cf8e', roughness: 0.95 });
+const white = new THREE.MeshStandardMaterial({ color: '#e9e6df', roughness: 0.55 });
+const wood = new THREE.MeshStandardMaterial({ color: '#a8875f', roughness: 0.85 });
+const sandMat = new THREE.MeshStandardMaterial({ color: '#d4bd90', roughness: 0.95 });
+const grassMat = new THREE.MeshStandardMaterial({ color: '#6f9d58', roughness: 0.95 });
 {
   scene.fog.near = 420 * Math.max(1, K); scene.fog.far = 1500 * Math.max(1, K);
   const CW = X1 - X0 + 1000;
   const sand = new THREE.Mesh(new THREE.BoxGeometry(CW, 1.6, 18), sandMat); sand.position.set(CX, -0.2, COAST_Z - 9); sand.receiveShadow = true; scene.add(sand);
   const grass = new THREE.Mesh(new THREE.BoxGeometry(CW, 2, 900), grassMat); grass.position.set(CX, 0, COAST_Z - 18 - 450); grass.receiveShadow = true; scene.add(grass);
-  const road = new THREE.Mesh(new THREE.BoxGeometry(CW, 0.1, 9), new THREE.MeshStandardMaterial({ color: '#d9d3c7', roughness: 0.9 })); road.position.set(CX, 1.05, COAST_Z - 30); scene.add(road);
+  const road = new THREE.Mesh(new THREE.BoxGeometry(CW, 0.1, 9), new THREE.MeshStandardMaterial({ color: '#c7c0b2', roughness: 0.9 })); road.position.set(CX, 1.05, COAST_Z - 30); scene.add(road);
 }
 // palms
 {
@@ -164,8 +164,8 @@ const grassMat = new THREE.MeshStandardMaterial({ color: '#a7cf8e', roughness: 0
   const pts = [];
   for (let x = X0; x <= X1; x += 11 + rnd() * 8) pts.push([x + (rnd() - 0.5) * 4, COAST_Z - 12 - rnd() * 6]);
   for (let a = 0; a < Math.PI * 2; a += 0.35 + rnd() * 0.2) pts.push([ISLE.x + Math.cos(a) * 30, ISLE.z + Math.sin(a) * 24]);
-  const pc = new THREE.InstancedMesh(new THREE.LatheGeometry(crownPts, 9), new THREE.MeshStandardMaterial({ color: '#5fa05a', roughness: 0.8, side: THREE.DoubleSide, flatShading: true }), pts.length);
-  const pt = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.22, 0.38, 9, 7).translate(0, 4.5, 0), new THREE.MeshStandardMaterial({ color: '#c9b394', roughness: 0.9 }), pts.length);
+  const pc = new THREE.InstancedMesh(new THREE.LatheGeometry(crownPts, 9), new THREE.MeshStandardMaterial({ color: '#3f7b3d', roughness: 0.8, side: THREE.DoubleSide, flatShading: true }), pts.length);
+  const pt = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.22, 0.38, 9, 7).translate(0, 4.5, 0), new THREE.MeshStandardMaterial({ color: '#a8916f', roughness: 0.9 }), pts.length);
   const m4 = new THREE.Matrix4(), q = new THREE.Quaternion();
   pts.forEach(([x, z], i) => {
     const lean = (rnd() - 0.5) * 0.35, h = 0.85 + rnd() * 0.4, y = Math.hypot(x - ISLE.x, z - ISLE.z) < 60 ? 1.6 : 0.6;
@@ -180,8 +180,8 @@ const grassMat = new THREE.MeshStandardMaterial({ color: '#a7cf8e', roughness: 0
 }
 // buildings: taller around the launch event, lower elsewhere
 {
-  const band = tex(64, 256, (x, w, h) => { x.fillStyle = '#f8f6f1'; x.fillRect(0, 0, w, h); x.fillStyle = '#5d7f96'; for (let i = 0; i < 10; i++) x.fillRect(0, i * 25.6 + 9, w, 11); });
-  const topT = new THREE.MeshStandardMaterial({ color: '#f4f1ea', roughness: 0.7 });
+  const band = tex(64, 256, (x, w, h) => { x.fillStyle = '#e9e6df'; x.fillRect(0, 0, w, h); x.fillStyle = '#4d6d84'; for (let i = 0; i < 10; i++) x.fillRect(0, i * 25.6 + 9, w, 11); });
+  const topT = new THREE.MeshStandardMaterial({ color: '#e6e2d9', roughness: 0.7 });
   const side = new THREE.MeshStandardMaterial({ map: band.t, roughness: 0.45, metalness: 0.05 });
   const geo = new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0);
   const n = Math.round((lowPower ? 150 : 260) * Math.max(1, K));
@@ -201,7 +201,7 @@ const grassMat = new THREE.MeshStandardMaterial({ color: '#a7cf8e', roughness: 0
 
 // ---------- yachts ----------
 const hullMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.26, metalness: 0.05, envMapIntensity: 1.1 });
-const yWhite = new THREE.MeshStandardMaterial({ color: '#fbfaf7', roughness: 0.3, metalness: 0.02 });
+const yWhite = new THREE.MeshStandardMaterial({ color: '#dfddd6', roughness: 0.3, metalness: 0.02 });
 const yGlass = new THREE.MeshStandardMaterial({ color: '#17222d', roughness: 0.1, metalness: 0.75, envMapIntensity: 1.3 });
 function hullGeo(L, W, H, stripe) {
   const sh = new THREE.Shape();
@@ -218,7 +218,7 @@ function hullGeo(L, W, H, stripe) {
     if (zn > 0) pos.setY(i, y + (1 - t) * zn * zn * H * 0.32 + t * zn * zn * H * 0.62);
   }
   const col = new Float32Array(n * 3);
-  const cWhite = new THREE.Color('#fbfaf7'), cTeak = new THREE.Color('#b98f63'), cBottom = new THREE.Color('#1f3550'), cStripe = new THREE.Color(stripe);
+  const cWhite = new THREE.Color('#dfddd6'), cTeak = new THREE.Color('#a07850'), cBottom = new THREE.Color('#16283d'), cStripe = new THREE.Color(stripe);
   for (let k = 0; k < n; k += 3) {
     const a = oy[k], b = oy[k + 1], c = oy[k + 2], f = (a + b + c) / 3 / H;
     const cc = a === H && b === H && c === H ? cTeak : a === 0 && b === 0 && c === 0 ? cBottom : f < 0.3 ? cBottom : Math.floor(f * 10) === 6 ? cStripe : cWhite;
