@@ -835,5 +835,64 @@
     "shotsTitle": "Your quick inputs",
     "shotsHowto": false
   },
-  "status": "Proposed plan"
+  "status": "Proposed plan",
+  "agreement": {
+    "package": "All-in-One Concierge Package",
+    "legalName": "99codeshop, LLC d/b/a OneUpAI",
+    "standard": 997,
+    "rate": 497,
+    "rateMonths": 12,
+    "expires": "2026-11-01",
+    "code": "PEARCE-497",
+    "payUrl": "https://buy.stripe.com/28EbJ1beQdz81noeBG8og08?prefilled_promo_code=PEARCE-497",
+    "termsUrl": "https://oneupai.com/terms",
+    "auditUrl": "pearce-placements-presence-audit-report.html",
+    "fx": {
+      "line": "You are charged in US dollars by card.",
+      "source": "European Central Bank reference rate",
+      "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
+      "date": "October 23, 2026 (1 USD = R16.60)",
+      "rate": "R8,249"
+    },
+    "included": [
+      [
+        "Website",
+        "A fix list for the current site (typos, home page heading, social links) and service pages for captains and crew."
+      ],
+      [
+        "Channels",
+        "A YouTube channel and Facebook page in the Pearce Placements name; your LinkedIn company page updated."
+      ],
+      [
+        "Content, first 90 days",
+        "{videos} long-form videos, {shorts} shorts and {articles} articles from your answers. We write, narrate, edit and publish them."
+      ],
+      [
+        "Starter pack",
+        "Five short questions in week 1, answered in writing or by voice note. We send back two sample videos and three narrator voices to choose from. [See the questions](pearce-placements-90-day-plan.html#calibration)."
+      ],
+      [
+        "Inquiry tracking",
+        "Every form, WhatsApp and email inquiry logged by where it came from."
+      ],
+      [
+        "Monthly report",
+        "What went out, where you come up in searches, and the inquiries, roles and placements that followed."
+      ]
+    ],
+    "notIncluded": "Paid advertising and other third-party costs are not included and are only incurred with your approval. Fees do not include taxes.",
+    "terms": [
+      "Billed monthly in advance, in US dollars. The plan renews each month until either side cancels.",
+      "Your rate of $497 a month is fixed for the first 12 months. From month 13 it is $997 a month.",
+      "Either side can cancel for any reason with 30 days' notice by email.",
+      "Nothing is published on your behalf until you approve it.",
+      "Your accounts and the content we make for you are yours.",
+      "Targets in the plan are goals used to plan and measure the work, not guarantees."
+    ],
+    "steps": [
+      "We go through [the analysis](pearce-placements-presence-audit-report.html) and [the 90-day plan](pearce-placements-90-day-plan.html) together and agree the themes, topics and timing.",
+      "You pay the first month with the button below and accept the Terms of Service at checkout. Your discount is already applied.",
+      "You get a receipt by email, and week 1 starts on Monday, November 2. Your first task is the [starter pack](pearce-placements-90-day-plan.html#calibration), due Wednesday, November 4."
+    ]
+  }
 }

@@ -1,8 +1,9 @@
 # Client plan pages
 
-Every client's 90-day plan ships as two pages built from one file:
+Every client's 90-day plan ships as two pages built from one file, plus an agreement page when the file has an `agreement` block:
 
 - **Checklist page** (`<slug>-90-day-plan.html`): the whole plan in the audit-report design, with check marks.
+- **Agreement and payment** (`<slug>-agreement.html`): the offer, what's included, the key terms and the payment button. Built only when `plan.json` has `agreement`.
 - **3D voyage** (`<slug>-90-day-plan-3d.html`): the client's yacht sails a course with one buoy per week. It starts at a marina, passes the launch event and ends at the day-90 lighthouse. Each buoy opens that week's checklist.
 
 Both pages are single files with no server and nothing to install. They share check marks through the browser's storage, so a box ticked on one page shows on the other in the same browser. This is step 3 of the [client onboarding and production process](https://claude.ai/code/artifact/1f2df36c-face-4c66-9746-56e12a951e5c).
@@ -38,6 +39,7 @@ Both pages are single files with no server and nothing to install. They share ch
 | `calibration` extras | Optional `title`, `line`, `intro` and `setup: false` turn the calibration clip into a written or voice-note starter pack |
 | `target`, `articlesLabel`, `profilesLine` | Optional. A worked-back sales target; the label for articles when they aren't on LinkedIn; the line under "How you'll show up" when the brand isn't the client's own name |
 | `totals` | Optional. If given, the build checks it against the weeks: video and article items count once each, and a short item counts its leading number or a number in brackets, so "4 shorts" is 4 and "a short each day (5)" is 5 |
+| `agreement` | Optional. The agreement and payment page: `package`, `legalName`, `standard` and `rate` (US dollars a month), `rateMonths` (how long the rate is fixed), `expires` (`YYYY-MM-DD`, the last day of the offer), `code` (the Stripe promotion code), `payUrl` (the Stripe payment link ending `?prefilled_promo_code=<code>`), `termsUrl`, `auditUrl`, `fx` (`line`, `source`, `url`, `date`, `rate`: the monthly rate in the client's currency), `included` (rows; `{videos}`, `{shorts}`, `{articles}` fill from the weeks), `notIncluded`, `terms` and `steps`. Text in `included`, `terms` and `steps` can hold `[text](url)` links. The build refuses a missing field or a payment link without the code. Pearce Placements is the example |
 | `storeKey` | Optional. Where check marks are saved in the browser; leave it out for new clients |
 
 Check-box IDs come from each item's position, such as `w4o2` for week 4's second item and `shot3` for the third shot. Once a client has started ticking boxes, add new items at the end of a week rather than in the middle.

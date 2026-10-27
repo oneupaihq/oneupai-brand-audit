@@ -84,6 +84,7 @@ export function loadPlan(dir) {
     storeKey: raw.storeKey || `${raw.slug}-${days}day-plan-v1`,
     checklistUrl: `${raw.slug}-${days}-day-plan.html`,
     voyageUrl: `${raw.slug}-${days}-day-plan-3d.html`,
+    agreementUrl: `${raw.slug}-agreement.html`,
     span: days === 180 ? 'Six months' : days === 365 ? 'One year' : days === 90 ? 'Ninety days' : `${days} days`,
     range: `${longDate(raw.start)} – ${longDate(raw.end)}`,
     startShort: shortDate(raw.start), endShort: shortDate(raw.end),

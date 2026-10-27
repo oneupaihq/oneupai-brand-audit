@@ -11,7 +11,8 @@ How to produce a client's full set the way Jace Kizzier (yacht broker, 90-day pl
 | 3 | Plan document for the client (and an internal copy when the client works with other agencies) | Claude Docs doc with the OneUpAI logo at the top | Written in Claude Docs (step 5) |
 | 4 | Plan checklist page | `<slug>-<days>-day-plan.html` | `npm run plans -- <slug>` |
 | 5 | Plan 3D voyage page | `<slug>-<days>-day-plan-3d.html` | Same command |
-| 6 | First-steps email | Drafted in chat | Step 7 |
+| 6 | Agreement and payment page | `<slug>-agreement.html` | `npm run plans -- <slug>`, when `plan.json` has `agreement` |
+| 7 | First-steps email | Drafted in chat | Step 7 |
 
 Reference clients:
 
@@ -82,6 +83,13 @@ Planning defaults from the reference clients:
 - **Launch moment:** one event the market already watches. FLIBS for yacht brokers; the holiday season and open houses for coastal estate agents.
 - **Client's time:** about an hour a month, plus about 10 minutes a week for approvals.
 - **Clients who won't film:** recording becomes optional. The week-1 calibration clip becomes a starter pack of five written or voice-note answers, and each month's recording becomes about 12 answers in writing or by voice note, or guides they already have. Videos are narrated (a voice they choose, on-screen text, graphics, licensed footage) and the narrator never speaks as the client. Set `copy` and the `calibration` extras in `plan.json`, as in `plans/clients/pearce-placements/`.
+
+## Step 4b: Offer, payment link and agreement page
+
+1. In Stripe (live), the product "All-in-One Concierge Package" at $997 a month and the coupon "First-year rate" ($500 off, repeating 12 months) already exist; reuse them.
+2. Create a promotion code for the client on that coupon: one redemption, `expires_at` at the end of the offer's last day. A code's expiry can't be changed after it's made, so set it when you create the code.
+3. Use the shared payment link (promotion codes allowed, terms of service required) with `?prefilled_promo_code=<code>` on the end.
+4. Fill in `agreement` in `plan.json` and rebuild. The page links to the audit report and the plan by file name, so host all of them in the same folder.
 
 ## Step 5: Plan document (Claude Docs)
 

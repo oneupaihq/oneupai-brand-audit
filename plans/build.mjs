@@ -1,6 +1,7 @@
 // Builds each client's two plan pages from plans/clients/<slug>/plan.json:
 //   plans/out/<slug>/<slug>-90-day-plan.html     the checklist, in the audit-report design
 //   plans/out/<slug>/<slug>-90-day-plan-3d.html  the 3D voyage
+//   plans/out/<slug>/<slug>-agreement.html       the offer and payment page, when plan.json has "agreement"
 // Usage: npm run plans              (every client)
 //        npm run plans -- <slug>    (one client)
 import { build } from 'esbuild';
@@ -10,6 +11,7 @@ import { fileURLToPath } from 'url';
 import { loadPlan } from './lib/plan.mjs';
 import { checklistPage } from './lib/checklist.mjs';
 import { voyagePage } from './lib/voyage-page.mjs';
+import { agreementPage, checkAgreement } from './lib/agreement.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const clientsDir = path.join(here, 'clients');
@@ -29,8 +31,16 @@ for (const slug of slugs) {
     const a = checklistPage(plan, oneup), b = voyagePage(plan, oneup, bundle);
     fs.writeFileSync(path.join(out, plan.checklistUrl), a);
     fs.writeFileSync(path.join(out, plan.voyageUrl), b);
+    let extra = '';
+    if (plan.agreement) {
+      const errs = checkAgreement(plan.agreement);
+      if (errs.length) throw new Error(errs.join('; '));
+      const c = agreementPage(plan, oneup);
+      fs.writeFileSync(path.join(out, plan.agreementUrl), c);
+      extra = ` + agreement ${Math.round(c.length / 1024)} KB`;
+    }
     console.log(`${slug}: ${plan.weeks.length} weeks, ${plan.totals.videos} videos, ${plan.totals.shorts} shorts, ${plan.totals.articles} articles`
-      + ` -> plans/out/${slug}/ (${Math.round(a.length / 1024)} KB + ${Math.round(b.length / 1024)} KB)`);
+      + ` -> plans/out/${slug}/ (${Math.round(a.length / 1024)} KB + ${Math.round(b.length / 1024)} KB${extra})`);
   } catch (e) {
     failed++;
     console.error(`${slug}: ${e.message}`);

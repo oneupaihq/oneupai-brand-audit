@@ -85,7 +85,7 @@ export function checklistPage(plan, oneupLogoUri) {
  <p class="kicker">${plan.days}-day plan · ${esc(plan.range)}${plan.status ? ` · ${esc(plan.status)}` : ''}</p>
  <h1>${esc(plan.client)}: Your ${plan.days}-Day Plan</h1>
  <p class="meta">Prepared for <b>${esc(plan.client)}</b> · Prepared by <b>${esc(by.name)}, ${esc(by.company)}</b> · ${esc(plan.prepared)}</p>
- <div class="hero-actions"><a class="btn gold" href="${plan.voyageUrl}">${ICON_3D}Open the 3D voyage</a><a class="btn" href="#this-week">Start with this week</a></div>
+ <div class="hero-actions"><a class="btn gold" href="${plan.voyageUrl}">${ICON_3D}Open the 3D voyage</a><a class="btn" href="#this-week">Start with this week</a>${plan.agreement ? `<a class="btn" href="${plan.agreementUrl}">Agreement and payment</a>` : ''}</div>
 </div></header>
 ${nav}
 <main>${body}</main>
