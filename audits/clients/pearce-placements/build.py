@@ -199,7 +199,7 @@ s6 = '<ol class="gaps">' + ''.join(f'<li><b>{a}</b> {b}</li>' for a, b in gaps) 
 
 s7 = '''<div class="tl" style="grid-template-columns:repeat(4,1fr)">
 <div class="ph"><b>Weeks 1–3</b><span>Website fixes and service pages, YouTube and Facebook set up, starter pack of answers, first videos</span></div>
-<div class="ph"><b>Weeks 4–7</b><span>Hiring authority: interview questions, fees, MLC 2006, why crew leave, the CV checklist</span></div>
+<div class="ph"><b>Weeks 4–7</b><span>Hiring authority: interviewing, fees, compliance, keeping crew, CVs</span></div>
 <div class="ph"><b>Weeks 8–9</b><span>Year-end posts and the Med season hiring guide, ready for January</span></div>
 <div class="ph p3"><b>Weeks 10–13</b><span>Med season hiring: the guide to captains, first-job advice to crew, day-90 report</span></div></div>''' + exhibit(7, 'Every month, from month one and continuing after day 90', table(
     ['What', 'Each month', 'Made with'],
@@ -209,7 +209,7 @@ s7 = '''<div class="tl" style="grid-template-columns:repeat(4,1fr)">
      ['Role posts for open positions', 'Each role', 'Your job briefs, with the captain\'s permission'],
      ['Weekly LinkedIn posts in Lucy\'s name', '4', 'Cut from each video'],
      ['Website, service pages and profile upkeep', 'Ongoing', 'OneUpAI']], left=(2,)),
-    'Full plan, week by week: Pearce Placements, Your 90-Day Plan. After day 90 the same output continues on a set monthly rhythm.')
+    'Proposed volumes; the full plan, week by week, is in Pearce Placements, Your 90-Day Plan. Topics are agreed with Lucy and set each month from her answers. After day 90 the same output continues on a set monthly rhythm.')
 
 def fcard(t, items):
     return f'<div class="fc"><b>{t}</b><ul>' + ''.join(f'<li>{x}</li>' for x in items) + '</ul></div>'
@@ -271,7 +271,7 @@ SECTIONS = [
      'The firms\' audiences took years to build and will not be matched in 90 days. What can be built now is a library of useful videos that keeps being found in search, where audience size matters less than the answer.'),
     ('What is holding Pearce Placements back', 'Seven gaps, most important first.', s6,
      'Most of these gaps are fixed in month one and take little of Lucy\'s time. Fixing them first means the videos that follow lead to pages that turn visitors into inquiries.'),
-    ('90 days to an established voice', 'Month one builds the base; months two and three put Lucy\'s advice in front of captains and crew every week, leading into the Med season hiring window.', s7,
+    ('A proposed 90-day plan', 'A starting point to agree with Lucy: month one builds the base; months two and three put her advice in front of captains and crew every week, leading into the Med season hiring window.', s7,
      'The plan puts Lucy\'s knowledge in front of captains and crew every week without her filming, and every piece points to one next step. The push is timed for January, just before the February to May hiring window.'),
     ('How results are measured', 'Four levels, from content published to placements, tracked against this baseline.', s8,
      'Measuring each level shows where the plan is working and where to change it, so decisions come from Pearce Placements\' own numbers rather than guesses.'),

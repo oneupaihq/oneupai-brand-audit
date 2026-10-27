@@ -32,7 +32,7 @@ export function voyagePage(plan, oneupLogoUri, bundle) {
 <div id="top">
   <div class="title glass">
     <div class="logos"><img class="jl" src="${plan.logoUri}" alt="${esc(plan.brand)}"><img class="ol" src="${oneupLogoUri}" alt="OneUpAI"></div>
-    <div><div class="kick">Your ${plan.days}-day voyage</div>
+    <div><div class="kick">Your ${plan.days}-day voyage${plan.status ? ` · ${esc(plan.status)}` : ''}</div>
     <h1>${esc(plan.client)}</h1>
     <p>${esc(plan.range)} · ${plan.weeks.length} weeks, one buoy each</p>
     <div class="legend">${legend}</div>
