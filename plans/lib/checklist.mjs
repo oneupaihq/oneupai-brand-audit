@@ -1,6 +1,6 @@
 // The checklist page: the whole plan in the audit-report design, with check marks saved on the device.
 import fs from 'fs';
-import { esc, table, scriptJson, FONTS, KIND } from './html.mjs';
+import { esc, table, scriptJson, KIND, themeHead } from './html.mjs';
 import { guideHtml, GUIDE_CSS } from './guide.mjs';
 import { isRecording } from './plan.mjs';
 
@@ -73,12 +73,13 @@ export function checklistPage(plan, oneupLogoUri) {
   ];
   const body = SECTIONS.map(([a, b, c, d], i) => section(i + 1, a, b, c, d)).join('');
   const nav = `<nav class="jump" aria-label="Sections">${SECTIONS.slice(0, 7).map(([a, , , d]) => `<a href="#${d}">${esc(a)}</a>`).join('')}</nav>`;
+  const TH = themeHead(plan.theme);
   const js = asset('checklist.js').replace('__KEY__', scriptJson(plan.storeKey)).replace('__START__', scriptJson(plan.start));
 
   return `<!doctype html>
-<html lang="en"><head><meta charset="utf-8">${FONTS}<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<html lang="en"><head><meta charset="utf-8">${TH.link}<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
 <title>${esc(plan.client)} · Your ${plan.days}-Day Plan</title>
-<style>${asset('report.css')}${asset('checklist.css')}${GUIDE_CSS}</style></head>
+<style>${asset('report.css')}${asset('checklist.css')}${GUIDE_CSS}${TH.css}</style></head>
 <body>
 <header class="hero"><div class="wrap">
  <div class="toprow"><img class="clogo" src="${plan.logoUri}" alt="${esc(plan.brand)}"><img class="olog" src="${oneupLogoUri}" alt="OneUpAI"></div>

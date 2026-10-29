@@ -164,7 +164,7 @@ s_next = table(['Step', 'Who', 'When'], [
     ['30-minute call to go through this audit and the proposed 90-day plan', 'Joe and Nick', 'Week of November 2'],
     ['Share access: WordPress, Google Search Console, the LinkedIn company page', 'Joe', 'Before the plan starts'],
     ['Agree the plan; week 1 starts', 'Joe and OneUpAI', 'Monday, November 9, 2026']], left=(0, 1)) + \
-    '<p class="src">The proposed 90-day plan covers the fixes above and a weekly content schedule that promotes Joe\'s services only.</p>'
+    '<p class="src">The <a href="joe-emery-90-day-plan.html">proposed 90-day plan</a> covers the fixes above and a weekly content schedule that promotes Joe\'s services only.</p>'
 
 # ---------------------------------------------------------------- 8. about
 SOURCES = [

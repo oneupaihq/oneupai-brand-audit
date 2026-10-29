@@ -1,0 +1,805 @@
+{
+  "slug": "joe-emery",
+  "days": 90,
+  "client": "Joe Emery",
+  "brand": "#joeemerywrites",
+  "market": "copywriting",
+  "start": "2026-11-09",
+  "end": "2027-02-07",
+  "prepared": "October 29, 2026",
+  "baselineDate": "Oct 29",
+  "preparedBy": {
+    "name": "Nick Zarzycki",
+    "company": "OneUpAI",
+    "email": "nz@oneupai.com"
+  },
+  "logo": "logo.png",
+  "status": "Proposed plan",
+  "theme": {
+    "font": "Poppins",
+    "accent": "#0edbd6",
+    "accentInk": "#08807c",
+    "onAccent": "#06302e",
+    "navy": "#1b2b33",
+    "hero": [
+      "#0edbd6 0%",
+      "#8beee9 52%",
+      "#eefcfb 100%"
+    ]
+  },
+  "goal": "Joe becomes the copywriter UK clients find when they look for website copy, tone of voice and brand messaging: a secure website that sells his framework, his work in front of his LinkedIn audience every week, and every enquiry tracked by where it came from by day 90.",
+  "oneLine": "Copywriter and messaging strategist. I build your 7-Step Strategic Communications Framework©, then write the words that sell.",
+  "profilesLine": "#joeemerywrites is the brand; every channel points to the framework and the free review.",
+  "articlesLabel": "articles on your website, shared on LinkedIn",
+  "thisWeek": 5,
+  "phases": [
+    {
+      "id": "setup",
+      "name": "Foundations",
+      "color": "#4a7fe0",
+      "line": "Website secured, one address, the framework and service pages, YouTube set up.",
+      "dates": "Nov 9 – Nov 29"
+    },
+    {
+      "id": "framework",
+      "name": "The framework",
+      "color": "#0bb8b3",
+      "line": "The 7 steps, one video at a time, and a weekly post about your work.",
+      "dates": "Nov 30 – Dec 20"
+    },
+    {
+      "id": "yearend",
+      "name": "Year-end",
+      "color": "#8d69d8",
+      "line": "Lighter weeks; the January review campaign gets ready.",
+      "dates": "Dec 21 – Jan 3"
+    },
+    {
+      "id": "launch",
+      "name": "January reviews",
+      "color": "#e8a92e",
+      "launch": true,
+      "line": "Free messaging reviews, before-and-afters, case studies and your day-90 report.",
+      "dates": "Jan 4 – Feb 7"
+    }
+  ],
+  "weeks": [
+    {
+      "n": 1,
+      "dates": "Nov 9–15",
+      "start": "2026-11-09",
+      "phase": "setup",
+      "focus": "Getting set up",
+      "you": [
+        "Record your calibration clip: five short answers, 5–10 minutes, by Nov 11",
+        "Give us WordPress admin access, or your developer's contact, so we can secure the site",
+        "Tell us which web address to keep: joeemerywrites.co.uk or jwemeryltd.com",
+        "Add us as an admin on the #joeemerywrites LinkedIn company page",
+        "20-minute call to go through your dashboard and the sample edits (Nov 13)"
+      ],
+      "out": [
+        [
+          "setup",
+          "Website secured: gambling posts, spam categories and unknown accounts removed; WordPress, theme and plugins updated; malware scan run"
+        ],
+        [
+          "setup",
+          "Google Search Console set up; the casino pages submitted for removal"
+        ],
+        [
+          "setup",
+          "YouTube channel created in your name"
+        ],
+        [
+          "setup",
+          "Enquiry log: every AUDIT request, discovery call and email tagged by where it came from"
+        ],
+        [
+          "setup",
+          "Sample edits from your calibration clip by Nov 13"
+        ]
+      ]
+    },
+    {
+      "n": 2,
+      "dates": "Nov 16–22",
+      "start": "2026-11-16",
+      "phase": "setup",
+      "focus": "Introducing Joe and the framework",
+      "you": [
+        "Record this month's answers by Nov 18: about 12 questions (about 45 min)",
+        "Approve next week's posts from the preview link (about 10 min)"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 1: who Joe helps and the 7-Step Strategic Communications Framework"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "setup",
+          "One web address everywhere: certificate renewed, the other address forwarded securely, every profile updated"
+        ],
+        [
+          "setup",
+          "Home and About pages updated: your message, the free AUDIT review, your 69K audience and your 2025 media appearances"
+        ]
+      ]
+    },
+    {
+      "n": 3,
+      "dates": "Nov 23–29",
+      "start": "2026-11-23",
+      "phase": "setup",
+      "focus": "Why more traffic won't fix weak messaging",
+      "you": [
+        "Approve next week's posts from the preview link (about 10 min)",
+        "Send one voice note on a question a client asked you this month"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 2: why more traffic won't fix weak messaging"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 1: five signs your messaging is costing you enquiries"
+        ],
+        [
+          "setup",
+          "Framework page live: the 7 steps, real-world examples and a button to book a discovery call"
+        ]
+      ]
+    },
+    {
+      "n": 4,
+      "dates": "Nov 30–Dec 6",
+      "start": "2026-11-30",
+      "phase": "framework",
+      "focus": "Positioning: steps 1 and 2",
+      "you": [
+        "Text us your November numbers: AUDIT requests, discovery calls, projects won and where each came from (5 min)",
+        "Approve next week's posts from the preview link (about 10 min)"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 3: what the first two steps uncover about a business"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "setup",
+          "Service pages written: website copywriting, tone of voice and brand messaging"
+        ],
+        [
+          "post",
+          "LinkedIn post in your name about your work, from this week's video"
+        ]
+      ]
+    },
+    {
+      "n": 5,
+      "dates": "Dec 7–13",
+      "start": "2026-12-07",
+      "phase": "framework",
+      "focus": "The messaging playbook",
+      "you": [
+        "Record this month's answers by Dec 9: about 12 questions (about 45 min)",
+        "Approve next week's posts from the preview link (about 10 min)"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 4: the messaging playbook, and when a business needs one"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 2: what a messaging playbook is and what it changes"
+        ],
+        [
+          "post",
+          "LinkedIn post in your name about your work, from this week's video"
+        ]
+      ]
+    },
+    {
+      "n": 6,
+      "dates": "Dec 14–20",
+      "start": "2026-12-14",
+      "phase": "framework",
+      "focus": "One story for the whole business",
+      "you": [
+        "Approve next week's posts from the preview link (about 10 min)",
+        "Tell us which clients might agree to a case study"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 5: the internal story deck, one story for sales, pitches and the website"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "setup",
+          "Recommendation request sent to recent clients, with your approval"
+        ],
+        [
+          "post",
+          "LinkedIn post in your name about your work, from this week's video"
+        ]
+      ]
+    },
+    {
+      "n": 7,
+      "dates": "Dec 21–27",
+      "start": "2026-12-21",
+      "phase": "yearend",
+      "focus": "Tone of voice",
+      "you": [
+        "Look over the weekly preview"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 6: tone of voice, and how a brand should sound"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 3: tone of voice guides, explained"
+        ],
+        [
+          "setup",
+          "Free messaging review page and request form ready for January"
+        ]
+      ]
+    },
+    {
+      "n": 8,
+      "dates": "Dec 28–Jan 3",
+      "start": "2026-12-28",
+      "phase": "yearend",
+      "focus": "Ready for January",
+      "note": "A light week: two shorts, and the January campaign set up.",
+      "you": [
+        "Approve the January campaign posts from the preview link (about 15 min)"
+      ],
+      "out": [
+        [
+          "short",
+          "2 shorts"
+        ],
+        [
+          "setup",
+          "A message to past clients and contacts about the January reviews, drafted for you to send"
+        ]
+      ]
+    },
+    {
+      "n": 9,
+      "dates": "Jan 4–10",
+      "start": "2027-01-04",
+      "phase": "launch",
+      "focus": "Free messaging reviews open",
+      "you": [
+        "Record this month's answers by Jan 6: about 12 questions (about 45 min)",
+        "Text us your December numbers (5 min)",
+        "Approve next week's posts from the preview link (about 10 min)"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 7: is your website costing you enquiries? Five checks"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 4: how the free messaging review works"
+        ],
+        [
+          "post",
+          "The free review offer on your LinkedIn profile, company page and Facebook"
+        ]
+      ]
+    },
+    {
+      "n": 10,
+      "dates": "Jan 11–17",
+      "start": "2027-01-11",
+      "phase": "launch",
+      "focus": "Before and after",
+      "you": [
+        "Clips from the shot list as reviews come in",
+        "Approve next week's posts from the preview link (about 10 min)"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 8: a homepage rewrite, before and after, with the owner's permission"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "post",
+          "Same-day shorts from this week's reviews"
+        ]
+      ]
+    },
+    {
+      "n": 11,
+      "dates": "Jan 18–24",
+      "start": "2027-01-18",
+      "phase": "launch",
+      "focus": "From strategy to website copy",
+      "you": [
+        "Clips from the shot list as reviews come in",
+        "Approve next week's posts from the preview link (about 10 min)"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 9: step 7, turning the strategy into website copy"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 5: a client case study, with the client's permission"
+        ],
+        [
+          "post",
+          "LinkedIn post in your name about your work, from this week's video"
+        ]
+      ]
+    },
+    {
+      "n": 12,
+      "dates": "Jan 25–31",
+      "start": "2027-01-25",
+      "phase": "launch",
+      "focus": "What follows the website",
+      "you": [
+        "Approve next week's posts from the preview link (about 10 min)"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 10: landing pages, emails and ads from one message"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "setup",
+          "A follow-up to everyone who requested a review, drafted for you"
+        ]
+      ]
+    },
+    {
+      "n": 13,
+      "dates": "Feb 1–7",
+      "start": "2027-02-01",
+      "phase": "launch",
+      "focus": "Day 90",
+      "you": [
+        "Text us your January numbers (5 min)",
+        "30-minute review call: results and the next 90 days"
+      ],
+      "out": [
+        [
+          "video",
+          "Video 11: what January's reviews showed"
+        ],
+        [
+          "short",
+          "4 shorts"
+        ],
+        [
+          "article",
+          "Article 6: the most common messaging gaps from January's reviews"
+        ],
+        [
+          "report",
+          "Your day-90 report, measure by measure against the October audit"
+        ]
+      ]
+    }
+  ],
+  "weeksNote": "Topics are a starting point to agree with you; final titles are set each month from your recordings. Client work appears only with the client's permission.",
+  "totals": {
+    "videos": 11,
+    "shorts": 46,
+    "articles": 6
+  },
+  "later": [
+    "Clients who'd agree to a case study or a recommendation",
+    "Whether to show starting prices for the framework on the website",
+    "Whether you'd rather answer in writing or by voice note than on camera (the plan can switch to narrated videos)",
+    "Whether to keep X active or point it to LinkedIn"
+  ],
+  "calibration": {
+    "due": "Wednesday, November 11",
+    "samplesBy": "Nov 13",
+    "topics": [
+      [
+        "Introduce yourself",
+        "your name, #joeemerywrites, and the businesses you help."
+      ],
+      [
+        "The framework in a minute",
+        "the 7 steps, and why strategy comes before writing."
+      ],
+      [
+        "A client question",
+        "\"Why isn't my website bringing in enquiries?\" and how you answer it."
+      ],
+      [
+        "A before-and-after",
+        "one line you rewrote for a client and what changed."
+      ],
+      [
+        "The free review",
+        "what someone gets when they send you \"AUDIT\"."
+      ]
+    ]
+  },
+  "launch": {
+    "name": "January reviews",
+    "dates": "Jan 4 – Feb 7",
+    "venue": "event",
+    "title": "January review campaign",
+    "line": "Many businesses set their plans for the year in January. Five weeks of free messaging reviews put the framework in front of them, with before-and-afters and case studies as proof and a discovery call as the next step.",
+    "before": {
+      "title": "Before · Dec 21 – Jan 3",
+      "items": [
+        "A free messaging review page on your website, with a request form and a link to book a discovery call.",
+        "A message to past clients and contacts, drafted for you to send.",
+        "The first January posts approved before the holidays."
+      ]
+    },
+    "during": {
+      "title": "During · Jan 4 – Feb 7 · your shot list",
+      "note": "Vertical clips, 10–20 seconds each, or a voice note if you'd rather not film. Upload them through your link the same day.",
+      "shots": [
+        "One thing you noticed in this week's reviews",
+        "A before-and-after line from a review, with the owner's permission",
+        "Your answer to the question you were asked most this week",
+        "One step of the framework, explained in under a minute",
+        "A client's result, with their permission",
+        "A thank-you to everyone who requested a review"
+      ]
+    },
+    "after": {
+      "title": "After · from Feb 8",
+      "items": [
+        "A personal follow-up to everyone who requested a review, which we draft.",
+        "Case studies from January's reviews, published with permission.",
+        "Your day-90 report compares every measure with the October audit."
+      ]
+    }
+  },
+  "cadence": {
+    "title": "After day 90: the monthly rhythm",
+    "line": "From February the plan becomes a set monthly routine.",
+    "head": [
+      "When",
+      "What happens",
+      "Your part"
+    ],
+    "rows": [
+      [
+        "First week of each month",
+        "Your monthly recording; last month's report",
+        "~45 min recording, 5 min for your numbers"
+      ],
+      [
+        "Every week",
+        "1 long-form video, 4 shorts, a LinkedIn post about your work, and the same on your company page",
+        "A quick look at the preview"
+      ],
+      [
+        "Twice a month",
+        "An article on your website, shared on LinkedIn",
+        "None; drawn from your recordings"
+      ],
+      [
+        "After each project",
+        "A recommendation request to the client; a case study when they agree",
+        "Forward the reply"
+      ],
+      [
+        "Every quarter",
+        "A 30-minute review: results, what to change, service pages refreshed",
+        "30-minute call"
+      ]
+    ]
+  },
+  "guide": {
+    "sit": {
+      "title": "Sit-down recordings",
+      "when": "Your calibration clip and the monthly recordings",
+      "steps": [
+        [
+          "Phone sideways, at eye level",
+          "Set it on a small tripod or a stack of books, not in your hand."
+        ],
+        [
+          "About 1 to 1.2 metres away",
+          "Frame yourself from mid-chest up, centred, with a little space above your head."
+        ],
+        [
+          "Light in front of you",
+          "Face a window or a lamp. Avoid a bright window behind you."
+        ],
+        [
+          "A quiet room",
+          "Turn off fans and music if you can. Outdoors, a clip-on mic makes a big difference."
+        ],
+        [
+          "Look at the lens",
+          "Talk to it like a client across the table. Pause a second before and after each answer; restarts are fine."
+        ]
+      ],
+      "setting": "One-time setting: if your phone offers it, record in 4K at 30 fps (on iPhone: Settings > Camera > Record Video)."
+    },
+    "clips": {
+      "title": "Quick clips",
+      "when": "The January campaign and anything worth sharing",
+      "steps": [
+        [
+          "Phone upright",
+          "Hold it steady with both hands, or prop it up."
+        ],
+        [
+          "10 to 20 seconds each",
+          "One point per clip; several short clips beat one long one."
+        ],
+        [
+          "Nothing private on screen",
+          "Keep client documents, emails and names out of the frame unless the client has agreed."
+        ],
+        [
+          "Ask first",
+          "Get a quick OK before filming anyone else."
+        ]
+      ]
+    },
+    "send": "Upload the original from your camera roll through your link. No trimming, filters or captions; we take care of all of that.",
+    "distanceShort": "1–1.2 m",
+    "distanceLong": "about 1 to 1.2 metres away"
+  },
+  "approvals": [
+    [
+      "Every Thursday",
+      "we send you one preview link, with email as a backup, showing next week's posts: each video, its title and caption, where it goes and when."
+    ],
+    [
+      "By Sunday evening",
+      "mark each one approve, change or skip. A quick comment is enough."
+    ],
+    [
+      "Changes",
+      "small caption fixes we make and confirm with you. A change to a video comes back to you within one business day."
+    ],
+    [
+      "No reply means no post",
+      "we send one friendly reminder and hold anything you haven't approved."
+    ],
+    [
+      "January campaign weeks",
+      "same-day shorts from your clips come to you as they're ready. Reply OK or a change and we post within a couple of hours."
+    ],
+    [
+      "Your style is set once",
+      "the sample edits from your calibration clip lock in captions, music and your on-screen name, so weekly reviews are only about what you say."
+    ]
+  ],
+  "afterMonth": "Once you're happy with the quality, we phase in automatic approval. Shorts cut from videos you've already approved go first, then everything else. You'll still get the weekly preview, so you can stop anything before it posts.",
+  "hour": [
+    [
+      "Recording",
+      "~45 min",
+      "We send about 12 questions drawn from your work and your clients' questions. You record your answers on your phone, in one sitting or a few, and upload them through your link. No scripts."
+    ],
+    [
+      "Quick inputs",
+      "~10 min",
+      "A line or a clip when something happens: a project lands, a client agrees to a case study, a review turns up something worth sharing."
+    ],
+    [
+      "Monthly numbers",
+      "~5 min",
+      "A quick text: AUDIT requests, discovery calls, projects won, and where each came from."
+    ],
+    [
+      "Weekly approvals",
+      "~10 min a week",
+      "One preview link during the first month; after that, a quick look at what's coming."
+    ]
+  ],
+  "themes": [
+    [
+      "The 7-step framework",
+      "35%",
+      "Positioning · The messaging playbook · The story deck · Tone of voice · Style guides"
+    ],
+    [
+      "Website copy that sells",
+      "30%",
+      "What a homepage needs to say · Before-and-after rewrites · Landing pages · Answering objections"
+    ],
+    [
+      "Proof and results",
+      "20%",
+      "Client case studies, with permission · Recommendations · Lessons from the free reviews"
+    ],
+    [
+      "Joe on messaging",
+      "15%",
+      "Common messaging mistakes · Writing with AI · What clients ask most"
+    ]
+  ],
+  "profiles": [
+    [
+      "Website",
+      "Joe Emery | Copywriter and messaging strategist, London",
+      "One address, chosen with you in week 1",
+      "The framework page, three service pages, articles and the free review"
+    ],
+    [
+      "LinkedIn profile",
+      "Joe Emery",
+      "/in/joeemerywrites-forbondfansonly",
+      "Your headline stays yours; the Featured section points to the framework and the free review"
+    ],
+    [
+      "LinkedIn company page",
+      "#joeemerywrites",
+      "/company/joeemerywrites",
+      "The one line; a weekly post from each video"
+    ],
+    [
+      "YouTube (new)",
+      "Joe Emery Writes",
+      "@joeemerywrites, checked at setup",
+      "Messaging and copywriting advice, presented by you"
+    ],
+    [
+      "Instagram",
+      "#joeemerywrites",
+      "@joeemerywrites",
+      "The one line, with the website link"
+    ],
+    [
+      "Facebook page",
+      "Joe Emery Writes",
+      "/joeemerywrites",
+      "Weekly shorts and articles"
+    ],
+    [
+      "X",
+      "#joeemerywrites",
+      "@joeemerywrites",
+      "The one line and the website link; articles shared"
+    ]
+  ],
+  "boundaries": [
+    "Plan content promotes your services only. Your posts for job seekers and your personal topics stay on your own feed, outside the plan.",
+    "Client names, work and results only with the client's permission.",
+    "No political topics on the business channels.",
+    "For Bond Fans Only stays separate from the business channels.",
+    "You approve every post for the first month, until you're happy with the quality."
+  ],
+  "tools": [
+    [
+      "OneUpAI web",
+      "A secure, updated website; the framework page, service pages and articles",
+      "Your recordings, your framework document and our drafts",
+      "Your website"
+    ],
+    [
+      "OneUpAI editing",
+      "Long-form videos with titles, chapters and captions",
+      "Your recorded answers",
+      "YouTube, LinkedIn, your website"
+    ],
+    [
+      "OneUpShorts",
+      "Captioned shorts, 30–60 seconds, in one consistent style",
+      "Your recordings and clips",
+      "LinkedIn, Instagram, Facebook, YouTube Shorts"
+    ],
+    [
+      "OneUpArticles",
+      "Articles in your words",
+      "Your recorded answers",
+      "Your website, LinkedIn"
+    ],
+    [
+      "OneUpScores",
+      "Background music for each video",
+      "A description of the mood",
+      "Every video"
+    ],
+    [
+      "Publishing (OneUpAI gateway)",
+      "Each approved piece, sized and captioned for its platform",
+      "Your approved edits",
+      "Every channel, on schedule"
+    ]
+  ],
+  "measures": [
+    [
+      "Website",
+      "Security warning; 11 gambling posts; service pages with no text; framework not mentioned",
+      "Secured; one address; framework page, 3 service pages and 6 articles"
+    ],
+    [
+      "Videos on your YouTube channel",
+      "No channel",
+      "11"
+    ],
+    [
+      "Short clips",
+      "0",
+      "46"
+    ],
+    [
+      "LinkedIn posts about your work",
+      "0 of your last 10",
+      "At least one a week"
+    ],
+    [
+      "LinkedIn company page",
+      "776 followers; no posts shown",
+      "Weekly posts; followers reported monthly"
+    ],
+    [
+      "LinkedIn profile",
+      "69,459 followers",
+      "Reported monthly"
+    ],
+    [
+      "Copywriting searches on page 1",
+      "0 of 5",
+      "Reported monthly"
+    ],
+    [
+      "Recommendations and case studies",
+      "1 recent recommendation",
+      "Asked after every project; case studies with permission"
+    ],
+    [
+      "AUDIT requests, discovery calls and projects",
+      "Your numbers at kickoff",
+      "Reported monthly, by where each came from"
+    ]
+  ]
+}

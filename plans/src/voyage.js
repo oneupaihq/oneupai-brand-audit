@@ -11,7 +11,9 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const V3 = THREE.Vector3;
 const ease = t => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-const FONT = '"Archivo", "Helvetica Neue", Arial, sans-serif';
+const TH = PLAN.theme || {};
+const FONT = `"${TH.font || 'Archivo'}", "Helvetica Neue", Arial, sans-serif`;
+const GOLD = TH.accent || '#e8a92e', GOLD_INK = TH.accentInk || '#b87c0b', NAVY = TH.navy || '#0f2c4a';
 const WEEKS = PLAN.weeks;
 const PH = Object.fromEntries(PLAN.phases.map(p => [p.id, p]));
 const KIND = { video: 'Video', short: 'Shorts', article: 'Article', note: 'Note', post: 'Post', setup: 'Setup', report: 'Report' };
@@ -249,7 +251,7 @@ function makeYacht(L, stripe, hero) {
     const m = new THREE.Mesh(rrGeo(w, d, r, h), yWhite); m.position.set(0, y, z); m.castShadow = true; body.add(m);
     const gd = d * glassLen, gz = z - d / 2 + gd / 2;
     const band = new THREE.Mesh(rrGeo(w * 1.02, gd * 1.01, Math.min(w * 1.02, gd) * 0.46, h * 0.42), yGlass); band.position.set(0, y + h * 0.3, gz); body.add(band);
-    if (hero) { const trim = new THREE.Mesh(rrGeo(w * 1.03, d * 1.02, r * 1.02, 0.12), glowMat('#e8a92e', 1.3)); trim.position.set(0, y - 0.02, z); body.add(trim); }
+    if (hero) { const trim = new THREE.Mesh(rrGeo(w * 1.03, d * 1.02, r * 1.02, 0.12), glowMat(GOLD, 1.3)); trim.position.set(0, y - 0.02, z); body.add(trim); }
   };
   const w1 = W * 0.8, d1 = L * 0.5, h1 = Math.max(1.2, L * 0.045), z1 = -L * 0.1;
   tier(w1, d1, h1, H, z1, 0.56);
@@ -282,7 +284,7 @@ function makeYacht(L, stripe, hero) {
 
 // the hero yacht
 const HERO_L = 34;
-const hero = makeYacht(HERO_L, '#e8a92e', true);
+const hero = makeYacht(HERO_L, GOLD, true);
 scene.add(hero);
 // wake: a V of foam behind the stern
 const wakeTex = tex(256, 512, (x, w, h) => {
@@ -302,15 +304,15 @@ const bowFoam = new THREE.Mesh(new THREE.CircleGeometry(1, 24).rotateX(-Math.PI 
 bowFoam.scale.set(3, 1, 5); bowFoam.position.set(0, 0.05, HERO_L * 0.36); hero.add(bowFoam);
 
 // ---------- labels ----------
-function label(text, sub, color = '#0f2c4a', worldW = 46) {
+function label(text, sub, color = NAVY, worldW = 46) {
   const t = tex(640, 180, (x, w, h) => {
     x.font = `800 58px ${FONT}`; const tw = x.measureText(text).width;
     x.font = `700 34px ${FONT}`; const sw = sub ? x.measureText(sub).width : 0;
     const bw = Math.min(w - 8, Math.max(tw, sw) + 64), bh = sub ? 150 : 96, bx = (w - bw) / 2, by = (h - bh) / 2;
     x.fillStyle = 'rgba(255,255,255,0.94)'; rrPath(x, bx, by, bw, bh, 26); x.fill();
     x.fillStyle = color; x.fillRect(bx + 26, by + bh - 6, bw - 52, 4);
-    x.textAlign = 'center'; x.fillStyle = '#0f2c4a'; x.font = `800 58px ${FONT}`; x.fillText(text, w / 2, by + (sub ? 70 : 68));
-    if (sub) { x.fillStyle = '#b87c0b'; x.font = `700 34px ${FONT}`; x.fillText(sub, w / 2, by + 120); }
+    x.textAlign = 'center'; x.fillStyle = NAVY; x.font = `800 58px ${FONT}`; x.fillText(text, w / 2, by + (sub ? 70 : 68));
+    if (sub) { x.fillStyle = GOLD_INK; x.font = `700 34px ${FONT}`; x.fillText(sub, w / 2, by + 120); }
   });
   const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: t.t, transparent: true, depthWrite: false, fog: false }));
   s.scale.set(worldW, worldW * 180 / 640, 1); s.renderOrder = 5;
@@ -331,7 +333,7 @@ function label(text, sub, color = '#0f2c4a', worldW = 46) {
 const eventFlags = [];
 {
   const fx = BUOYS[LAUNCH_IDX].x, dz = COAST_Z + 30, boatShow = PLAN.launch.venue === 'boat-show';
-  const fm = new THREE.MeshBasicMaterial({ color: new THREE.Color('#e8a92e').multiplyScalar(1.15), side: THREE.DoubleSide, toneMapped: false });
+  const fm = new THREE.MeshBasicMaterial({ color: new THREE.Color(GOLD).multiplyScalar(1.15), side: THREE.DoubleSide, toneMapped: false });
   const triangle = new THREE.BufferGeometry().setFromPoints([new V3(0, 0, 0), new V3(0, -1.6, 0), new V3(2.6, -0.8, 0)]); triangle.computeVertexNormals();
   const flagRow = (x0, n, step, y, z) => { for (let i = 0; i < n; i++) { const x = x0 + i * step; const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 7, 6), white); pole.position.set(x, y + 3.5, z); scene.add(pole); const f = new THREE.Mesh(triangle, fm); f.position.set(x, y + 6.9, z); scene.add(f); eventFlags.push(f); } };
   const tentG = new THREE.ConeGeometry(5, 4, 4).rotateY(Math.PI / 4).translate(0, 5, 0);
@@ -367,7 +369,7 @@ let lamp;
   const sand = new THREE.Mesh(new THREE.CylinderGeometry(46, 52, 2, 48), sandMat); sand.scale.set(1, 1, 0.8); sand.position.set(ISLE.x, -0.4, ISLE.z); sand.receiveShadow = true; scene.add(sand);
   const grass = new THREE.Mesh(new THREE.CylinderGeometry(34, 38, 2, 40), grassMat); grass.scale.set(1, 1, 0.8); grass.position.set(ISLE.x + 4, 0.4, ISLE.z - 4); grass.receiveShadow = true; scene.add(grass);
   const lx = ISLE.x + 8, lz = ISLE.z - 6;
-  const goldM = new THREE.MeshStandardMaterial({ color: '#e8a92e', roughness: 0.4, metalness: 0.2 });
+  const goldM = new THREE.MeshStandardMaterial({ color: GOLD, roughness: 0.4, metalness: 0.2 });
   const H = 34;
   for (let i = 0; i < 6; i++) {
     const r0 = 4.2 - i * 0.28, r1 = 4.2 - (i + 1) * 0.28;
@@ -409,7 +411,7 @@ function numTex(i) {
   const draw = () => t.draw((x, w) => {
     const w0 = WEEKS[i], col = PH[w0.phase].color, done = weekDone(i);
     x.fillStyle = 'rgba(255,255,255,0.95)'; x.beginPath(); x.arc(w / 2, w / 2, 60, 0, 7); x.fill();
-    x.fillStyle = done ? '#e8a92e' : col; x.beginPath(); x.arc(w / 2, w / 2, 50, 0, 7); x.fill();
+    x.fillStyle = done ? GOLD : col; x.beginPath(); x.arc(w / 2, w / 2, 50, 0, 7); x.fill();
     x.fillStyle = done ? '#2a1d00' : '#fff'; x.textAlign = 'center'; x.textBaseline = 'middle';
     x.font = `800 ${done ? 60 : 56}px ${FONT}`; x.fillText(done ? '✓' : String(w0.n), w / 2, w / 2 + 3);
   });

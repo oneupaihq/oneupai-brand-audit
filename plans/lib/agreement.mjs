@@ -1,7 +1,7 @@
 // The agreement page: the offer, the key terms and the payment button, in the audit-report design.
 // Built only when plan.json has an "agreement" block (see plans/README.md).
 import fs from 'fs';
-import { esc, FONTS } from './html.mjs';
+import { esc, themeHead } from './html.mjs';
 
 const asset = f => fs.readFileSync(new URL(`../assets/${f}`, import.meta.url), 'utf8');
 const usd = n => `$${Number(n).toLocaleString('en-US')}`;
@@ -39,7 +39,7 @@ const CSS = `
 `;
 
 export function agreementPage(plan, oneupLogoUri) {
-  const A = plan.agreement, by = plan.preparedBy;
+  const A = plan.agreement, by = plan.preparedBy, TH = themeHead(plan.theme);
   const months = A.rateMonths;
   const expires = fullDate(A.expires);
   const fx = A.fx;
@@ -75,9 +75,9 @@ export function agreementPage(plan, oneupLogoUri) {
   const body = SECTIONS.map(([a, b, c, d], i) => section(i + 1, a, b, c, d)).join('');
 
   return `<!doctype html>
-<html lang="en"><head><meta charset="utf-8">${FONTS}<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<html lang="en"><head><meta charset="utf-8">${TH.link}<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
 <title>${esc(plan.client)} · Agreement and payment</title>
-<style>${asset('report.css')}${asset('checklist.css')}${CSS}</style></head>
+<style>${asset('report.css')}${asset('checklist.css')}${CSS}${TH.css}</style></head>
 <body>
 <header class="hero"><div class="wrap">
  <div class="toprow"><img class="clogo" src="${plan.logoUri}" alt="${esc(plan.brand)}"><img class="olog" src="${oneupLogoUri}" alt="OneUpAI"></div>
