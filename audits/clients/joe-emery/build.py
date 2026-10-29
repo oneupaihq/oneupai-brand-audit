@@ -77,7 +77,7 @@ w_services = 'The framework is a clear, structured offer that sets Joe apart fro
 k = kpis([('69,459', 'Followers on Joe\'s LinkedIn profile, posting several times a day', ''),
           ('3', 'National broadcasters he has appeared on: GB News, LBC and BBC Radio 4', ''),
           ('11', 'Gambling posts published on his website since July 22, 2026', 'r'),
-          ('0 of 5', 'Copywriting searches where he appears on page 1', 'r')])
+          ('0 of 13', 'Searches for his services, B2B and B2C, where he appears', 'r')])
 
 PRESENCE = exhibit(4, 'Presence at a glance', table(
     ['Channel', 'Address', 'Audience', 'Latest activity', 'Status'],
@@ -98,7 +98,7 @@ s_state = k + f'''
  <li><b>Credentials most copywriters can't show.</b> Interviews with Dame Joanna Lumley, Julian Glover CBE and director John Glen; a lecture on copywriting at DHBW Heilbronn; and 2025 appearances on GB News, LBC and BBC Radio 4.</li>
  <li><b>The website works against him.</b> The address on his LinkedIn, Facebook, X and email shows a security warning, and the site it forwards to is showing gambling posts on its home page.</li>
  <li><b>Known for the job market, not for copywriting.</b> His recent LinkedIn posts and his press coverage are about job seekers and the job market. None of his 10 most recent posts is about his copywriting work.</li>
- <li><b>Not found when buyers search.</b> He owns searches for his business names but appears in none of five searches a client would use to find a copywriter in London or the UK.</li>
+ <li><b>Not found when buyers search.</b> He owns searches for his business names but appears in none of 13 searches clients use to find a copywriter, B2B or B2C, on Google UK or a US-based web search.</li>
 </ol>
 {PRESENCE}'''
 w_state = 'Joe already has what most freelancers lack: a large, engaged audience and national media credits. Today, though, a prospect who clicks through from LinkedIn meets a security warning or gambling posts before they see his work.'
@@ -109,7 +109,7 @@ s_web = exhibit(5, 'Website issues, most urgent first', table(
     [['Gambling posts', '11 casino posts (July 22 to August 3, 2026) published under a second user account; 6 of them listed on the home page. Google has indexed at least 5.', 'Visitors and Google see a copywriter\'s site selling casinos'],
      ['Spam categories', '215 blog categories, 209 of them empty, most named after betting brands and other spam terms', 'A common sign of a compromised WordPress site'],
      ['Expired certificate', 'https://joeemerywrites.co.uk shows a security warning; its certificate expired on September 9, 2024 and names cpanel.joeemerywrites.co.uk', 'Browsers show a full-page warning for the address on his profiles'],
-     ['Two addresses', 'http://joeemerywrites.co.uk forwards to jwemeryltd.com; every profile still lists joeemerywrites.co.uk', 'Visits and search value split across two names'],
+     ['Two addresses', 'http://joeemerywrites.co.uk forwards to jwemeryltd.com; every profile still lists joeemerywrites.co.uk. joeemerywrites.com does not load.', 'Visits and search value split across two names; a .co.uk address reads as a UK business to clients elsewhere'],
      ['Empty service pages', 'The Copywriting and Content writing pages show a heading, sample images and contact details, with no description of the service', 'Nothing for clients or Google to read'],
      ['Framework missing', 'No mention of the 7-step framework, the free "AUDIT" review or the discovery call', 'His strongest offer is not on his own site'],
      ['Out-of-date software', 'WordPress 6.5.5 (June 2024); user accounts are listed publicly by the site', 'Raises the chance of further break-ins'],
@@ -119,7 +119,7 @@ s_web = exhibit(5, 'Website issues, most urgent first', table(
 w_web = 'A client who checks Joe\'s site before hiring him is judging his attention to detail. A security warning or a page of casino posts can end that decision in seconds, and the casino pages also risk Google treating the site as spam.'
 
 # ---------------------------------------------------------------- 4. search
-s_search = exhibit(6, 'What Google shows (UK)', table(
+s_search = exhibit(6, 'His name, and searches on Google UK', table(
     ['Search', 'Joe on page 1', 'What leads'],
     [[Q('joe emery writes'), GOOD('#1'), 'jwemeryltd.com, then his LinkedIn profile and Facebook page'],
      [Q('J W Emery Ltd'), GOOD('#1'), 'jwemeryltd.com with five page links'],
@@ -130,11 +130,21 @@ s_search = exhibit(6, 'What Google shows (UK)', table(
      [Q('website copywriter UK'), BAD('No'), 'Mike Peake; Brand New Copy (Jamie Thomson); Jenny Lucas'],
      [Q('brand messaging strategist UK'), BAD('No'), 'Profound; Brand New Copy; Rowdy Studio'],
      [Q('tone of voice copywriter'), BAD('No'), 'Ash Billinghay; Nick Parker; Stephen Marsh']], left=(2,)),
-    f'Google searches with the region set to the UK, {DATE}. Results vary by location and account.')
-w_search = 'People who already know Joe can find him. People looking for a copywriter cannot: the searches he would want to win go to freelancers with service pages written for those exact terms.'
+    f'Google searches with the region set to the UK, {DATE}. Results vary by location and account.') + exhibit(7, 'Searches clients use worldwide, B2B and B2C', table(
+    ['Search', 'Client type', 'Joe found', 'What leads'],
+    [[Q('website copywriter'), 'Both', BAD('No'), 'Guides and agencies: ProfileTree, B12, Contra'],
+     [Q('brand messaging strategist'), 'B2B', BAD('No'), 'Job listings; a messaging audit sold on Upwork'],
+     [Q('tone of voice copywriter'), 'Both', BAD('No'), 'Nick Parker; Articulate Marketing; online courses'],
+     [Q('B2B copywriter'), 'B2B', BAD('No'), 'Guides and agencies: Compose.ly, Knowadays, Pepper'],
+     [Q('conversion copywriter'), 'B2C', BAD('No'), 'Guides: Shopify, Crazy Egg; ProCopywriters'],
+     [Q('copywriter for small business'), 'B2C', BAD('No'), 'Agencies and directories: Compose.ly, Get A Copywriter, Flying Solo'],
+     [Q('brand voice consultant'), 'B2B', BAD('No'), 'Directories and freelancers: ProCopywriters, Contra, Fiverr; Vikki Ross'],
+     [Q('messaging framework for business'), 'B2B', BAD('No'), 'Guides: LaunchNotes, MarketingProfs, Ink']], left=(3,)),
+    f'A US-based web search, {DATE}. Google checks for the US and Australia were stopped by Google\'s automated-traffic check that day; they are repeated at the start of the plan. No listing for Joe was found on ProCopywriters, Contra or Upwork.')
+w_search = 'People who already know Joe can find him. Clients looking for a copywriter, in the UK or anywhere else, cannot: those searches go to writers with service pages built for the exact terms, to how-to guides, and to directories and marketplaces such as ProCopywriters, Contra and Upwork, where Joe has no listing.'
 
 # ---------------------------------------------------------------- 5. social
-s_social = exhibit(7, 'His 10 most recent LinkedIn posts', table(
+s_social = exhibit(8, 'His 10 most recent LinkedIn posts', table(
     ['Topic', 'Posts', 'Example'],
     [['Posts written for job seekers', '5', 'A developer, a student and a social media manager looking for work'],
      ['Polls', '3', 'AI, happiness, the clocks going back'],
@@ -150,9 +160,9 @@ w_social = 'The audience is already there. What it rarely sees is Joe at work: t
 # ---------------------------------------------------------------- 6. fixes
 s_fix = '''<ol class="gaps">
  <li><b>Clean and secure the website.</b> Delete the 11 gambling posts, the spam categories and any account Joe doesn't recognise; change every password; update WordPress, the theme and plugins; and run a malware scan. Then ask Google to drop the casino pages through Search Console.</li>
- <li><b>Use one address everywhere.</b> Renew the certificate on joeemerywrites.co.uk or forward it securely to jwemeryltd.com, and fix www.forbondfansonly.com. Then update LinkedIn, Facebook, X and Instagram to the same address.</li>
+ <li><b>Use one address everywhere.</b> For a brand that works worldwide, a .com address: jwemeryltd.com, or joeemerywrites.com if it can be registered. Forward joeemerywrites.co.uk to it securely, fix www.forbondfansonly.com, and update LinkedIn, Facebook, X and Instagram to the same address.</li>
  <li><b>Put the framework on the website.</b> A page for the 7 steps with the free "AUDIT" review and the discovery call, plus the 69K audience, the GB News, LBC and BBC Radio 4 appearances and two or three client results.</li>
- <li><b>Write the service pages.</b> Website copywriting, tone of voice and brand messaging, each with examples, so the site can compete for the searches in Exhibit 6.</li>
+ <li><b>Write the service pages, and get listed.</b> Website copywriting, tone of voice, brand messaging, and pages for B2B and B2C clients, each with examples, so the site can compete for the searches in Exhibits 6 and 7. Add profiles on the directories and marketplaces that rank for them.</li>
  <li><b>Give his own work a regular place in the feed.</b> A weekly post and video on the framework, a client brief or a before-and-after, shared on the company page and YouTube as well.</li>
 </ol>'''
 w_fix = 'The first two fixes protect the reputation Joe has already built; the last three turn his LinkedIn reach into enquiries for his services.'
@@ -160,7 +170,7 @@ w_fix = 'The first two fixes protect the reputation Joe has already built; the l
 # ---------------------------------------------------------------- 7. next steps
 s_next = table(['Step', 'Who', 'When'], [
     ['Secure the website: remove the gambling posts, spam categories and unknown accounts; update and scan', 'OneUpAI, with WordPress admin access, or Joe\'s developer', 'This week'],
-    ['Choose one web address to keep: joeemerywrites.co.uk or jwemeryltd.com', 'Joe', 'This week'],
+    ['Choose one web address to keep, ideally a .com', 'Joe', 'This week'],
     ['30-minute call to go through this audit and the proposed 90-day plan', 'Joe and Nick', 'Week of November 2'],
     ['Share access: WordPress, Google Search Console, the LinkedIn company page', 'Joe', 'Before the plan starts'],
     ['Agree the plan; week 1 starts', 'Joe and OneUpAI', 'Monday, November 9, 2026']], left=(0, 1)) + \
@@ -178,7 +188,7 @@ SOURCES = [
     ('For Bond Fans Only', 'https://forbondfansonly.com/'),
     ('For Bond Fans Only on YouTube', 'https://www.youtube.com/channel/UCYB95XERhOi9KVUOf4YulRQ'),
 ]
-s_about = (f'<p>A brief audit: one visit to each public channel, nine Google searches, and a check of the website\'s certificate and public WordPress data, all on {DATE}. '
+s_about = (f'<p>A brief audit: one visit to each public channel, nine Google UK searches, eight searches on a US-based web search, and a check of the website\'s certificate and public WordPress data, all on {DATE}. '
            'Joe\'s services come from his website, his LinkedIn profile and his framework document. Nothing was estimated; anything not checked is marked so. '
            'It does not cover Google Business Profile, reviews, paid ads or AI assistants.</p>'
            '<ul class="soft">' + ''.join(f'<li>{n}: <a href="{u}">{u}</a></li>' for n, u in SOURCES) + '</ul>')
@@ -187,7 +197,7 @@ SECTIONS = [
     ('services', 'What Joe offers', 'Strategy first, then the words: the 7-step framework and the writing that follows it.', s_services, w_services),
     ('state', 'Current state', 'A large LinkedIn audience and real credentials, held back by the website.', s_state, w_state),
     ('website', 'The website', 'The address on his profiles shows a security warning; the site behind it is showing gambling posts.', s_web, w_web),
-    ('search', 'Search', 'He owns his name; he is missing from the searches clients use.', s_search, w_search),
+    ('search', 'Search', 'He owns his name; he is missing from the searches clients use, in the UK and worldwide.', s_search, w_search),
     ('social', 'Social', 'LinkedIn carries the brand; the feed is about job seekers, not his work.', s_social, w_social),
     ('fixes', 'What to fix first', 'Five steps, most urgent first.', s_fix, w_fix),
     ('next', 'Next steps', 'Secure the site this week, then agree the 90-day plan.', s_next, None),
@@ -268,7 +278,7 @@ report = f'''<!doctype html>
 <body>
 <header class="hero"><div class="wrap">
  <div class="toprow"><div class="brandmark"><img src="{LOGO}" alt=""><div><b>#joeemerywrites</b><span>Joe Emery · J W Emery Ltd</span></div></div><img class="olog" src="{LOGO_ONEUP}" alt="OneUpAI"></div>
- <p class="kicker">Presence audit · copywriter and messaging strategist · London</p>
+ <p class="kicker">Presence audit · copywriter and messaging strategist · based in London, working worldwide</p>
  <h1>Joe Emery</h1>
  <p class="meta">Prepared for <b>Joe Emery, J W Emery Ltd</b> · Prepared by <b>Nick Zarzycki, OneUpAI</b> · {DATE}</p>
  <span class="status">Brief audit</span>

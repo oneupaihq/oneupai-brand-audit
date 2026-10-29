@@ -27,7 +27,7 @@
       "#eefcfb 100%"
     ]
   },
-  "goal": "Joe becomes the copywriter UK clients find when they look for website copy, tone of voice and brand messaging: a secure website that sells his framework, his work in front of his LinkedIn audience every week, and every enquiry tracked by where it came from by day 90.",
+  "goal": "Joe becomes the copywriter clients find wherever they are, B2B and B2C, when they look for website copy, tone of voice and brand messaging: a secure website that sells his framework, his work in front of his LinkedIn audience every week, and every enquiry tracked by where it came from by day 90.",
   "oneLine": "Copywriter and messaging strategist. I build your 7-Step Strategic Communications Framework©, then write the words that sell.",
   "profilesLine": "#joeemerywrites is the brand; every channel points to the framework and the free review.",
   "articlesLabel": "articles on your website, shared on LinkedIn",
@@ -73,7 +73,7 @@
       "you": [
         "Record your calibration clip: five short answers, 5–10 minutes, by Nov 11",
         "Give us WordPress admin access, or your developer's contact, so we can secure the site",
-        "Tell us which web address to keep: joeemerywrites.co.uk or jwemeryltd.com",
+        "Tell us which web address to keep; for a brand working worldwide we suggest a .com",
         "Add us as an admin on the #joeemerywrites LinkedIn company page",
         "20-minute call to go through your dashboard and the sample edits (Nov 13)"
       ],
@@ -93,6 +93,10 @@
         [
           "setup",
           "Enquiry log: every AUDIT request, discovery call and email tagged by where it came from"
+        ],
+        [
+          "setup",
+          "Search baseline: your services searched on Google in the US, UK, Canada and Australia"
         ],
         [
           "setup",
@@ -121,7 +125,7 @@
         ],
         [
           "setup",
-          "One web address everywhere: certificate renewed, the other address forwarded securely, every profile updated"
+          "One web address everywhere: a secure .com, the other addresses forwarded to it, every profile updated"
         ],
         [
           "setup",
@@ -179,7 +183,7 @@
         ],
         [
           "setup",
-          "Service pages written: website copywriting, tone of voice and brand messaging"
+          "Service pages written: website copywriting, tone of voice, brand messaging, and one each for B2B and B2C clients"
         ],
         [
           "post",
@@ -234,6 +238,10 @@
         [
           "short",
           "4 shorts"
+        ],
+        [
+          "setup",
+          "Profiles on the copywriter directories and marketplaces that rank for your services (such as ProCopywriters and Contra), with your approval"
         ],
         [
           "setup",
@@ -442,7 +450,8 @@
     "Clients who'd agree to a case study or a recommendation",
     "Whether to show starting prices for the framework on the website",
     "Whether you'd rather answer in writing or by voice note than on camera (the plan can switch to narrated videos)",
-    "Whether to keep X active or point it to LinkedIn"
+    "Whether to keep X active or point it to LinkedIn",
+    "Which countries and sectors matter most to you, so case studies and examples cover them"
   ],
   "calibration": {
     "due": "Wednesday, November 11",
@@ -475,7 +484,7 @@
     "dates": "Jan 4 – Feb 7",
     "venue": "event",
     "title": "January review campaign",
-    "line": "Many businesses set their plans for the year in January. Five weeks of free messaging reviews put the framework in front of them, with before-and-afters and case studies as proof and a discovery call as the next step.",
+    "line": "Many businesses set their plans for the year in January. Five weeks of free messaging reviews, open to businesses anywhere, put the framework in front of them, with before-and-afters and case studies as proof and a discovery call as the next step.",
     "before": {
       "title": "Before · Dec 21 – Jan 3",
       "items": [
@@ -653,12 +662,12 @@
     [
       "Website copy that sells",
       "30%",
-      "What a homepage needs to say · Before-and-after rewrites · Landing pages · Answering objections"
+      "What a homepage needs to say · Before-and-after rewrites, B2B and B2C · Landing pages · Answering objections"
     ],
     [
       "Proof and results",
       "20%",
-      "Client case studies, with permission · Recommendations · Lessons from the free reviews"
+      "Client case studies from different countries and sectors, with permission · Recommendations · Lessons from the free reviews"
     ],
     [
       "Joe on messaging",
@@ -669,9 +678,9 @@
   "profiles": [
     [
       "Website",
-      "Joe Emery | Copywriter and messaging strategist, London",
-      "One address, chosen with you in week 1",
-      "The framework page, three service pages, articles and the free review"
+      "Joe Emery | Copywriter and messaging strategist",
+      "One .com address, chosen with you in week 1",
+      "The framework page, service pages for B2B and B2C, articles and the free review"
     ],
     [
       "LinkedIn profile",
@@ -759,7 +768,7 @@
     [
       "Website",
       "Security warning; 11 gambling posts; service pages with no text; framework not mentioned",
-      "Secured; one address; framework page, 3 service pages and 6 articles"
+      "Secured; one .com address; framework page, 5 service pages and 6 articles"
     ],
     [
       "Videos on your YouTube channel",
@@ -787,9 +796,9 @@
       "Reported monthly"
     ],
     [
-      "Copywriting searches on page 1",
-      "0 of 5",
-      "Reported monthly"
+      "Searches for your services",
+      "0 of 13 (Google UK and a US-based web search)",
+      "Checked monthly on Google in the US, UK, Canada and Australia"
     ],
     [
       "Recommendations and case studies",
